@@ -78,6 +78,9 @@ let rec eval_expr (env : value env) (e : expr) : value =
     | BinOp (e1, "and", e2) -> binop_bool (&&) env e1 e2
     | BinOp (e1, "or", e2) -> binop_bool (||) env e1 e2
 
+    // TODO add a way to access the single values of a tuple
+    | Tuple (es) -> VTuple (List.map (eval_expr env) es)
+
     | _ -> unexpected_error "eval_expr: unsupported expression: %s [AST: %A]" (pretty_expr e) e
 
 and binop op_int op_float env e1 e2 =
