@@ -42,7 +42,9 @@ let main_interpreter filename =
 
 let main_interactive () =
     printfn "entering interactive mode..."
+    // the type environment for the whole interactive session
     let mutable tenv = []
+    // the value environment for the whole interactive session
     let mutable venv = []
     while true do
         trap <| fun () ->
