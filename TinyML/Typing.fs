@@ -61,6 +61,11 @@ let compose_subst (s1 : subst) (s2 : subst) : subst =
             (tvar,t)::(compute_to_add tail)
     newSub @ (compute_to_add s1)
 
+let rec compose_subst_list (subsList : subst list) : subst =
+    match subsList with
+    | [] -> []
+    | x::tail ->
+        compose_subst x (compose_subst_list tail)
 
 let rec unify (t1 : ty) (t2 : ty) : subst =
     match t1, t2 with
@@ -89,7 +94,7 @@ let freevars_scheme (Forall (tvs, t)) =
 
 
 let mutable fresh_tyvar :tyvar = 0
-let get_new_fresh_tyvar : tyvar =
+let get_new_fresh_tyvar () : tyvar =
     fresh_tyvar <- fresh_tyvar + 1
     fresh_tyvar
 
@@ -111,7 +116,7 @@ let rec inst_scheme (s:scheme) : ty =
             // if this type variable is globally quantified i have to refresh it
             if List.contains x uql
             then
-                TyVar (get_new_fresh_tyvar)
+                TyVar (get_new_fresh_tyvar ())
             else
                 t
 
@@ -145,7 +150,7 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
 
     | Lambda (x, None, e) ->
         // par = parameter variable type
-        let par = TyVar(fresh_tyvar)
+        let par = TyVar(get_new_fresh_tyvar ())
         let env1 = (x,Forall ([], par))::env
         // ety = expression type
         // esb = expression substitution
@@ -155,21 +160,44 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
     | App (e1, e2) ->
         let t1, s1 = typeinfer_expr env e1
         let t2, s2 = typeinfer_expr (apply_subst_env s1 env) e2
-        let retType = TyArrow (t2, TyVar (get_new_fresh_tyvar))
-        let s3 = unify t1 retType
-        let s3 = compose_subst s3 s2
-        let s3 = compose_subst s3 s1
+        let retType = TyArrow (t2, TyVar (get_new_fresh_tyvar ()))
+        let s3 = compose_subst_list [(unify t1 retType); s2; s1]
         (apply_subst_ty s3 retType, s3)
 
     | BinOp (e1, ("+" | "-" | "/" | "%" | "*" as op), e2) ->
         let t1, s1 = typeinfer_expr env e1
         let t2, s2 = typeinfer_expr env e2
-        let s3 = compose_subst (unify t1 TyInt) (unify t2 TyInt)
-        let s3 = compose_subst s3 s2
-        let s3 = compose_subst s3 s1
+        let s3 = compose_subst_list [(unify t1 TyInt); (unify t2 TyInt); s2; s1]
         (TyInt, s3)
-        
-    | _ -> failwith "not implement"
+
+    | BinOp (e1, ("<" | "<=" | ">" | ">=" | "=" | "<>" as op), e2) ->
+        let t1, s1 = typeinfer_expr env e1
+        let t2, s2 = typeinfer_expr env e2
+        let s3 = compose_subst_list [(unify t1 TyInt); (unify t2 TyInt); s2; s1]
+        (TyBool, s3)
+
+    | BinOp (e1, ("and" | "or" as op), e2) ->
+        let t1, s1 = typeinfer_expr env e1
+        let t2, s2 = typeinfer_expr env e2
+        let s3 = compose_subst_list [(unify t1 TyBool); (unify t2 TyBool); s2; s1]
+        (TyBool, s3)
+
+    | BinOp (_, op, _) -> unexpected_error "typeinfer_expr: unsupported binary operator (%s)" op
+    
+    | UnOp ("not", e) ->
+        let t, s = typeinfer_expr env e
+        let s = compose_subst_list [(unify t TyBool); s]
+        (TyBool, s)
+            
+    | UnOp ("-", e) ->
+        let t, s = typeinfer_expr env e
+        let s = compose_subst_list [(unify t TyInt); s]
+        (TyInt, s)
+
+    | UnOp (op, _) -> unexpected_error "typeinfer_expr: typecheck_expr: unsupported unary operator (%s)" op
+
+    | _ -> unexpected_error "typeinfer_expr: unsupported expression: %s [AST: %A]" (pretty_expr e) e
+    
 
 
 // type checker
