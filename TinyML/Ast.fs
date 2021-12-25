@@ -91,6 +91,8 @@ type value =
 
 type interactive = IExpr of expr | IBinding of binding
 
+type subst = (tyvar * ty) list
+
 // pretty printers
 //
 
@@ -172,4 +174,9 @@ let rec pretty_value v =
     | Closure (env, x, e) -> sprintf "<|%s;%s;%s|>" (pretty_env pretty_value env) x (pretty_expr e)
     
     | RecClosure (env, f, x, e) -> sprintf "<|%s;%s;%s;%s|>" (pretty_env pretty_value env) f x (pretty_expr e)
-    
+
+let rec pretty_subs (s:subst) =
+    match s with
+    | [] -> ""
+    | (tvar,t)::tail ->
+        (sprintf "(%d,%s)" tvar (pretty_ty t)) + (pretty_subs tail)
