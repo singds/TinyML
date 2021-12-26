@@ -89,8 +89,14 @@ let rec freevars_ty (t : ty) : tyvar Set =
     | TyVar tv -> Set.singleton tv
     | TyTuple ts -> List.fold (fun set t -> Set.union set (freevars_ty t)) Set.empty ts 
 
-let freevars_scheme (Forall (tvs, t)) =
+let freevars_scheme (Forall (tvs, t)) : tyvar Set =
     Set.difference (freevars_ty t) (Set.ofList tvs)
+
+let rec freevars_env (env: scheme env) : tyvar Set =
+    match env with
+    | [] -> Set.empty
+    | (_,s)::tail ->
+        Set.union (freevars_scheme s) (freevars_env tail)
 
 
 let mutable fresh_tyvar :tyvar = 0
@@ -98,27 +104,25 @@ let get_new_fresh_tyvar () : tyvar =
     fresh_tyvar <- fresh_tyvar + 1
     fresh_tyvar
 
+let rec get_fresh_substitution (vars: tyvar list) : subst =
+    match vars with
+    |[] -> []
+    |x::tail ->
+        (x,TyVar(get_new_fresh_tyvar ()))::get_fresh_substitution tail
+
 // type instantiation
 let rec inst_scheme (s:scheme) : ty =
     match s with
-    // uql = universally quantified list
-    | Forall (uql, t) ->
-        match t with
-        | TyName (_) ->
-            t
-        | TyArrow (t1, t2) ->
-            let s1 = Forall (uql, t1)
-            let s2 = Forall (uql, t2)
-            TyArrow (inst_scheme s1, inst_scheme s2)
-        | TyTuple (ts) ->
-            TyTuple (List.map (fun (x:ty) -> inst_scheme (Forall (uql, x))) ts)
-        | TyVar (x) ->
-            // if this type variable is globally quantified i have to refresh it
-            if List.contains x uql
-            then
-                TyVar (get_new_fresh_tyvar ())
-            else
-                t
+    | Forall (uqv, t) ->
+        let freeVars = freevars_ty t
+        let toBeRefresh = Set.intersect freeVars (Set uqv)
+        let sub = get_fresh_substitution (Set.toList toBeRefresh)
+        apply_subst_ty sub t
+
+let generalize_ty (env: scheme env) (t: ty) : scheme =
+    // uqv = universally quantified vars
+    let uqv = Set.difference (freevars_ty t) (freevars_env env)
+    Forall (Set.toList uqv, t)
 
 // type inference
 //
@@ -140,13 +144,14 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
             (inst_scheme (s), [])
         with _ -> type_error "typeinfer_expr: use of undefined variable %s" x
 
-    | Lambda (x, Some t, e) ->
-        let env1 = (x,Forall ([], t))::env
-        // ety = expression type
-        // esb = expression substitution
-        let ety, esb = typeinfer_expr env1 e
-        if t <> ety then type_error "typeinfer_expr: wrong lambda body type, expexted %s but got %s" (pretty_ty t) (pretty_ty ety)
-        (TyArrow (t, ety), esb)
+    // TODO check if this is correct
+    //| Lambda (x, Some t, e) ->
+    //    let env1 = (x,Forall ([], t))::env
+    //    // ety = expression type
+    //    // esb = expression substitution
+    //    let ety, esb = typeinfer_expr env1 e
+    //    if t <> ety then type_error "typeinfer_expr: wrong lambda body type, expexted %s but got %s" (pretty_ty t) (pretty_ty ety)
+    //    (TyArrow (t, ety), esb)
 
     | Lambda (x, None, e) ->
         // par = parameter variable type
@@ -160,8 +165,9 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
     | App (e1, e2) ->
         let t1, s1 = typeinfer_expr env e1
         let t2, s2 = typeinfer_expr (apply_subst_env s1 env) e2
-        let retType = TyArrow (t2, TyVar (get_new_fresh_tyvar ()))
-        let s3 = compose_subst_list [(unify t1 retType); s2; s1]
+        let retType = TyVar(get_new_fresh_tyvar ())
+        let funType = TyArrow (t2, retType)
+        let s3 = compose_subst_list [(unify funType t1); s2; s1]
         (apply_subst_ty s3 retType, s3)
 
     | BinOp (e1, ("+" | "-" | "/" | "%" | "*" as op), e2) ->
@@ -195,6 +201,24 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         (TyInt, s)
 
     | UnOp (op, _) -> unexpected_error "typeinfer_expr: typecheck_expr: unsupported unary operator (%s)" op
+
+    | Let (x, None, e1, e2) ->
+        // first i infeer the type if the bunded expression
+        let t1, s1 = typeinfer_expr env e1
+        let sch = generalize_ty env t1 // generalize the resulted type producing a scheme
+        let env1 = (x,sch)::env // enrich the environment with that scheme bounded to the variable name
+        let t2, s2 = typeinfer_expr (apply_subst_env s1 env1) e2 // evaluate the let body in that environment
+        let s3 = compose_subst_list [s2; s1]
+        (apply_subst_ty s3 t2, s3)
+
+    | Tuple es ->
+        // first i get all the types and substitutions from inferring the type
+        // for all the expressions in the tuple
+        let tipesSubs = List.map (typeinfer_expr env) es
+        let tipes = List.map (fun (t,s) -> t) tipesSubs // get the types list
+        let subs = List.map (fun (t,s) -> s) tipesSubs // get the substitutions list
+        let s = compose_subst_list subs
+        (apply_subst_ty s (TyTuple tipes), s)
 
     | _ -> unexpected_error "typeinfer_expr: unsupported expression: %s [AST: %A]" (pretty_expr e) e
     
