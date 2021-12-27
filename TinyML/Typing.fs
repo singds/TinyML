@@ -234,6 +234,16 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
             let s = compose_subst_list [unify t3 t2; s3; s]
             (apply_subst_ty s t2, s)
 
+    | LetRec (f, None, e1, e2) ->
+        let fType = TyArrow (TyVar (get_new_fresh_tyvar ()), TyVar (get_new_fresh_tyvar ()))
+        let env1 = (f,Forall ([], fType))::env
+        let t1, s1 = typeinfer_expr env1 e1
+        let s = compose_subst_list [unify fType t1; s1]
+        let env2 = (f,generalize_ty env (apply_subst_ty s t1))::env
+        let t2, s2 = typeinfer_expr (apply_subst_env s env2) e2
+        let s = compose_subst_list [s2; s]
+        (apply_subst_ty s t2, s)
+
     | _ -> unexpected_error "typeinfer_expr: unsupported expression: %s [AST: %A]" (pretty_expr e) e
     
 
