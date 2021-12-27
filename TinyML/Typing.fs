@@ -31,13 +31,12 @@ let rec apply_subst_scheme (sub : subst) (sch : scheme) : scheme =
     // uql = universally quantified variable list
     | Forall (uql, tipe) ->
         // no universally quantified variable can appear inside the substitution
-        let rec check (l:tyvar list) = 
-            match l with
-            | [] -> ()
-            | x::tail ->
-                if List.contains x uql
-                then unexpected_error "apply_subst_scheme: substitution of a universally quantified variable"
-                check tail
+        let uqVars = Set uql
+        let sVars = Set (List.map (fun (var, _) -> var) sub) 
+        let intersect = Set.intersect uqVars sVars
+        if Set.count intersect > 0
+        then
+            unexpected_error "apply_subst_scheme: substitution of a universally quantified variable, scheme=%s substitution=%s" (pretty_scheme sch) (pretty_subs sub)
         Forall (uql, apply_subst_ty sub tipe)
 
 let rec apply_subst_env (sub : subst) (env : scheme env) : scheme env =
@@ -46,20 +45,25 @@ let rec apply_subst_env (sub : subst) (env : scheme env) : scheme env =
     | (tvar, sch)::tail ->
         (tvar, apply_subst_scheme sub sch)::(apply_subst_env sub tail)
 
-// this returns s3 = s1 o s2
-// applying s3 is the same as applying s2 first and s1 next
-let compose_subst (s1 : subst) (s2 : subst) : subst =
-    let newSub = List.map (fun (var, tipe) -> (var, apply_subst_ty s1 tipe)) s2
-    let rec compute_to_add (src:subst) : subst = 
-        match src with
-        | [] -> []
-        | (tvar,t)::tail ->
-            try
-                List.find (fun  (x,_) -> x = tvar) s2 |> ignore
-                unexpected_error "compose_subst: the two substitutions contains the same type variable %s" (pretty_ty (TyVar (tvar)))
-            with _ ->
-            (tvar,t)::(compute_to_add tail)
-    newSub @ (compute_to_add s1)
+// this returns s3 = s2 o s1
+// applying s3 is the same as applying s1 first and s2 next
+let compose_subst (s2 : subst) (s1 : subst) : subst =
+    // apply the substitution s2 to s1
+    let newSub = List.map (fun (var, tipe) -> (var, apply_subst_ty s2 tipe)) s1
+    let s1Vars = Set (List.map (fun (var, _) -> var) s1)
+    let s2Vars = Set (List.map (fun (var, _) -> var) s2)
+    let intersect = Set.intersect s1Vars s2Vars
+    if Set.count (intersect) > 0
+    then
+        let check = fun (e:tyvar) ->
+            let (_, t1) = List.find (fun (var, _) -> var = e) s1
+            let (_, t2) = List.find (fun (var, _) -> var = e) s2
+            if t1 <> t2
+            then
+                unexpected_error "compose_subst: incompatible substitution composition s2=%s s1=%s" (pretty_subs s1) (pretty_subs s2)
+        Set.iter check intersect
+    let s2 = List.filter (fun (var, _) -> not (Set.contains var intersect)) s2
+    newSub @ s2
 
 let rec compose_subst_list (subsList : subst list) : subst =
     match subsList with

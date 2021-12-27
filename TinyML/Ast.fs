@@ -179,4 +179,10 @@ let rec pretty_subs (s:subst) =
     match s with
     | [] -> ""
     | (tvar,t)::tail ->
-        (sprintf "(%d,%s)" tvar (pretty_ty t)) + (pretty_subs tail)
+        (sprintf "('%d >> %s)" tvar (pretty_ty t)) + (pretty_subs tail)
+
+let rec pretty_scheme (s:scheme) =
+    match s with
+    | Forall (uql, t) ->
+        let univ_quant_str = List.fold (fun state var -> sprintf "%s,'%d" state var) "" uql
+        sprintf "forall %s.%s" univ_quant_str (pretty_ty t)
