@@ -148,14 +148,13 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
             (inst_scheme (s), [])
         with _ -> type_error "typeinfer_expr: use of undefined variable %s" x
 
-    // TODO check if this is correct
-    //| Lambda (x, Some t, e) ->
-    //    let env1 = (x,Forall ([], t))::env
-    //    // ety = expression type
-    //    // esb = expression substitution
-    //    let ety, esb = typeinfer_expr env1 e
-    //    if t <> ety then type_error "typeinfer_expr: wrong lambda body type, expexted %s but got %s" (pretty_ty t) (pretty_ty ety)
-    //    (TyArrow (t, ety), esb)
+    (* fun (x:<type>) -> e1
+    <t> = type of the lambda parameter
+    *)
+    | Lambda (x, Some t, e1) ->
+        let env1 = (x,Forall ([], t))::env
+        let t1, s1 = typeinfer_expr env1 e1
+        (TyArrow (t, t1), s1)
 
     | Lambda (x, None, e) ->
         // par = parameter variable type
@@ -206,8 +205,25 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
 
     | UnOp (op, _) -> unexpected_error "typeinfer_expr: typecheck_expr: unsupported unary operator (%s)" op
 
+    (* let x:<type> = e1 in e2
+
+    Interesting expressions (ie):
+    1) fun y -> let x:int = y in x
+    *)
+    | Let (x, Some t, e1, e2) ->
+        // first i infer the type of the bunded expression
+        let t1, s1 = typeinfer_expr env e1
+        // t1 can be a type variable (see ie. (1))
+        let s = compose_subst_list [unify t1 t; s1]
+        let env1 = (x,Forall ([], t))::env
+        let t2, s2 = typeinfer_expr (apply_subst_env s env1) e2
+        let s = compose_subst_list [s2; s]
+        (apply_subst_ty s t2, s)
+
+    (* let x = e1 in e2
+    *)
     | Let (x, None, e1, e2) ->
-        // first i infeer the type if the bunded expression
+        // first i infeer the type of the bunded expression
         let t1, s1 = typeinfer_expr env e1
         let sch = generalize_ty env t1 // generalize the resulted type producing a scheme
         let env1 = (x,sch)::env // enrich the environment with that scheme bounded to the variable name
