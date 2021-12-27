@@ -220,6 +220,20 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         let s = compose_subst_list subs
         (apply_subst_ty s (TyTuple tipes), s)
 
+    | IfThenElse (e1, e2, e3o) ->
+        let t1, s1 = typeinfer_expr env e1
+        let s = compose_subst_list [unify t1 TyBool; s1]
+        let t2, s2 = typeinfer_expr (apply_subst_env s env) e2
+        let s = compose_subst_list [s2; s]
+        match e3o with
+        | None ->
+            let s = compose_subst_list [unify t2 TyUnit; s]
+            (TyUnit, s)
+        | Some e3 ->
+            let t3, s3 = typeinfer_expr env e3
+            let s = compose_subst_list [unify t3 t2; s3; s]
+            (apply_subst_ty s t2, s)
+
     | _ -> unexpected_error "typeinfer_expr: unsupported expression: %s [AST: %A]" (pretty_expr e) e
     
 
