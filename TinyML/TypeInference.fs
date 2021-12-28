@@ -104,9 +104,11 @@ let rec unify (t1 : ty) (t2 : ty) : subst =
             type_error "unify: type variable <%s> can't be unified with the type <%s>" (pretty_ty t2) (pretty_ty t1)
         [(a, t1)]
     | TyArrow(ta1,ta2), TyArrow(ta3,ta4) ->
-        // TODO apply the substitution you get from the first unification to the
-        // types you use on the second unification 
-        compose_subst (unify ta1 ta3) (unify ta2 ta4)
+        let s = unify ta1 ta3
+        let ta2 = apply_subst_ty s ta2
+        let ta4 = apply_subst_ty s ta4
+        compose_subst_list [unify ta2 ta4; s]
+
     // this case encompasses all those cases:
     // (TyName, TyArrow) | (TyName, TyTuple) | (TyArrow, TyTuple)
     | _ -> type_error "unify: type %s can't be unified with type %s" (pretty_ty t1) (pretty_ty t2)
