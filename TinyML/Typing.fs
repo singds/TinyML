@@ -45,6 +45,18 @@ let rec apply_subst_env (sub : subst) (env : scheme env) : scheme env =
     | (tvar, sch)::tail ->
         (tvar, apply_subst_scheme sub sch)::(apply_subst_env sub tail)
 
+let rec ty_contains_tyvar (v : tyvar) (t : ty) : bool =
+    match t with
+    | TyName (n) ->
+        false
+    | TyVar (x) ->
+        if x = v then true
+        else false
+    | TyArrow (t1,t2) ->
+        (ty_contains_tyvar v t1) || (ty_contains_tyvar v t2)
+    | TyTuple (tl) ->
+        List.fold (fun (state:bool) (t:ty) -> state || (ty_contains_tyvar v t)) false tl
+
 // this returns s3 = s2 o s1
 // applying s3 is the same as applying s1 first and s2 next
 let compose_subst (s2 : subst) (s1 : subst) : subst =
@@ -74,13 +86,26 @@ let rec compose_subst_list (subsList : subst list) : subst =
 let rec unify (t1 : ty) (t2 : ty) : subst =
     match t1, t2 with
     | TyName (a), TyName (b) ->
+        if a <> b then
+            type_error "unify: base type <%s> can't be unified with type <%s>" (pretty_ty t1) (pretty_ty t2)
+        []
+    | TyVar (a), TyVar (b) ->
+        // if t1 and t2 are the same type variable, i produce the empty substitution
         if a = b then []
-        else type_error "unify: base type %s can't be unified with type %s" a b
+        else [(a, t2)]
     | TyVar (a), _ ->
+        // the type variable 'a' must not appear in the type t2
+        if ty_contains_tyvar a t2 then
+            type_error "unify: type variable <%s> can't be unified with the type <%s>" (pretty_ty t1) (pretty_ty t2)
         [(a, t2)]
     | _, TyVar(a) ->
+        // the type variable 'a' must not appear in the type t1
+        if ty_contains_tyvar a t1 then
+            type_error "unify: type variable <%s> can't be unified with the type <%s>" (pretty_ty t2) (pretty_ty t1)
         [(a, t1)]
     | TyArrow(ta1,ta2), TyArrow(ta3,ta4) ->
+        // TODO apply the substitution you get from the first unification to the
+        // types you use on the second unification 
         compose_subst (unify ta1 ta3) (unify ta2 ta4)
     // this case encompasses all those cases:
     // (TyName, TyArrow) | (TyName, TyTuple) | (TyArrow, TyTuple)
