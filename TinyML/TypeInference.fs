@@ -195,13 +195,51 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         let domTy = apply_subst_ty s vParam
         (TyArrow (domTy, codTy), s)
 
+    (* e1 e2
+    *)
     | App (e1, e2) ->
+        let codTy = TyVar(get_new_fresh_tyvar ())
         let t1, s1 = typeinfer_expr env e1
-        let t2, s2 = typeinfer_expr (apply_subst_env s1 env) e2
-        let retType = TyVar(get_new_fresh_tyvar ())
-        let funType = TyArrow (t2, retType)
-        let s3 = compose_subst_list [(unify funType t1); s2; s1]
-        (apply_subst_ty s3 retType, s3)
+        // update the type environment with what learned inferring the type of e1
+        let env = apply_subst_env s1 env
+        let t2, s2 = typeinfer_expr env e2
+        // update the type t1 with what lerned inferring the type of e2
+        // typing the right hand side we may have lerned something about the type
+        // of the left hand side
+        let t1 = apply_subst_ty s2 t1
+        let funType = TyArrow (t2, codTy)
+        let s3 = unify t1 funType
+        let s = compose_subst_list [s3; s2; s1]
+        (apply_subst_ty s3 codTy, s3)
+
+    (* let x = e1 in e2
+    *)
+    | Let (x, None, e1, e2) ->
+        // first i infeer the type of the bunded expression
+        let t1, s1 = typeinfer_expr env e1
+        let env = apply_subst_env s1 env
+        let tScheme = generalize_ty env t1 // generalize the resulted type producing a scheme
+        // enrich the environment with that scheme bounded to the variable name
+        let env = (x,tScheme)::env
+        // evaluate the let body in that environment
+        let t2, s2 = typeinfer_expr env e2
+        let s = compose_subst_list [s2; s1]
+        (t2, s)
+
+    (* let x:<type> = e1 in e2
+    
+    Interesting expressions (ie):
+    1) fun y -> let x:int = y in x
+    *)
+    | Let (x, Some t, e1, e2) ->
+        // first i infer the type of the bunded expression
+        let t1, s1 = typeinfer_expr env e1
+        // t1 can be a type variable (see ie. (1))
+        let s = compose_subst_list [unify t1 t; s1]
+        let env1 = (x,Forall ([], t))::env
+        let t2, s2 = typeinfer_expr (apply_subst_env s env1) e2
+        let s = compose_subst_list [s2; s]
+        (apply_subst_ty s t2, s)
 
     | BinOp (e1, ("+" | "-" | "/" | "%" | "*" as op), e2) ->
         let t1, s1 = typeinfer_expr env e1
@@ -234,32 +272,6 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         (TyInt, s)
 
     | UnOp (op, _) -> unexpected_error "typeinfer_expr: typecheck_expr: unsupported unary operator (%s)" op
-
-    (* let x:<type> = e1 in e2
-
-    Interesting expressions (ie):
-    1) fun y -> let x:int = y in x
-    *)
-    | Let (x, Some t, e1, e2) ->
-        // first i infer the type of the bunded expression
-        let t1, s1 = typeinfer_expr env e1
-        // t1 can be a type variable (see ie. (1))
-        let s = compose_subst_list [unify t1 t; s1]
-        let env1 = (x,Forall ([], t))::env
-        let t2, s2 = typeinfer_expr (apply_subst_env s env1) e2
-        let s = compose_subst_list [s2; s]
-        (apply_subst_ty s t2, s)
-
-    (* let x = e1 in e2
-    *)
-    | Let (x, None, e1, e2) ->
-        // first i infeer the type of the bunded expression
-        let t1, s1 = typeinfer_expr env e1
-        let sch = generalize_ty env t1 // generalize the resulted type producing a scheme
-        let env1 = (x,sch)::env // enrich the environment with that scheme bounded to the variable name
-        let t2, s2 = typeinfer_expr (apply_subst_env s1 env1) e2 // evaluate the let body in that environment
-        let s3 = compose_subst_list [s2; s1]
-        (apply_subst_ty s3 t2, s3)
 
     | Tuple es ->
         // first i get all the types and substitutions from inferring the type
