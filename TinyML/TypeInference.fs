@@ -78,6 +78,11 @@ let rec compose_subst_list (subsList : subst list) : subst =
     | x::tail ->
         compose_subst x (compose_subst_list tail)
 
+(* return the most general unifier between the two types provided
+the function returns a substitution that applied to both t1 and t2 produces the
+same type : apply(substitution, t1) = apply(substitution, t1)
+
+*)
 let rec unify (t1 : ty) (t2 : ty) : subst =
     match t1, t2 with
     | TyName (a), TyName (b) ->
@@ -176,8 +181,9 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
     t = type of the lambda parameter
     *)
     | Lambda (x, Some t, e1) ->
-        let env1 = (x,Forall ([], t))::env
-        let t1, s1 = typeinfer_expr env1 e1
+        // enrich the environment binding the type of the parameter
+        let env = (x,Forall ([], t))::env
+        let t1, s1 = typeinfer_expr env e1
         (TyArrow (t, t1), s1)
 
     (* fun x -> e
@@ -227,7 +233,7 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         (t2, s)
 
     (* let x:<type> = e1 in e2
-    
+
     Interesting expressions (ie):
     1) fun y -> let x:int = y in x
     *)
@@ -240,6 +246,33 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         let t2, s2 = typeinfer_expr (apply_subst_env s env1) e2
         let s = compose_subst_list [s2; s]
         (apply_subst_ty s t2, s)
+
+    (* if e1 then e2 [else e3]
+    
+    Interesting expressions (ie):
+    1) fun x -> if x then x + 1 else x (must produce an error)
+    2) fun x -> fun y -> if x then y else y + 1
+    *)
+    | IfThenElse (e1, e2, e3o) ->
+        let t1, s1 = typeinfer_expr env e1
+        let su = unify t1 TyBool
+        let s = compose_subst_list [su; s1]
+        let env = apply_subst_env s env
+        let t2, s2 = typeinfer_expr env e2
+        let s = compose_subst_list [s2; s]
+
+        match e3o with
+        | None ->
+            let su = unify t2 TyUnit
+            let s = compose_subst_list [su; s]
+            (TyUnit, s)
+        | Some e3 ->
+            let env = apply_subst_env s env
+            let t3, s3 = typeinfer_expr env e3
+            let t2 = apply_subst_ty s3 t2
+            let su = unify t2 t3
+            let s = compose_subst_list [su; s3; s]
+            (apply_subst_ty su t3, s)
 
     | BinOp (e1, ("+" | "-" | "/" | "%" | "*" as op), e2) ->
         let t1, s1 = typeinfer_expr env e1
@@ -281,28 +314,6 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         let subs = List.map (fun (t,s) -> s) tipesSubs // get the substitutions list
         let s = compose_subst_list subs
         (apply_subst_ty s (TyTuple tipes), s)
-
-    (* if e1 then e2 [else e3]
-    
-
-    Interesting expressions (ie):
-    1) fun x -> if x then x + 1 else x (must produce an error)
-    *)
-    | IfThenElse (e1, e2, e3o) ->
-        let t1, s1 = typeinfer_expr env e1
-        let s = compose_subst_list [unify t1 TyBool; s1]
-        let env = apply_subst_env s env
-        let t2, s2 = typeinfer_expr env e2
-        let s = compose_subst_list [s2; s]
-        let env = apply_subst_env s env
-        match e3o with
-        | None ->
-            let s = compose_subst_list [unify t2 TyUnit; s]
-            (TyUnit, s)
-        | Some e3 ->
-            let t3, s3 = typeinfer_expr env e3
-            let s = compose_subst_list [unify t3 t2; s3; s]
-            (apply_subst_ty s t2, s)
 
     | LetRec (f, None, e1, e2) ->
         let fType = TyArrow (TyVar (get_new_fresh_tyvar ()), TyVar (get_new_fresh_tyvar ()))
