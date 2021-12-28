@@ -162,6 +162,8 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
     | Lit (LUnit) -> (TyUnit, [])
     | Lit (LChar _) -> (TyChar, [])
 
+    (* x | foo
+    *)
     | Var x ->
         // lookup for the variable in the environment
         // return the instantiation of the associated scheme and an empty substitution
@@ -171,21 +173,27 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         with _ -> type_error "typeinfer_expr: use of undefined variable <%s>" x
 
     (* fun (x:<type>) -> e1
-    <t> = type of the lambda parameter
+    t = type of the lambda parameter
     *)
     | Lambda (x, Some t, e1) ->
         let env1 = (x,Forall ([], t))::env
         let t1, s1 = typeinfer_expr env1 e1
         (TyArrow (t, t1), s1)
 
-    | Lambda (x, None, e) ->
-        // par = parameter variable type
-        let par = TyVar(get_new_fresh_tyvar ())
-        let env1 = (x,Forall ([], par))::env
-        // ety = expression type
-        // esb = expression substitution
-        let ety, esb = typeinfer_expr env1 e
-        (apply_subst_ty esb  (TyArrow (par, ety)), esb)
+    (* fun x -> e
+    x = name of the lambda parameter
+    e1 = the body of the lambda
+    this is the lambda with no type annotation
+    *)
+    | Lambda (x, None, e1) ->
+        // vParam = a new fresh type variable for the lambda parameter
+        let vParam = TyVar(get_new_fresh_tyvar ())
+        // enrich the type environment with a binding from the variable name to
+        // the newly created type variable
+        let env = (x,Forall ([], vParam))::env
+        let codTy, s = typeinfer_expr env e1 // compute the type of the codomain
+        let domTy = apply_subst_ty s vParam
+        (TyArrow (domTy, codTy), s)
 
     | App (e1, e2) ->
         let t1, s1 = typeinfer_expr env e1
