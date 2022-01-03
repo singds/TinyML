@@ -3,6 +3,7 @@
 open Xunit
 open Ast
 open TypeInference
+open FSharp.Common
 
 let assert_fail msg =
     Assert.True (false, msg)
@@ -359,3 +360,38 @@ type Test_generalize_ty () =
         let env = [("x", Forall([], TyArrow (TyInt, TyVar 1)))]
         let t = TyTuple [TyVar 1; TyVar 2]
         Assert.Equal (Forall ([2], t), generalize_ty env t)
+
+let test_typeinfer_expr (program:string) (expected:ty) =
+    fresh_tyvar <- 1
+    let exp = Parsing.parse_from_string SyntaxError program "example" (1, 1) Parser.program Lexer.tokenize Parser.tokenTagToTokenId
+    let t,s = TypeInference.typeinfer_expr [] exp
+    Assert.Equal (expected, t)
+
+type Test_typeinfer_expr () =
+    [<Fact>]
+    let ``ex lambda int -> int`` () =
+        test_typeinfer_expr
+            "fun x -> x + 1"
+            (TyArrow(TyInt, TyInt))
+
+    [<Fact>]
+    let ``ex ifThenElse with unification in then`` () =
+        // int -> int -> int
+        test_typeinfer_expr
+            "fun x -> fun y -> if true then x + 1 else y"
+            (TyArrow(TyInt, TyArrow (TyInt, TyInt)))
+
+    [<Fact>]
+    let ``ex ifThenElse with unification in else`` () =
+        // int -> int -> int
+        test_typeinfer_expr
+            "fun x -> fun y -> if true then x else y + 1"
+            (TyArrow(TyInt, TyArrow (TyInt, TyInt)))
+
+    [<Fact>]
+    let ``ex ifThenElse with unification in if`` () =
+        // bool -> bool -> bool
+        test_typeinfer_expr
+            "fun x -> fun y -> if x then x else y"
+            (TyArrow(TyBool, TyArrow (TyBool, TyBool)))
+
