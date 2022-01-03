@@ -204,7 +204,7 @@ type Test_unify () =
         Assert.Equal<subst> (exp, s)
 
     [<Fact>]
-    let ``type occurence check fail (type on the left)`` () =
+    let ``type occurence check fail - type on the left`` () =
         // U('a, 'a -> int) = error
         let t1 = TyVar(1)
         let t2 = TyArrow (TyVar(1), TyInt)
@@ -215,7 +215,7 @@ type Test_unify () =
             ()
 
     [<Fact>]
-    let ``type occurence check fail (type on the right)`` () =
+    let ``type occurence check fail - type on the right`` () =
         // U('a -> int, 'a) = error
         let t1 = TyArrow (TyVar(1), TyInt)
         let t2 = TyVar(1)
@@ -226,14 +226,14 @@ type Test_unify () =
             ()
 
     [<Fact>]
-    let ``unify type variable with complex type (variable on the right)`` () =
+    let ``unify type variable with complex type - variable on the right`` () =
         // U('a, 'b -> 'c) = {'a, 'b -> 'c}
         let t1 = TyArrow (TyVar(2), TyVar(3))
         let t2 = TyVar(1)
         Assert.Equal<subst> ([(1, t1)], unify t1 t2)
 
     [<Fact>]
-    let ``unify type variable with complex type (variable on the left)`` () =
+    let ``unify type variable with complex type - variable on the left`` () =
         // U('b -> 'c, 'a) = {'a, 'b -> 'c}
         let t1 = TyVar(1)
         let t2 = TyArrow (TyVar(2), TyVar(3))
@@ -258,3 +258,18 @@ type Test_unify () =
         let exp = [(1, TyVar(3)); (2, TyVar(3))]
         Assert.Equal<subst> (exp, unify t1 t2)
     
+    [<Fact>]
+    let ``unify tuple type with tuple type made by base types`` () =
+        // U('a * 'b, int * bool) = {'a > int, 'b > bool}
+        let t1 = TyTuple [TyVar(1); TyVar(2)]
+        let t2 = TyTuple [TyInt; TyBool]
+        let s = unify t1 t2
+        Assert.Equal<subst> ([(1, TyInt); (2, TyBool)], s)
+
+    [<Fact>]
+    let ``unify tuple type with tuple type triky`` () =
+        // U('a * 'a, 'b * 'c) = {'a > 'c, 'b > 'c}
+        let t1 = TyTuple [TyVar(1); TyVar(1)]
+        let t2 = TyTuple [TyVar(2); TyVar(3)]
+        let s = unify t1 t2
+        Assert.Equal<subst> ([(1, TyVar(3)); (2, TyVar(3))], s)

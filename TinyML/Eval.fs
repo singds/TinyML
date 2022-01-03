@@ -47,10 +47,11 @@ let rec eval_expr (env : value env) (e : expr) : value =
 
     | LetRec (f, _, e1, e2) -> 
         let v1 = eval_expr env e1
-        let vc = (match v1 with
-        // rebox the function closure in a recursive closure
-        | Closure (env1, x, e) -> RecClosure (env1, f, x, e)
-        | _ -> unexpected_error "eval_expr: expected closure in rec binding but got: %s" (pretty_value v1)
+        let vc = (
+            match v1 with
+            // rebox the function closure in a recursive closure
+            | Closure (env1, x, e) -> RecClosure (env1, f, x, e)
+            | _ -> unexpected_error "eval_expr: expected closure in rec binding but got: %s" (pretty_value v1)
         )
         // evaluate the rest of the body in an environment enriched with
         // the rec closure bound to the name <f>

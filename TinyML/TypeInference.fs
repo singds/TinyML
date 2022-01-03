@@ -93,20 +93,24 @@ let rec unify (t1 : ty) (t2 : ty) : subst =
         if a <> b then
             type_error "unify: base type <%s> can't be unified with type <%s>" (pretty_ty t1) (pretty_ty t2)
         []
+
     | TyVar (a), TyVar (b) ->
         // if t1 and t2 are the same type variable, i produce the empty substitution
         if a = b then []
         else [(a, t2)]
+
     | TyVar (a), _ ->
         // the type variable 'a' must not appear in the type t2
         if ty_contains_tyvar a t2 then
             type_error "unify: type variable <%s> can't be unified with the type <%s>" (pretty_ty t1) (pretty_ty t2)
         [(a, t2)]
+
     | _, TyVar(a) ->
         // the type variable 'a' must not appear in the type t1
         if ty_contains_tyvar a t1 then
             type_error "unify: type variable <%s> can't be unified with the type <%s>" (pretty_ty t2) (pretty_ty t1)
         [(a, t1)]
+
     | TyArrow(ta1,ta2), TyArrow(ta3,ta4) ->
         let s = unify ta1 ta3
         // The substitution obtained from the unification of the left hand side
@@ -124,6 +128,29 @@ let rec unify (t1 : ty) (t2 : ty) : subst =
         let ta2 = apply_subst_ty s ta2
         let ta4 = apply_subst_ty s ta4
         compose_subst_list [unify ta2 ta4; s]
+
+    | TyTuple(l1), TyTuple(l2) ->
+        if l1.Length <> l2.Length then
+            type_error "unify: tupe tuype <%s> does not match the number of fields of tuple type <%s>" (pretty_ty t1) (pretty_ty t2)
+
+        // from the two lists (L1 and L2) i build a single list L with L[n] = (L1[n],L2[n])
+        let do_pair = fun (c, list2) e1 ->
+            match list2 with
+            | e2::tail2 ->
+                (c @ [(e1,e2)], tail2)
+            | _ ->
+                unexpected_error "unify: should not happen with tupes of the same size"
+        let (pairs, _) = List.fold do_pair ([], l2) l1
+
+        // Every time I compute a new subtitution, I have to apply it to the
+        // following types before unifing them.
+        // Check the special case: U('a * 'a, 'b * 'c)
+        List.fold (fun (s:subst) (t1:ty, t2:ty) ->
+            let t1 = apply_subst_ty s t1
+            let t2 = apply_subst_ty s t2
+            let subU = unify t1 t2
+            compose_subst subU s
+        ) [] pairs
 
     // this case encompasses all those cases:
     // (TyName, TyArrow) | (TyName, TyTuple) | (TyArrow, TyTuple)
