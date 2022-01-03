@@ -72,6 +72,7 @@ and expr =
     | Tuple of expr list
     | BinOp of expr * string * expr
     | UnOp of string * expr
+    | LetTuple of string list * expr * expr
    
 let (|Let|_|) = function 
     | LetIn ((false, x, tyo, e1), e2) -> Some (x, tyo, e1, e2)
@@ -162,6 +163,8 @@ let rec pretty_expr e =
     | BinOp (e1, op, e2) -> sprintf "%s %s %s" (pretty_expr e1) op (pretty_expr e2)
     
     | UnOp (op, e) -> sprintf "%s %s" op (pretty_expr e)
+
+    | LetTuple (l, e1, e2) -> sprintf "(%s) = %s in %s" (pretty_tupled (sprintf "%s") l) (pretty_expr e1) (pretty_expr e2)
     
     | _ -> unexpected_error "pretty_expr: %s" (pretty_expr e)
 

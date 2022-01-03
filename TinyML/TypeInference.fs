@@ -133,14 +133,8 @@ let rec unify (t1 : ty) (t2 : ty) : subst =
         if l1.Length <> l2.Length then
             type_error "unify: tupe tuype <%s> does not match the number of fields of tuple type <%s>" (pretty_ty t1) (pretty_ty t2)
 
-        // from the two lists (L1 and L2) i build a single list L with L[n] = (L1[n],L2[n])
-        let do_pair = fun (c, list2) e1 ->
-            match list2 with
-            | e2::tail2 ->
-                (c @ [(e1,e2)], tail2)
-            | _ ->
-                unexpected_error "unify: should not happen with tupes of the same size"
-        let (pairs, _) = List.fold do_pair ([], l2) l1
+        // from the two lists (L1 and L2) I build a single list L with L[n] = (L1[n],L2[n])
+        let pairs = List.zip l1 l2
 
         // Every time I compute a new subtitution, I have to apply it to the
         // following types before unifing them.

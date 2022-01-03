@@ -3,7 +3,7 @@
 states = 
 state 0:  items:    _startinteractive ->  . interactive
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -16,7 +16,7 @@ state 0:  items:    _startinteractive ->  . interactive
     action 'BRA' (noprec):   shift 12
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -28,7 +28,7 @@ state 0:  items:    _startinteractive ->  . interactive
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -86,7 +86,7 @@ state 1:  items:    _startinteractive -> interactive .
     action '$$' (noprec):   accept
   immediate action:   accept  gotos:state 2:  items:    _startprogram ->  . program
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -99,7 +99,7 @@ state 1:  items:    _startinteractive -> interactive .
     action 'BRA' (noprec):   shift 12
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -111,7 +111,7 @@ state 1:  items:    _startinteractive -> interactive .
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -430,19 +430,19 @@ state 3:  items:    _startprogram -> program .
     action 'FALSE' (noprec):   shift 36
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   reduce expr --> expr_tuple_atom
-    action 'PLUS' (explicit left 9996):   shift 76
-    action 'MINUS' (explicit left 9996):   shift 77
-    action 'STAR' (explicit left 9997):   shift 78
-    action 'SLASH' (explicit left 9997):   shift 79
-    action 'PERCENT' (noprec):   shift 80
-    action 'LT' (explicit left 9995):   shift 83
-    action 'GT' (explicit left 9995):   shift 84
-    action 'LEQ' (explicit left 9995):   shift 85
-    action 'GEQ' (explicit left 9995):   shift 86
-    action 'EQ' (explicit left 9995):   shift 81
-    action 'NEQ' (explicit left 9995):   shift 82
-    action 'AND' (explicit left 9994):   shift 87
-    action 'OR' (explicit left 9993):   shift 88
+    action 'PLUS' (explicit left 9996):   shift 83
+    action 'MINUS' (explicit left 9996):   shift 84
+    action 'STAR' (explicit left 9997):   shift 85
+    action 'SLASH' (explicit left 9997):   shift 86
+    action 'PERCENT' (noprec):   shift 87
+    action 'LT' (explicit left 9995):   shift 90
+    action 'GT' (explicit left 9995):   shift 91
+    action 'LEQ' (explicit left 9995):   shift 92
+    action 'GEQ' (explicit left 9995):   shift 93
+    action 'EQ' (explicit left 9995):   shift 88
+    action 'NEQ' (explicit left 9995):   shift 89
+    action 'AND' (explicit left 9994):   shift 94
+    action 'OR' (explicit left 9993):   shift 95
     action 'NOT' (noprec):   reduce expr --> expr_tuple_atom
     action 'COLON' (noprec):   reduce expr --> expr_tuple_atom
     action 'SEMICOLON2' (noprec):   reduce expr --> expr_tuple_atom
@@ -486,23 +486,23 @@ state 11:  items:    expr -> expr_tuple_atom .
     action 'FALSE' (noprec):   shift 36
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   reduce expr --> expr_tuple_atom
-    action 'PLUS' (explicit left 9996):   shift 76
-    action 'MINUS' (explicit left 9996):   shift 77
-    action 'STAR' (explicit left 9997):   shift 78
-    action 'SLASH' (explicit left 9997):   shift 79
-    action 'PERCENT' (noprec):   shift 80
-    action 'LT' (explicit left 9995):   shift 83
-    action 'GT' (explicit left 9995):   shift 84
-    action 'LEQ' (explicit left 9995):   shift 85
-    action 'GEQ' (explicit left 9995):   shift 86
-    action 'EQ' (explicit left 9995):   shift 81
-    action 'NEQ' (explicit left 9995):   shift 82
-    action 'AND' (explicit left 9994):   shift 87
-    action 'OR' (explicit left 9993):   shift 88
+    action 'PLUS' (explicit left 9996):   shift 83
+    action 'MINUS' (explicit left 9996):   shift 84
+    action 'STAR' (explicit left 9997):   shift 85
+    action 'SLASH' (explicit left 9997):   shift 86
+    action 'PERCENT' (noprec):   shift 87
+    action 'LT' (explicit left 9995):   shift 90
+    action 'GT' (explicit left 9995):   shift 91
+    action 'LEQ' (explicit left 9995):   shift 92
+    action 'GEQ' (explicit left 9995):   shift 93
+    action 'EQ' (explicit left 9995):   shift 88
+    action 'NEQ' (explicit left 9995):   shift 89
+    action 'AND' (explicit left 9994):   shift 94
+    action 'OR' (explicit left 9993):   shift 95
     action 'NOT' (noprec):   reduce expr --> expr_tuple_atom
     action 'COLON' (noprec):   reduce expr --> expr_tuple_atom
     action 'SEMICOLON2' (noprec):   reduce expr --> expr_tuple_atom
-    action 'COMMA' (explicit left 9991):   shift 95
+    action 'COMMA' (explicit left 9991):   shift 102
     action 'STRING' (noprec):   shift 33
     action 'ID' (noprec):   shift 39
     action 'CHAR' (noprec):   shift 34
@@ -516,7 +516,7 @@ state 12:  items:    expr -> 'BRA' . expr_tuple_atoms 'KET'
     expr_app_atom -> 'BRA' . 'KET'
     expr_app_atom -> 'BRA' . expr 'KET'
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -529,7 +529,7 @@ state 12:  items:    expr -> 'BRA' . expr_tuple_atoms 'KET'
     action 'BRA' (noprec):   shift 12
     action 'KET' (noprec):   shift 38
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -541,7 +541,7 @@ state 12:  items:    expr -> 'BRA' . expr_tuple_atoms 'KET'
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -640,6 +640,7 @@ state 13:  items:    expr -> 'BRA' expr_tuple_atoms . 'KET'
     binding -> 'LET' . 'ID' 'COLON' ty 'EQ' expr
     binding -> 'LET' . 'REC' 'ID' 'EQ' expr
     binding -> 'LET' . 'REC' 'ID' 'COLON' ty 'EQ' expr
+    expr_tuple_atom -> 'LET' . 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   error
     action 'THEN' (noprec):   error
@@ -651,7 +652,7 @@ state 13:  items:    expr -> 'BRA' expr_tuple_atoms . 'KET'
     action 'IN' (noprec):   error
     action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
-    action 'BRA' (noprec):   error
+    action 'BRA' (noprec):   shift 74
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
     action 'MINUS' (noprec):   error
@@ -720,7 +721,7 @@ state 13:  items:    expr -> 'BRA' expr_tuple_atoms . 'KET'
     action '$$' (noprec):   error
   immediate action: <none>  gotos:state 17:  items:    binding -> 'LET' 'ID' 'EQ' . expr
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -733,7 +734,7 @@ state 13:  items:    expr -> 'BRA' expr_tuple_atoms . 'KET'
     action 'BRA' (noprec):   shift 12
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -745,7 +746,7 @@ state 13:  items:    expr -> 'BRA' expr_tuple_atoms . 'KET'
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -812,7 +813,7 @@ state 18:  items:    binding -> 'LET' 'ID' 'EQ' expr .
     action 'IN' (noprec):   error
     action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
-    action 'BRA' (noprec):   shift 104
+    action 'BRA' (noprec):   shift 111
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
     action 'MINUS' (noprec):   error
@@ -832,7 +833,7 @@ state 18:  items:    binding -> 'LET' 'ID' 'EQ' expr .
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
     action 'STRING' (noprec):   error
-    action 'ID' (noprec):   shift 97
+    action 'ID' (noprec):   shift 104
     action 'CHAR' (noprec):   error
     action 'FLOAT' (noprec):   error
     action 'INT' (noprec):   error
@@ -840,7 +841,7 @@ state 18:  items:    binding -> 'LET' 'ID' 'EQ' expr .
     action '#' (noprec):   error
     action '$$' (noprec):   error
   immediate action: <none>  gotos:    goto ty: 20
-    goto ty_tuple: 102
+    goto ty_tuple: 109
 state 20:  items:    binding -> 'LET' 'ID' 'COLON' ty . 'EQ' expr
     ty -> ty . 'ARROW' ty
     ty_tuple -> ty . 
@@ -850,7 +851,7 @@ state 20:  items:    binding -> 'LET' 'ID' 'COLON' ty . 'EQ' expr
     action 'THEN' (noprec):   reduce ty_tuple --> ty
     action 'ELSE' (noprec):   reduce ty_tuple --> ty
     action 'FUN' (noprec):   reduce ty_tuple --> ty
-    action 'ARROW' (explicit right 9992):   shift 101
+    action 'ARROW' (explicit right 9992):   shift 108
     action 'LET' (noprec):   reduce ty_tuple --> ty
     action 'REC' (noprec):   reduce ty_tuple --> ty
     action 'IN' (noprec):   reduce ty_tuple --> ty
@@ -860,7 +861,7 @@ state 20:  items:    binding -> 'LET' 'ID' 'COLON' ty . 'EQ' expr
     action 'KET' (noprec):   reduce ty_tuple --> ty
     action 'PLUS' (noprec):   reduce ty_tuple --> ty
     action 'MINUS' (noprec):   reduce ty_tuple --> ty
-    action 'STAR' (explicit left 9997):   shift 106
+    action 'STAR' (explicit left 9997):   shift 113
     action 'SLASH' (noprec):   reduce ty_tuple --> ty
     action 'PERCENT' (noprec):   reduce ty_tuple --> ty
     action 'LT' (noprec):   reduce ty_tuple --> ty
@@ -885,7 +886,7 @@ state 20:  items:    binding -> 'LET' 'ID' 'COLON' ty . 'EQ' expr
     action '$$' (noprec):   reduce ty_tuple --> ty
   immediate action: <none>  gotos:state 21:  items:    binding -> 'LET' 'ID' 'COLON' ty 'EQ' . expr
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -898,7 +899,7 @@ state 20:  items:    binding -> 'LET' 'ID' 'COLON' ty . 'EQ' expr
     action 'BRA' (noprec):   shift 12
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -910,7 +911,7 @@ state 20:  items:    binding -> 'LET' 'ID' 'COLON' ty . 'EQ' expr
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -1047,7 +1048,7 @@ state 22:  items:    binding -> 'LET' 'ID' 'COLON' ty 'EQ' expr .
     action '$$' (noprec):   error
   immediate action: <none>  gotos:state 25:  items:    binding -> 'LET' 'REC' 'ID' 'EQ' . expr
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -1060,7 +1061,7 @@ state 22:  items:    binding -> 'LET' 'ID' 'COLON' ty 'EQ' expr .
     action 'BRA' (noprec):   shift 12
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -1072,7 +1073,7 @@ state 22:  items:    binding -> 'LET' 'ID' 'COLON' ty 'EQ' expr .
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -1139,7 +1140,7 @@ state 26:  items:    binding -> 'LET' 'REC' 'ID' 'EQ' expr .
     action 'IN' (noprec):   error
     action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
-    action 'BRA' (noprec):   shift 104
+    action 'BRA' (noprec):   shift 111
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
     action 'MINUS' (noprec):   error
@@ -1159,7 +1160,7 @@ state 26:  items:    binding -> 'LET' 'REC' 'ID' 'EQ' expr .
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
     action 'STRING' (noprec):   error
-    action 'ID' (noprec):   shift 97
+    action 'ID' (noprec):   shift 104
     action 'CHAR' (noprec):   error
     action 'FLOAT' (noprec):   error
     action 'INT' (noprec):   error
@@ -1167,7 +1168,7 @@ state 26:  items:    binding -> 'LET' 'REC' 'ID' 'EQ' expr .
     action '#' (noprec):   error
     action '$$' (noprec):   error
   immediate action: <none>  gotos:    goto ty: 28
-    goto ty_tuple: 102
+    goto ty_tuple: 109
 state 28:  items:    binding -> 'LET' 'REC' 'ID' 'COLON' ty . 'EQ' expr
     ty -> ty . 'ARROW' ty
     ty_tuple -> ty . 
@@ -1177,7 +1178,7 @@ state 28:  items:    binding -> 'LET' 'REC' 'ID' 'COLON' ty . 'EQ' expr
     action 'THEN' (noprec):   reduce ty_tuple --> ty
     action 'ELSE' (noprec):   reduce ty_tuple --> ty
     action 'FUN' (noprec):   reduce ty_tuple --> ty
-    action 'ARROW' (explicit right 9992):   shift 101
+    action 'ARROW' (explicit right 9992):   shift 108
     action 'LET' (noprec):   reduce ty_tuple --> ty
     action 'REC' (noprec):   reduce ty_tuple --> ty
     action 'IN' (noprec):   reduce ty_tuple --> ty
@@ -1187,7 +1188,7 @@ state 28:  items:    binding -> 'LET' 'REC' 'ID' 'COLON' ty . 'EQ' expr
     action 'KET' (noprec):   reduce ty_tuple --> ty
     action 'PLUS' (noprec):   reduce ty_tuple --> ty
     action 'MINUS' (noprec):   reduce ty_tuple --> ty
-    action 'STAR' (explicit left 9997):   shift 106
+    action 'STAR' (explicit left 9997):   shift 113
     action 'SLASH' (noprec):   reduce ty_tuple --> ty
     action 'PERCENT' (noprec):   reduce ty_tuple --> ty
     action 'LT' (noprec):   reduce ty_tuple --> ty
@@ -1212,7 +1213,7 @@ state 28:  items:    binding -> 'LET' 'REC' 'ID' 'COLON' ty . 'EQ' expr
     action '$$' (noprec):   reduce ty_tuple --> ty
   immediate action: <none>  gotos:state 29:  items:    binding -> 'LET' 'REC' 'ID' 'COLON' ty 'EQ' . expr
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -1225,7 +1226,7 @@ state 28:  items:    binding -> 'LET' 'REC' 'ID' 'COLON' ty . 'EQ' expr
     action 'BRA' (noprec):   shift 12
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -1237,7 +1238,7 @@ state 28:  items:    binding -> 'LET' 'REC' 'ID' 'COLON' ty . 'EQ' expr
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -1529,7 +1530,7 @@ state 30:  items:    binding -> 'LET' 'REC' 'ID' 'COLON' ty 'EQ' expr .
   immediate action:   reduce expr_app_atom --> 'FALSE'  gotos:state 37:  items:    expr_app_atom -> 'BRA' . 'KET'
     expr_app_atom -> 'BRA' . expr 'KET'
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -1542,7 +1543,7 @@ state 30:  items:    binding -> 'LET' 'REC' 'ID' 'COLON' ty 'EQ' expr .
     action 'BRA' (noprec):   shift 12
     action 'KET' (noprec):   shift 38
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -1554,7 +1555,7 @@ state 30:  items:    binding -> 'LET' 'REC' 'ID' 'COLON' ty 'EQ' expr .
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -1797,7 +1798,7 @@ state 38:  items:    expr_app_atom -> 'BRA' 'KET' .
     action 'MINUS' (explicit nonassoc 9999):   reduce expr_tuple_atom --> 'NOT' expr_tuple_atom
     action 'STAR' (explicit nonassoc 9999):   reduce expr_tuple_atom --> 'NOT' expr_tuple_atom
     action 'SLASH' (explicit nonassoc 9999):   reduce expr_tuple_atom --> 'NOT' expr_tuple_atom
-    action 'PERCENT' (noprec):   shift 80
+    action 'PERCENT' (noprec):   shift 87
     action 'LT' (explicit nonassoc 9999):   reduce expr_tuple_atom --> 'NOT' expr_tuple_atom
     action 'GT' (explicit nonassoc 9999):   reduce expr_tuple_atom --> 'NOT' expr_tuple_atom
     action 'LEQ' (explicit nonassoc 9999):   reduce expr_tuple_atom --> 'NOT' expr_tuple_atom
@@ -1851,7 +1852,7 @@ state 44:  items:    expr_tuple_atom -> expr_tuple_atom . expr_app_atom
     action 'MINUS' (explicit nonassoc 10000):   reduce expr_tuple_atom --> 'MINUS' expr_tuple_atom
     action 'STAR' (explicit nonassoc 10000):   reduce expr_tuple_atom --> 'MINUS' expr_tuple_atom
     action 'SLASH' (explicit nonassoc 10000):   reduce expr_tuple_atom --> 'MINUS' expr_tuple_atom
-    action 'PERCENT' (noprec):   shift 80
+    action 'PERCENT' (noprec):   shift 87
     action 'LT' (explicit nonassoc 10000):   reduce expr_tuple_atom --> 'MINUS' expr_tuple_atom
     action 'GT' (explicit nonassoc 10000):   reduce expr_tuple_atom --> 'MINUS' expr_tuple_atom
     action 'LEQ' (explicit nonassoc 10000):   reduce expr_tuple_atom --> 'MINUS' expr_tuple_atom
@@ -1903,9 +1904,9 @@ state 45:  items:    expr_tuple_atom -> expr_tuple_atom . expr_app_atom
     action 'KET' (explicit left 9996):   reduce expr_tuple_atom --> expr_tuple_atom 'PLUS' expr_tuple_atom
     action 'PLUS' (explicit left 9996):   reduce expr_tuple_atom --> expr_tuple_atom 'PLUS' expr_tuple_atom
     action 'MINUS' (explicit left 9996):   reduce expr_tuple_atom --> expr_tuple_atom 'PLUS' expr_tuple_atom
-    action 'STAR' (explicit left 9997):   shift 78
-    action 'SLASH' (explicit left 9997):   shift 79
-    action 'PERCENT' (noprec):   shift 80
+    action 'STAR' (explicit left 9997):   shift 85
+    action 'SLASH' (explicit left 9997):   shift 86
+    action 'PERCENT' (noprec):   shift 87
     action 'LT' (explicit left 9996):   reduce expr_tuple_atom --> expr_tuple_atom 'PLUS' expr_tuple_atom
     action 'GT' (explicit left 9996):   reduce expr_tuple_atom --> expr_tuple_atom 'PLUS' expr_tuple_atom
     action 'LEQ' (explicit left 9996):   reduce expr_tuple_atom --> expr_tuple_atom 'PLUS' expr_tuple_atom
@@ -1957,9 +1958,9 @@ state 46:  items:    expr_tuple_atom -> expr_tuple_atom . expr_app_atom
     action 'KET' (explicit left 9996):   reduce expr_tuple_atom --> expr_tuple_atom 'MINUS' expr_tuple_atom
     action 'PLUS' (explicit left 9996):   reduce expr_tuple_atom --> expr_tuple_atom 'MINUS' expr_tuple_atom
     action 'MINUS' (explicit left 9996):   reduce expr_tuple_atom --> expr_tuple_atom 'MINUS' expr_tuple_atom
-    action 'STAR' (explicit left 9997):   shift 78
-    action 'SLASH' (explicit left 9997):   shift 79
-    action 'PERCENT' (noprec):   shift 80
+    action 'STAR' (explicit left 9997):   shift 85
+    action 'SLASH' (explicit left 9997):   shift 86
+    action 'PERCENT' (noprec):   shift 87
     action 'LT' (explicit left 9996):   reduce expr_tuple_atom --> expr_tuple_atom 'MINUS' expr_tuple_atom
     action 'GT' (explicit left 9996):   reduce expr_tuple_atom --> expr_tuple_atom 'MINUS' expr_tuple_atom
     action 'LEQ' (explicit left 9996):   reduce expr_tuple_atom --> expr_tuple_atom 'MINUS' expr_tuple_atom
@@ -2013,7 +2014,7 @@ state 47:  items:    expr_tuple_atom -> expr_tuple_atom . expr_app_atom
     action 'MINUS' (explicit left 9997):   reduce expr_tuple_atom --> expr_tuple_atom 'STAR' expr_tuple_atom
     action 'STAR' (explicit left 9997):   reduce expr_tuple_atom --> expr_tuple_atom 'STAR' expr_tuple_atom
     action 'SLASH' (explicit left 9997):   reduce expr_tuple_atom --> expr_tuple_atom 'STAR' expr_tuple_atom
-    action 'PERCENT' (noprec):   shift 80
+    action 'PERCENT' (noprec):   shift 87
     action 'LT' (explicit left 9997):   reduce expr_tuple_atom --> expr_tuple_atom 'STAR' expr_tuple_atom
     action 'GT' (explicit left 9997):   reduce expr_tuple_atom --> expr_tuple_atom 'STAR' expr_tuple_atom
     action 'LEQ' (explicit left 9997):   reduce expr_tuple_atom --> expr_tuple_atom 'STAR' expr_tuple_atom
@@ -2067,7 +2068,7 @@ state 48:  items:    expr_tuple_atom -> expr_tuple_atom . expr_app_atom
     action 'MINUS' (explicit left 9997):   reduce expr_tuple_atom --> expr_tuple_atom 'SLASH' expr_tuple_atom
     action 'STAR' (explicit left 9997):   reduce expr_tuple_atom --> expr_tuple_atom 'SLASH' expr_tuple_atom
     action 'SLASH' (explicit left 9997):   reduce expr_tuple_atom --> expr_tuple_atom 'SLASH' expr_tuple_atom
-    action 'PERCENT' (noprec):   shift 80
+    action 'PERCENT' (noprec):   shift 87
     action 'LT' (explicit left 9997):   reduce expr_tuple_atom --> expr_tuple_atom 'SLASH' expr_tuple_atom
     action 'GT' (explicit left 9997):   reduce expr_tuple_atom --> expr_tuple_atom 'SLASH' expr_tuple_atom
     action 'LEQ' (explicit left 9997):   reduce expr_tuple_atom --> expr_tuple_atom 'SLASH' expr_tuple_atom
@@ -2117,19 +2118,19 @@ state 49:  items:    expr_tuple_atom -> expr_tuple_atom . expr_app_atom
     action 'FALSE' (noprec):   shift 36
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   reduce expr_tuple_atom --> expr_tuple_atom 'PERCENT' expr_tuple_atom
-    action 'PLUS' (explicit left 9996):   shift 76
-    action 'MINUS' (explicit left 9996):   shift 77
-    action 'STAR' (explicit left 9997):   shift 78
-    action 'SLASH' (explicit left 9997):   shift 79
-    action 'PERCENT' (noprec):   shift 80
-    action 'LT' (explicit left 9995):   shift 83
-    action 'GT' (explicit left 9995):   shift 84
-    action 'LEQ' (explicit left 9995):   shift 85
-    action 'GEQ' (explicit left 9995):   shift 86
-    action 'EQ' (explicit left 9995):   shift 81
-    action 'NEQ' (explicit left 9995):   shift 82
-    action 'AND' (explicit left 9994):   shift 87
-    action 'OR' (explicit left 9993):   shift 88
+    action 'PLUS' (explicit left 9996):   shift 83
+    action 'MINUS' (explicit left 9996):   shift 84
+    action 'STAR' (explicit left 9997):   shift 85
+    action 'SLASH' (explicit left 9997):   shift 86
+    action 'PERCENT' (noprec):   shift 87
+    action 'LT' (explicit left 9995):   shift 90
+    action 'GT' (explicit left 9995):   shift 91
+    action 'LEQ' (explicit left 9995):   shift 92
+    action 'GEQ' (explicit left 9995):   shift 93
+    action 'EQ' (explicit left 9995):   shift 88
+    action 'NEQ' (explicit left 9995):   shift 89
+    action 'AND' (explicit left 9994):   shift 94
+    action 'OR' (explicit left 9993):   shift 95
     action 'NOT' (noprec):   reduce expr_tuple_atom --> expr_tuple_atom 'PERCENT' expr_tuple_atom
     action 'COLON' (noprec):   reduce expr_tuple_atom --> expr_tuple_atom 'PERCENT' expr_tuple_atom
     action 'SEMICOLON2' (noprec):   reduce expr_tuple_atom --> expr_tuple_atom 'PERCENT' expr_tuple_atom
@@ -2171,11 +2172,11 @@ state 50:  items:    expr_tuple_atom -> expr_tuple_atom . expr_app_atom
     action 'FALSE' (noprec):   shift 36
     action 'BRA' (noprec):   shift 37
     action 'KET' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'EQ' expr_tuple_atom
-    action 'PLUS' (explicit left 9996):   shift 76
-    action 'MINUS' (explicit left 9996):   shift 77
-    action 'STAR' (explicit left 9997):   shift 78
-    action 'SLASH' (explicit left 9997):   shift 79
-    action 'PERCENT' (noprec):   shift 80
+    action 'PLUS' (explicit left 9996):   shift 83
+    action 'MINUS' (explicit left 9996):   shift 84
+    action 'STAR' (explicit left 9997):   shift 85
+    action 'SLASH' (explicit left 9997):   shift 86
+    action 'PERCENT' (noprec):   shift 87
     action 'LT' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'EQ' expr_tuple_atom
     action 'GT' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'EQ' expr_tuple_atom
     action 'LEQ' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'EQ' expr_tuple_atom
@@ -2225,11 +2226,11 @@ state 51:  items:    expr_tuple_atom -> expr_tuple_atom . expr_app_atom
     action 'FALSE' (noprec):   shift 36
     action 'BRA' (noprec):   shift 37
     action 'KET' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'NEQ' expr_tuple_atom
-    action 'PLUS' (explicit left 9996):   shift 76
-    action 'MINUS' (explicit left 9996):   shift 77
-    action 'STAR' (explicit left 9997):   shift 78
-    action 'SLASH' (explicit left 9997):   shift 79
-    action 'PERCENT' (noprec):   shift 80
+    action 'PLUS' (explicit left 9996):   shift 83
+    action 'MINUS' (explicit left 9996):   shift 84
+    action 'STAR' (explicit left 9997):   shift 85
+    action 'SLASH' (explicit left 9997):   shift 86
+    action 'PERCENT' (noprec):   shift 87
     action 'LT' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'NEQ' expr_tuple_atom
     action 'GT' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'NEQ' expr_tuple_atom
     action 'LEQ' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'NEQ' expr_tuple_atom
@@ -2279,11 +2280,11 @@ state 52:  items:    expr_tuple_atom -> expr_tuple_atom . expr_app_atom
     action 'FALSE' (noprec):   shift 36
     action 'BRA' (noprec):   shift 37
     action 'KET' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'LT' expr_tuple_atom
-    action 'PLUS' (explicit left 9996):   shift 76
-    action 'MINUS' (explicit left 9996):   shift 77
-    action 'STAR' (explicit left 9997):   shift 78
-    action 'SLASH' (explicit left 9997):   shift 79
-    action 'PERCENT' (noprec):   shift 80
+    action 'PLUS' (explicit left 9996):   shift 83
+    action 'MINUS' (explicit left 9996):   shift 84
+    action 'STAR' (explicit left 9997):   shift 85
+    action 'SLASH' (explicit left 9997):   shift 86
+    action 'PERCENT' (noprec):   shift 87
     action 'LT' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'LT' expr_tuple_atom
     action 'GT' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'LT' expr_tuple_atom
     action 'LEQ' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'LT' expr_tuple_atom
@@ -2333,11 +2334,11 @@ state 53:  items:    expr_tuple_atom -> expr_tuple_atom . expr_app_atom
     action 'FALSE' (noprec):   shift 36
     action 'BRA' (noprec):   shift 37
     action 'KET' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'GT' expr_tuple_atom
-    action 'PLUS' (explicit left 9996):   shift 76
-    action 'MINUS' (explicit left 9996):   shift 77
-    action 'STAR' (explicit left 9997):   shift 78
-    action 'SLASH' (explicit left 9997):   shift 79
-    action 'PERCENT' (noprec):   shift 80
+    action 'PLUS' (explicit left 9996):   shift 83
+    action 'MINUS' (explicit left 9996):   shift 84
+    action 'STAR' (explicit left 9997):   shift 85
+    action 'SLASH' (explicit left 9997):   shift 86
+    action 'PERCENT' (noprec):   shift 87
     action 'LT' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'GT' expr_tuple_atom
     action 'GT' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'GT' expr_tuple_atom
     action 'LEQ' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'GT' expr_tuple_atom
@@ -2387,11 +2388,11 @@ state 54:  items:    expr_tuple_atom -> expr_tuple_atom . expr_app_atom
     action 'FALSE' (noprec):   shift 36
     action 'BRA' (noprec):   shift 37
     action 'KET' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'LEQ' expr_tuple_atom
-    action 'PLUS' (explicit left 9996):   shift 76
-    action 'MINUS' (explicit left 9996):   shift 77
-    action 'STAR' (explicit left 9997):   shift 78
-    action 'SLASH' (explicit left 9997):   shift 79
-    action 'PERCENT' (noprec):   shift 80
+    action 'PLUS' (explicit left 9996):   shift 83
+    action 'MINUS' (explicit left 9996):   shift 84
+    action 'STAR' (explicit left 9997):   shift 85
+    action 'SLASH' (explicit left 9997):   shift 86
+    action 'PERCENT' (noprec):   shift 87
     action 'LT' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'LEQ' expr_tuple_atom
     action 'GT' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'LEQ' expr_tuple_atom
     action 'LEQ' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'LEQ' expr_tuple_atom
@@ -2441,11 +2442,11 @@ state 55:  items:    expr_tuple_atom -> expr_tuple_atom . expr_app_atom
     action 'FALSE' (noprec):   shift 36
     action 'BRA' (noprec):   shift 37
     action 'KET' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'GEQ' expr_tuple_atom
-    action 'PLUS' (explicit left 9996):   shift 76
-    action 'MINUS' (explicit left 9996):   shift 77
-    action 'STAR' (explicit left 9997):   shift 78
-    action 'SLASH' (explicit left 9997):   shift 79
-    action 'PERCENT' (noprec):   shift 80
+    action 'PLUS' (explicit left 9996):   shift 83
+    action 'MINUS' (explicit left 9996):   shift 84
+    action 'STAR' (explicit left 9997):   shift 85
+    action 'SLASH' (explicit left 9997):   shift 86
+    action 'PERCENT' (noprec):   shift 87
     action 'LT' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'GEQ' expr_tuple_atom
     action 'GT' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'GEQ' expr_tuple_atom
     action 'LEQ' (explicit left 9995):   reduce expr_tuple_atom --> expr_tuple_atom 'GEQ' expr_tuple_atom
@@ -2495,17 +2496,17 @@ state 56:  items:    expr_tuple_atom -> expr_tuple_atom . expr_app_atom
     action 'FALSE' (noprec):   shift 36
     action 'BRA' (noprec):   shift 37
     action 'KET' (explicit left 9994):   reduce expr_tuple_atom --> expr_tuple_atom 'AND' expr_tuple_atom
-    action 'PLUS' (explicit left 9996):   shift 76
-    action 'MINUS' (explicit left 9996):   shift 77
-    action 'STAR' (explicit left 9997):   shift 78
-    action 'SLASH' (explicit left 9997):   shift 79
-    action 'PERCENT' (noprec):   shift 80
-    action 'LT' (explicit left 9995):   shift 83
-    action 'GT' (explicit left 9995):   shift 84
-    action 'LEQ' (explicit left 9995):   shift 85
-    action 'GEQ' (explicit left 9995):   shift 86
-    action 'EQ' (explicit left 9995):   shift 81
-    action 'NEQ' (explicit left 9995):   shift 82
+    action 'PLUS' (explicit left 9996):   shift 83
+    action 'MINUS' (explicit left 9996):   shift 84
+    action 'STAR' (explicit left 9997):   shift 85
+    action 'SLASH' (explicit left 9997):   shift 86
+    action 'PERCENT' (noprec):   shift 87
+    action 'LT' (explicit left 9995):   shift 90
+    action 'GT' (explicit left 9995):   shift 91
+    action 'LEQ' (explicit left 9995):   shift 92
+    action 'GEQ' (explicit left 9995):   shift 93
+    action 'EQ' (explicit left 9995):   shift 88
+    action 'NEQ' (explicit left 9995):   shift 89
     action 'AND' (explicit left 9994):   reduce expr_tuple_atom --> expr_tuple_atom 'AND' expr_tuple_atom
     action 'OR' (explicit left 9994):   reduce expr_tuple_atom --> expr_tuple_atom 'AND' expr_tuple_atom
     action 'NOT' (explicit left 9994):   reduce expr_tuple_atom --> expr_tuple_atom 'AND' expr_tuple_atom
@@ -2549,18 +2550,18 @@ state 57:  items:    expr_tuple_atom -> expr_tuple_atom . expr_app_atom
     action 'FALSE' (noprec):   shift 36
     action 'BRA' (noprec):   shift 37
     action 'KET' (explicit left 9993):   reduce expr_tuple_atom --> expr_tuple_atom 'OR' expr_tuple_atom
-    action 'PLUS' (explicit left 9996):   shift 76
-    action 'MINUS' (explicit left 9996):   shift 77
-    action 'STAR' (explicit left 9997):   shift 78
-    action 'SLASH' (explicit left 9997):   shift 79
-    action 'PERCENT' (noprec):   shift 80
-    action 'LT' (explicit left 9995):   shift 83
-    action 'GT' (explicit left 9995):   shift 84
-    action 'LEQ' (explicit left 9995):   shift 85
-    action 'GEQ' (explicit left 9995):   shift 86
-    action 'EQ' (explicit left 9995):   shift 81
-    action 'NEQ' (explicit left 9995):   shift 82
-    action 'AND' (explicit left 9994):   shift 87
+    action 'PLUS' (explicit left 9996):   shift 83
+    action 'MINUS' (explicit left 9996):   shift 84
+    action 'STAR' (explicit left 9997):   shift 85
+    action 'SLASH' (explicit left 9997):   shift 86
+    action 'PERCENT' (noprec):   shift 87
+    action 'LT' (explicit left 9995):   shift 90
+    action 'GT' (explicit left 9995):   shift 91
+    action 'LEQ' (explicit left 9995):   shift 92
+    action 'GEQ' (explicit left 9995):   shift 93
+    action 'EQ' (explicit left 9995):   shift 88
+    action 'NEQ' (explicit left 9995):   shift 89
+    action 'AND' (explicit left 9994):   shift 94
     action 'OR' (explicit left 9993):   reduce expr_tuple_atom --> expr_tuple_atom 'OR' expr_tuple_atom
     action 'NOT' (explicit left 9993):   reduce expr_tuple_atom --> expr_tuple_atom 'OR' expr_tuple_atom
     action 'COLON' (explicit left 9993):   reduce expr_tuple_atom --> expr_tuple_atom 'OR' expr_tuple_atom
@@ -2604,23 +2605,23 @@ state 58:  items:    expr_tuple_atom -> expr_tuple_atom . expr_app_atom
     action 'FALSE' (noprec):   shift 36
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   reduce expr_tuple_atoms --> expr_tuple_atom
-    action 'PLUS' (explicit left 9996):   shift 76
-    action 'MINUS' (explicit left 9996):   shift 77
-    action 'STAR' (explicit left 9997):   shift 78
-    action 'SLASH' (explicit left 9997):   shift 79
-    action 'PERCENT' (noprec):   shift 80
-    action 'LT' (explicit left 9995):   shift 83
-    action 'GT' (explicit left 9995):   shift 84
-    action 'LEQ' (explicit left 9995):   shift 85
-    action 'GEQ' (explicit left 9995):   shift 86
-    action 'EQ' (explicit left 9995):   shift 81
-    action 'NEQ' (explicit left 9995):   shift 82
-    action 'AND' (explicit left 9994):   shift 87
-    action 'OR' (explicit left 9993):   shift 88
+    action 'PLUS' (explicit left 9996):   shift 83
+    action 'MINUS' (explicit left 9996):   shift 84
+    action 'STAR' (explicit left 9997):   shift 85
+    action 'SLASH' (explicit left 9997):   shift 86
+    action 'PERCENT' (noprec):   shift 87
+    action 'LT' (explicit left 9995):   shift 90
+    action 'GT' (explicit left 9995):   shift 91
+    action 'LEQ' (explicit left 9995):   shift 92
+    action 'GEQ' (explicit left 9995):   shift 93
+    action 'EQ' (explicit left 9995):   shift 88
+    action 'NEQ' (explicit left 9995):   shift 89
+    action 'AND' (explicit left 9994):   shift 94
+    action 'OR' (explicit left 9993):   shift 95
     action 'NOT' (noprec):   reduce expr_tuple_atoms --> expr_tuple_atom
     action 'COLON' (noprec):   reduce expr_tuple_atoms --> expr_tuple_atom
     action 'SEMICOLON2' (noprec):   reduce expr_tuple_atoms --> expr_tuple_atom
-    action 'COMMA' (explicit left 9991):   shift 95
+    action 'COMMA' (explicit left 9991):   shift 102
     action 'STRING' (noprec):   shift 33
     action 'ID' (noprec):   shift 39
     action 'CHAR' (noprec):   shift 34
@@ -2750,7 +2751,7 @@ state 59:  items:    expr_tuple_atom -> expr_tuple_atom expr_app_atom .
     action '$$' (noprec):   error
   immediate action: <none>  gotos:state 62:  items:    expr_tuple_atom -> 'FUN' 'ID' 'ARROW' . expr
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -2763,7 +2764,7 @@ state 59:  items:    expr_tuple_atom -> expr_tuple_atom expr_app_atom .
     action 'BRA' (noprec):   shift 12
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -2775,7 +2776,7 @@ state 59:  items:    expr_tuple_atom -> expr_tuple_atom expr_app_atom .
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -2920,7 +2921,7 @@ state 63:  items:    expr_tuple_atom -> 'FUN' 'ID' 'ARROW' expr .
     action 'IN' (noprec):   error
     action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
-    action 'BRA' (noprec):   shift 104
+    action 'BRA' (noprec):   shift 111
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
     action 'MINUS' (noprec):   error
@@ -2940,7 +2941,7 @@ state 63:  items:    expr_tuple_atom -> 'FUN' 'ID' 'ARROW' expr .
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
     action 'STRING' (noprec):   error
-    action 'ID' (noprec):   shift 97
+    action 'ID' (noprec):   shift 104
     action 'CHAR' (noprec):   error
     action 'FLOAT' (noprec):   error
     action 'INT' (noprec):   error
@@ -2948,7 +2949,7 @@ state 63:  items:    expr_tuple_atom -> 'FUN' 'ID' 'ARROW' expr .
     action '#' (noprec):   error
     action '$$' (noprec):   error
   immediate action: <none>  gotos:    goto ty: 67
-    goto ty_tuple: 102
+    goto ty_tuple: 109
 state 67:  items:    expr_tuple_atom -> 'FUN' 'BRA' 'ID' 'COLON' ty . 'KET' 'ARROW' expr
     ty -> ty . 'ARROW' ty
     ty_tuple -> ty . 
@@ -2958,7 +2959,7 @@ state 67:  items:    expr_tuple_atom -> 'FUN' 'BRA' 'ID' 'COLON' ty . 'KET' 'ARR
     action 'THEN' (noprec):   reduce ty_tuple --> ty
     action 'ELSE' (noprec):   reduce ty_tuple --> ty
     action 'FUN' (noprec):   reduce ty_tuple --> ty
-    action 'ARROW' (explicit right 9992):   shift 101
+    action 'ARROW' (explicit right 9992):   shift 108
     action 'LET' (noprec):   reduce ty_tuple --> ty
     action 'REC' (noprec):   reduce ty_tuple --> ty
     action 'IN' (noprec):   reduce ty_tuple --> ty
@@ -2968,7 +2969,7 @@ state 67:  items:    expr_tuple_atom -> 'FUN' 'BRA' 'ID' 'COLON' ty . 'KET' 'ARR
     action 'KET' (noprec):   shift 68
     action 'PLUS' (noprec):   reduce ty_tuple --> ty
     action 'MINUS' (noprec):   reduce ty_tuple --> ty
-    action 'STAR' (explicit left 9997):   shift 106
+    action 'STAR' (explicit left 9997):   shift 113
     action 'SLASH' (noprec):   reduce ty_tuple --> ty
     action 'PERCENT' (noprec):   reduce ty_tuple --> ty
     action 'LT' (noprec):   reduce ty_tuple --> ty
@@ -3032,7 +3033,7 @@ state 67:  items:    expr_tuple_atom -> 'FUN' 'BRA' 'ID' 'COLON' ty . 'KET' 'ARR
     action '$$' (noprec):   error
   immediate action: <none>  gotos:state 69:  items:    expr_tuple_atom -> 'FUN' 'BRA' 'ID' 'COLON' ty 'KET' 'ARROW' . expr
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3045,7 +3046,7 @@ state 67:  items:    expr_tuple_atom -> 'FUN' 'BRA' 'ID' 'COLON' ty . 'KET' 'ARR
     action 'BRA' (noprec):   shift 12
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3057,7 +3058,7 @@ state 67:  items:    expr_tuple_atom -> 'FUN' 'BRA' 'ID' 'COLON' ty . 'KET' 'ARR
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3153,7 +3154,7 @@ state 70:  items:    expr_tuple_atom -> 'FUN' 'BRA' 'ID' 'COLON' ty 'KET' 'ARROW
     action '$$' (noprec):   error
   immediate action: <none>  gotos:state 72:  items:    expr_tuple_atom -> binding 'IN' . expr
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3166,7 +3167,7 @@ state 70:  items:    expr_tuple_atom -> 'FUN' 'BRA' 'ID' 'COLON' ty 'KET' 'ARROW
     action 'BRA' (noprec):   shift 12
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3178,7 +3179,7 @@ state 70:  items:    expr_tuple_atom -> 'FUN' 'BRA' 'ID' 'COLON' ty 'KET' 'ARROW
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3233,9 +3234,291 @@ state 73:  items:    expr_tuple_atom -> binding 'IN' expr .
     action 'error' (noprec):   reduce expr_tuple_atom --> binding 'IN' expr
     action '#' (noprec):   reduce expr_tuple_atom --> binding 'IN' expr
     action '$$' (noprec):   reduce expr_tuple_atom --> binding 'IN' expr
-  immediate action:   reduce expr_tuple_atom --> binding 'IN' expr  gotos:state 74:  items:    expr_tuple_atom -> 'NOT' . expr_tuple_atom
+  immediate action:   reduce expr_tuple_atom --> binding 'IN' expr  gotos:state 74:  items:    expr_tuple_atom -> 'LET' 'BRA' . tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'ARROW' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'REC' (noprec):   error
+    action 'IN' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BRA' (noprec):   error
+    action 'KET' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'STAR' (noprec):   error
+    action 'SLASH' (noprec):   error
+    action 'PERCENT' (noprec):   error
+    action 'LT' (noprec):   error
+    action 'GT' (noprec):   error
+    action 'LEQ' (noprec):   error
+    action 'GEQ' (noprec):   error
+    action 'EQ' (noprec):   error
+    action 'NEQ' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'NOT' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'COMMA' (noprec):   error
+    action 'STRING' (noprec):   error
+    action 'ID' (noprec):   shift 114
+    action 'CHAR' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+  immediate action: <none>  gotos:    goto tuple_decompose_id: 75
+state 75:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id . 'KET' 'EQ' expr 'IN' expr
+  actions:    action 'EOF' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'ARROW' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'REC' (noprec):   error
+    action 'IN' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BRA' (noprec):   error
+    action 'KET' (noprec):   shift 76
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'STAR' (noprec):   error
+    action 'SLASH' (noprec):   error
+    action 'PERCENT' (noprec):   error
+    action 'LT' (noprec):   error
+    action 'GT' (noprec):   error
+    action 'LEQ' (noprec):   error
+    action 'GEQ' (noprec):   error
+    action 'EQ' (noprec):   error
+    action 'NEQ' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'NOT' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'COMMA' (noprec):   error
+    action 'STRING' (noprec):   error
+    action 'ID' (noprec):   error
+    action 'CHAR' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+  immediate action: <none>  gotos:state 76:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id 'KET' . 'EQ' expr 'IN' expr
+  actions:    action 'EOF' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'ARROW' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'REC' (noprec):   error
+    action 'IN' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BRA' (noprec):   error
+    action 'KET' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'STAR' (noprec):   error
+    action 'SLASH' (noprec):   error
+    action 'PERCENT' (noprec):   error
+    action 'LT' (noprec):   error
+    action 'GT' (noprec):   error
+    action 'LEQ' (noprec):   error
+    action 'GEQ' (noprec):   error
+    action 'EQ' (explicit left 9995):   shift 77
+    action 'NEQ' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'NOT' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'COMMA' (noprec):   error
+    action 'STRING' (noprec):   error
+    action 'ID' (noprec):   error
+    action 'CHAR' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+  immediate action: <none>  gotos:state 77:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' . expr 'IN' expr
+  actions:    action 'EOF' (noprec):   error
+    action 'IF' (noprec):   shift 96
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'FUN' (noprec):   shift 60
+    action 'ARROW' (noprec):   error
+    action 'LET' (noprec):   shift 15
+    action 'REC' (noprec):   error
+    action 'IN' (noprec):   error
+    action 'TRUE' (noprec):   shift 35
+    action 'FALSE' (noprec):   shift 36
+    action 'BRA' (noprec):   shift 12
+    action 'KET' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9996):   shift 82
+    action 'STAR' (noprec):   error
+    action 'SLASH' (noprec):   error
+    action 'PERCENT' (noprec):   error
+    action 'LT' (noprec):   error
+    action 'GT' (noprec):   error
+    action 'LEQ' (noprec):   error
+    action 'GEQ' (noprec):   error
+    action 'EQ' (noprec):   error
+    action 'NEQ' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'NOT' (explicit nonassoc 9999):   shift 81
+    action 'COLON' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'COMMA' (noprec):   error
+    action 'STRING' (noprec):   shift 33
+    action 'ID' (noprec):   shift 39
+    action 'CHAR' (noprec):   shift 34
+    action 'FLOAT' (noprec):   shift 32
+    action 'INT' (noprec):   shift 31
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+  immediate action: <none>  gotos:    goto expr: 78
+    goto binding: 71
+    goto expr_app_atom: 42
+    goto expr_tuple_atom: 10
+state 78:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr . 'IN' expr
+  actions:    action 'EOF' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'ARROW' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'REC' (noprec):   error
+    action 'IN' (noprec):   shift 79
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BRA' (noprec):   error
+    action 'KET' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'STAR' (noprec):   error
+    action 'SLASH' (noprec):   error
+    action 'PERCENT' (noprec):   error
+    action 'LT' (noprec):   error
+    action 'GT' (noprec):   error
+    action 'LEQ' (noprec):   error
+    action 'GEQ' (noprec):   error
+    action 'EQ' (noprec):   error
+    action 'NEQ' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'NOT' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'COMMA' (noprec):   error
+    action 'STRING' (noprec):   error
+    action 'ID' (noprec):   error
+    action 'CHAR' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+  immediate action: <none>  gotos:state 79:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' . expr
+  actions:    action 'EOF' (noprec):   error
+    action 'IF' (noprec):   shift 96
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'FUN' (noprec):   shift 60
+    action 'ARROW' (noprec):   error
+    action 'LET' (noprec):   shift 15
+    action 'REC' (noprec):   error
+    action 'IN' (noprec):   error
+    action 'TRUE' (noprec):   shift 35
+    action 'FALSE' (noprec):   shift 36
+    action 'BRA' (noprec):   shift 12
+    action 'KET' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9996):   shift 82
+    action 'STAR' (noprec):   error
+    action 'SLASH' (noprec):   error
+    action 'PERCENT' (noprec):   error
+    action 'LT' (noprec):   error
+    action 'GT' (noprec):   error
+    action 'LEQ' (noprec):   error
+    action 'GEQ' (noprec):   error
+    action 'EQ' (noprec):   error
+    action 'NEQ' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'NOT' (explicit nonassoc 9999):   shift 81
+    action 'COLON' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'COMMA' (noprec):   error
+    action 'STRING' (noprec):   shift 33
+    action 'ID' (noprec):   shift 39
+    action 'CHAR' (noprec):   shift 34
+    action 'FLOAT' (noprec):   shift 32
+    action 'INT' (noprec):   shift 31
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+  immediate action: <none>  gotos:    goto expr: 80
+    goto binding: 71
+    goto expr_app_atom: 42
+    goto expr_tuple_atom: 10
+state 80:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr . 
+  actions:    action 'EOF' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'IF' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'THEN' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'ELSE' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'FUN' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'ARROW' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'LET' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'REC' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'IN' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'TRUE' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'FALSE' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'BRA' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'KET' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'PLUS' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'MINUS' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'STAR' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'SLASH' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'PERCENT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'LT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'GT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'LEQ' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'GEQ' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'EQ' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'NEQ' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'AND' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'OR' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'NOT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'COLON' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'SEMICOLON2' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'COMMA' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'STRING' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'ID' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'CHAR' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'FLOAT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'INT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action 'error' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action '#' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    action '$$' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+  immediate action:   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr  gotos:state 81:  items:    expr_tuple_atom -> 'NOT' . expr_tuple_atom
+  actions:    action 'EOF' (noprec):   error
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3248,7 +3531,7 @@ state 73:  items:    expr_tuple_atom -> binding 'IN' expr .
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3260,7 +3543,7 @@ state 73:  items:    expr_tuple_atom -> binding 'IN' expr .
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3275,9 +3558,9 @@ state 73:  items:    expr_tuple_atom -> binding 'IN' expr .
   immediate action: <none>  gotos:    goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 43
-state 75:  items:    expr_tuple_atom -> 'MINUS' . expr_tuple_atom
+state 82:  items:    expr_tuple_atom -> 'MINUS' . expr_tuple_atom
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3290,7 +3573,7 @@ state 75:  items:    expr_tuple_atom -> 'MINUS' . expr_tuple_atom
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3302,7 +3585,7 @@ state 75:  items:    expr_tuple_atom -> 'MINUS' . expr_tuple_atom
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3317,9 +3600,9 @@ state 75:  items:    expr_tuple_atom -> 'MINUS' . expr_tuple_atom
   immediate action: <none>  gotos:    goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 44
-state 76:  items:    expr_tuple_atom -> expr_tuple_atom 'PLUS' . expr_tuple_atom
+state 83:  items:    expr_tuple_atom -> expr_tuple_atom 'PLUS' . expr_tuple_atom
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3332,7 +3615,7 @@ state 76:  items:    expr_tuple_atom -> expr_tuple_atom 'PLUS' . expr_tuple_atom
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3344,7 +3627,7 @@ state 76:  items:    expr_tuple_atom -> expr_tuple_atom 'PLUS' . expr_tuple_atom
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3359,9 +3642,9 @@ state 76:  items:    expr_tuple_atom -> expr_tuple_atom 'PLUS' . expr_tuple_atom
   immediate action: <none>  gotos:    goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 45
-state 77:  items:    expr_tuple_atom -> expr_tuple_atom 'MINUS' . expr_tuple_atom
+state 84:  items:    expr_tuple_atom -> expr_tuple_atom 'MINUS' . expr_tuple_atom
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3374,7 +3657,7 @@ state 77:  items:    expr_tuple_atom -> expr_tuple_atom 'MINUS' . expr_tuple_ato
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3386,7 +3669,7 @@ state 77:  items:    expr_tuple_atom -> expr_tuple_atom 'MINUS' . expr_tuple_ato
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3401,9 +3684,9 @@ state 77:  items:    expr_tuple_atom -> expr_tuple_atom 'MINUS' . expr_tuple_ato
   immediate action: <none>  gotos:    goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 46
-state 78:  items:    expr_tuple_atom -> expr_tuple_atom 'STAR' . expr_tuple_atom
+state 85:  items:    expr_tuple_atom -> expr_tuple_atom 'STAR' . expr_tuple_atom
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3416,7 +3699,7 @@ state 78:  items:    expr_tuple_atom -> expr_tuple_atom 'STAR' . expr_tuple_atom
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3428,7 +3711,7 @@ state 78:  items:    expr_tuple_atom -> expr_tuple_atom 'STAR' . expr_tuple_atom
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3443,9 +3726,9 @@ state 78:  items:    expr_tuple_atom -> expr_tuple_atom 'STAR' . expr_tuple_atom
   immediate action: <none>  gotos:    goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 47
-state 79:  items:    expr_tuple_atom -> expr_tuple_atom 'SLASH' . expr_tuple_atom
+state 86:  items:    expr_tuple_atom -> expr_tuple_atom 'SLASH' . expr_tuple_atom
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3458,7 +3741,7 @@ state 79:  items:    expr_tuple_atom -> expr_tuple_atom 'SLASH' . expr_tuple_ato
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3470,7 +3753,7 @@ state 79:  items:    expr_tuple_atom -> expr_tuple_atom 'SLASH' . expr_tuple_ato
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3485,9 +3768,9 @@ state 79:  items:    expr_tuple_atom -> expr_tuple_atom 'SLASH' . expr_tuple_ato
   immediate action: <none>  gotos:    goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 48
-state 80:  items:    expr_tuple_atom -> expr_tuple_atom 'PERCENT' . expr_tuple_atom
+state 87:  items:    expr_tuple_atom -> expr_tuple_atom 'PERCENT' . expr_tuple_atom
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3500,7 +3783,7 @@ state 80:  items:    expr_tuple_atom -> expr_tuple_atom 'PERCENT' . expr_tuple_a
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3512,7 +3795,7 @@ state 80:  items:    expr_tuple_atom -> expr_tuple_atom 'PERCENT' . expr_tuple_a
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3527,9 +3810,9 @@ state 80:  items:    expr_tuple_atom -> expr_tuple_atom 'PERCENT' . expr_tuple_a
   immediate action: <none>  gotos:    goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 49
-state 81:  items:    expr_tuple_atom -> expr_tuple_atom 'EQ' . expr_tuple_atom
+state 88:  items:    expr_tuple_atom -> expr_tuple_atom 'EQ' . expr_tuple_atom
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3542,7 +3825,7 @@ state 81:  items:    expr_tuple_atom -> expr_tuple_atom 'EQ' . expr_tuple_atom
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3554,7 +3837,7 @@ state 81:  items:    expr_tuple_atom -> expr_tuple_atom 'EQ' . expr_tuple_atom
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3569,9 +3852,9 @@ state 81:  items:    expr_tuple_atom -> expr_tuple_atom 'EQ' . expr_tuple_atom
   immediate action: <none>  gotos:    goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 50
-state 82:  items:    expr_tuple_atom -> expr_tuple_atom 'NEQ' . expr_tuple_atom
+state 89:  items:    expr_tuple_atom -> expr_tuple_atom 'NEQ' . expr_tuple_atom
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3584,7 +3867,7 @@ state 82:  items:    expr_tuple_atom -> expr_tuple_atom 'NEQ' . expr_tuple_atom
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3596,7 +3879,7 @@ state 82:  items:    expr_tuple_atom -> expr_tuple_atom 'NEQ' . expr_tuple_atom
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3611,9 +3894,9 @@ state 82:  items:    expr_tuple_atom -> expr_tuple_atom 'NEQ' . expr_tuple_atom
   immediate action: <none>  gotos:    goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 51
-state 83:  items:    expr_tuple_atom -> expr_tuple_atom 'LT' . expr_tuple_atom
+state 90:  items:    expr_tuple_atom -> expr_tuple_atom 'LT' . expr_tuple_atom
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3626,7 +3909,7 @@ state 83:  items:    expr_tuple_atom -> expr_tuple_atom 'LT' . expr_tuple_atom
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3638,7 +3921,7 @@ state 83:  items:    expr_tuple_atom -> expr_tuple_atom 'LT' . expr_tuple_atom
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3653,9 +3936,9 @@ state 83:  items:    expr_tuple_atom -> expr_tuple_atom 'LT' . expr_tuple_atom
   immediate action: <none>  gotos:    goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 52
-state 84:  items:    expr_tuple_atom -> expr_tuple_atom 'GT' . expr_tuple_atom
+state 91:  items:    expr_tuple_atom -> expr_tuple_atom 'GT' . expr_tuple_atom
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3668,7 +3951,7 @@ state 84:  items:    expr_tuple_atom -> expr_tuple_atom 'GT' . expr_tuple_atom
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3680,7 +3963,7 @@ state 84:  items:    expr_tuple_atom -> expr_tuple_atom 'GT' . expr_tuple_atom
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3695,9 +3978,9 @@ state 84:  items:    expr_tuple_atom -> expr_tuple_atom 'GT' . expr_tuple_atom
   immediate action: <none>  gotos:    goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 53
-state 85:  items:    expr_tuple_atom -> expr_tuple_atom 'LEQ' . expr_tuple_atom
+state 92:  items:    expr_tuple_atom -> expr_tuple_atom 'LEQ' . expr_tuple_atom
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3710,7 +3993,7 @@ state 85:  items:    expr_tuple_atom -> expr_tuple_atom 'LEQ' . expr_tuple_atom
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3722,7 +4005,7 @@ state 85:  items:    expr_tuple_atom -> expr_tuple_atom 'LEQ' . expr_tuple_atom
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3737,9 +4020,9 @@ state 85:  items:    expr_tuple_atom -> expr_tuple_atom 'LEQ' . expr_tuple_atom
   immediate action: <none>  gotos:    goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 54
-state 86:  items:    expr_tuple_atom -> expr_tuple_atom 'GEQ' . expr_tuple_atom
+state 93:  items:    expr_tuple_atom -> expr_tuple_atom 'GEQ' . expr_tuple_atom
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3752,7 +4035,7 @@ state 86:  items:    expr_tuple_atom -> expr_tuple_atom 'GEQ' . expr_tuple_atom
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3764,7 +4047,7 @@ state 86:  items:    expr_tuple_atom -> expr_tuple_atom 'GEQ' . expr_tuple_atom
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3779,9 +4062,9 @@ state 86:  items:    expr_tuple_atom -> expr_tuple_atom 'GEQ' . expr_tuple_atom
   immediate action: <none>  gotos:    goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 55
-state 87:  items:    expr_tuple_atom -> expr_tuple_atom 'AND' . expr_tuple_atom
+state 94:  items:    expr_tuple_atom -> expr_tuple_atom 'AND' . expr_tuple_atom
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3794,7 +4077,7 @@ state 87:  items:    expr_tuple_atom -> expr_tuple_atom 'AND' . expr_tuple_atom
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3806,7 +4089,7 @@ state 87:  items:    expr_tuple_atom -> expr_tuple_atom 'AND' . expr_tuple_atom
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3821,9 +4104,9 @@ state 87:  items:    expr_tuple_atom -> expr_tuple_atom 'AND' . expr_tuple_atom
   immediate action: <none>  gotos:    goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 56
-state 88:  items:    expr_tuple_atom -> expr_tuple_atom 'OR' . expr_tuple_atom
+state 95:  items:    expr_tuple_atom -> expr_tuple_atom 'OR' . expr_tuple_atom
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3836,7 +4119,7 @@ state 88:  items:    expr_tuple_atom -> expr_tuple_atom 'OR' . expr_tuple_atom
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3848,7 +4131,7 @@ state 88:  items:    expr_tuple_atom -> expr_tuple_atom 'OR' . expr_tuple_atom
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3863,10 +4146,10 @@ state 88:  items:    expr_tuple_atom -> expr_tuple_atom 'OR' . expr_tuple_atom
   immediate action: <none>  gotos:    goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 57
-state 89:  items:    expr_tuple_atom -> 'IF' . expr 'THEN' expr
+state 96:  items:    expr_tuple_atom -> 'IF' . expr 'THEN' expr
     expr_tuple_atom -> 'IF' . expr 'THEN' expr 'ELSE' expr
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3879,7 +4162,7 @@ state 89:  items:    expr_tuple_atom -> 'IF' . expr 'THEN' expr
     action 'BRA' (noprec):   shift 12
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3891,7 +4174,7 @@ state 89:  items:    expr_tuple_atom -> 'IF' . expr 'THEN' expr
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3903,15 +4186,15 @@ state 89:  items:    expr_tuple_atom -> 'IF' . expr 'THEN' expr
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:    goto expr: 90
+  immediate action: <none>  gotos:    goto expr: 97
     goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 10
-state 90:  items:    expr_tuple_atom -> 'IF' expr . 'THEN' expr
+state 97:  items:    expr_tuple_atom -> 'IF' expr . 'THEN' expr
     expr_tuple_atom -> 'IF' expr . 'THEN' expr 'ELSE' expr
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   error
-    action 'THEN' (explicit nonassoc 9990):   shift 91
+    action 'THEN' (explicit nonassoc 9990):   shift 98
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   error
     action 'ARROW' (noprec):   error
@@ -3947,10 +4230,10 @@ state 90:  items:    expr_tuple_atom -> 'IF' expr . 'THEN' expr
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:state 91:  items:    expr_tuple_atom -> 'IF' expr 'THEN' . expr
+  immediate action: <none>  gotos:state 98:  items:    expr_tuple_atom -> 'IF' expr 'THEN' . expr
     expr_tuple_atom -> 'IF' expr 'THEN' . expr 'ELSE' expr
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -3963,7 +4246,7 @@ state 90:  items:    expr_tuple_atom -> 'IF' expr . 'THEN' expr
     action 'BRA' (noprec):   shift 12
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -3975,7 +4258,7 @@ state 90:  items:    expr_tuple_atom -> 'IF' expr . 'THEN' expr
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -3987,16 +4270,16 @@ state 90:  items:    expr_tuple_atom -> 'IF' expr . 'THEN' expr
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:    goto expr: 92
+  immediate action: <none>  gotos:    goto expr: 99
     goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 10
-state 92:  items:    expr_tuple_atom -> 'IF' expr 'THEN' expr . 
+state 99:  items:    expr_tuple_atom -> 'IF' expr 'THEN' expr . 
     expr_tuple_atom -> 'IF' expr 'THEN' expr . 'ELSE' expr
   actions:    action 'EOF' (explicit nonassoc 9990):   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr
     action 'IF' (explicit nonassoc 9990):   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr
     action 'THEN' (explicit nonassoc 9990):   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr
-    action 'ELSE' (explicit nonassoc 9990):   shift 93
+    action 'ELSE' (explicit nonassoc 9990):   shift 100
     action 'FUN' (explicit nonassoc 9990):   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr
     action 'ARROW' (explicit nonassoc 9990):   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr
     action 'LET' (explicit nonassoc 9990):   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr
@@ -4031,9 +4314,9 @@ state 92:  items:    expr_tuple_atom -> 'IF' expr 'THEN' expr .
     action 'error' (explicit nonassoc 9990):   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr
     action '#' (explicit nonassoc 9990):   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr
     action '$$' (explicit nonassoc 9990):   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr
-  immediate action: <none>  gotos:state 93:  items:    expr_tuple_atom -> 'IF' expr 'THEN' expr 'ELSE' . expr
+  immediate action: <none>  gotos:state 100:  items:    expr_tuple_atom -> 'IF' expr 'THEN' expr 'ELSE' . expr
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -4046,7 +4329,7 @@ state 92:  items:    expr_tuple_atom -> 'IF' expr 'THEN' expr .
     action 'BRA' (noprec):   shift 12
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -4058,7 +4341,7 @@ state 92:  items:    expr_tuple_atom -> 'IF' expr 'THEN' expr .
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -4070,11 +4353,11 @@ state 92:  items:    expr_tuple_atom -> 'IF' expr 'THEN' expr .
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:    goto expr: 94
+  immediate action: <none>  gotos:    goto expr: 101
     goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 10
-state 94:  items:    expr_tuple_atom -> 'IF' expr 'THEN' expr 'ELSE' expr . 
+state 101:  items:    expr_tuple_atom -> 'IF' expr 'THEN' expr 'ELSE' expr . 
   actions:    action 'EOF' (explicit nonassoc 9990):   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr 'ELSE' expr
     action 'IF' (explicit nonassoc 9990):   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr 'ELSE' expr
     action 'THEN' (explicit nonassoc 9990):   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr 'ELSE' expr
@@ -4113,9 +4396,9 @@ state 94:  items:    expr_tuple_atom -> 'IF' expr 'THEN' expr 'ELSE' expr .
     action 'error' (explicit nonassoc 9990):   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr 'ELSE' expr
     action '#' (explicit nonassoc 9990):   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr 'ELSE' expr
     action '$$' (explicit nonassoc 9990):   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr 'ELSE' expr
-  immediate action:   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr 'ELSE' expr  gotos:state 95:  items:    expr_tuple_atoms -> expr_tuple_atom 'COMMA' . expr_tuple_atoms
+  immediate action:   reduce expr_tuple_atom --> 'IF' expr 'THEN' expr 'ELSE' expr  gotos:state 102:  items:    expr_tuple_atoms -> expr_tuple_atom 'COMMA' . expr_tuple_atoms
   actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 89
+    action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
     action 'ELSE' (noprec):   error
     action 'FUN' (noprec):   shift 60
@@ -4128,7 +4411,7 @@ state 94:  items:    expr_tuple_atom -> 'IF' expr 'THEN' expr 'ELSE' expr .
     action 'BRA' (noprec):   shift 37
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9996):   shift 75
+    action 'MINUS' (explicit left 9996):   shift 82
     action 'STAR' (noprec):   error
     action 'SLASH' (noprec):   error
     action 'PERCENT' (noprec):   error
@@ -4140,7 +4423,7 @@ state 94:  items:    expr_tuple_atom -> 'IF' expr 'THEN' expr 'ELSE' expr .
     action 'NEQ' (noprec):   error
     action 'AND' (noprec):   error
     action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 74
+    action 'NOT' (explicit nonassoc 9999):   shift 81
     action 'COLON' (noprec):   error
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
@@ -4155,8 +4438,8 @@ state 94:  items:    expr_tuple_atom -> 'IF' expr 'THEN' expr 'ELSE' expr .
   immediate action: <none>  gotos:    goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 58
-    goto expr_tuple_atoms: 96
-state 96:  items:    expr_tuple_atoms -> expr_tuple_atom 'COMMA' expr_tuple_atoms . 
+    goto expr_tuple_atoms: 103
+state 103:  items:    expr_tuple_atoms -> expr_tuple_atom 'COMMA' expr_tuple_atoms . 
   actions:    action 'EOF' (explicit left 9991):   reduce expr_tuple_atoms --> expr_tuple_atom 'COMMA' expr_tuple_atoms
     action 'IF' (explicit left 9991):   reduce expr_tuple_atoms --> expr_tuple_atom 'COMMA' expr_tuple_atoms
     action 'THEN' (explicit left 9991):   reduce expr_tuple_atoms --> expr_tuple_atom 'COMMA' expr_tuple_atoms
@@ -4195,7 +4478,7 @@ state 96:  items:    expr_tuple_atoms -> expr_tuple_atom 'COMMA' expr_tuple_atom
     action 'error' (explicit left 9991):   reduce expr_tuple_atoms --> expr_tuple_atom 'COMMA' expr_tuple_atoms
     action '#' (explicit left 9991):   reduce expr_tuple_atoms --> expr_tuple_atom 'COMMA' expr_tuple_atoms
     action '$$' (explicit left 9991):   reduce expr_tuple_atoms --> expr_tuple_atom 'COMMA' expr_tuple_atoms
-  immediate action:   reduce expr_tuple_atoms --> expr_tuple_atom 'COMMA' expr_tuple_atoms  gotos:state 97:  items:    ty -> 'ID' . 
+  immediate action:   reduce expr_tuple_atoms --> expr_tuple_atom 'COMMA' expr_tuple_atoms  gotos:state 104:  items:    ty -> 'ID' . 
   actions:    action 'EOF' (noprec):   reduce ty --> 'ID'
     action 'IF' (noprec):   reduce ty --> 'ID'
     action 'THEN' (noprec):   reduce ty --> 'ID'
@@ -4234,7 +4517,7 @@ state 96:  items:    expr_tuple_atoms -> expr_tuple_atom 'COMMA' expr_tuple_atom
     action 'error' (noprec):   reduce ty --> 'ID'
     action '#' (noprec):   reduce ty --> 'ID'
     action '$$' (noprec):   reduce ty --> 'ID'
-  immediate action:   reduce ty --> 'ID'  gotos:state 98:  items:    ty -> ty . 'ARROW' ty
+  immediate action:   reduce ty --> 'ID'  gotos:state 105:  items:    ty -> ty . 'ARROW' ty
     ty -> ty 'ARROW' ty . 
     ty_tuple -> ty . 
     ty_tuple -> ty . 'STAR' ty_tuple
@@ -4243,7 +4526,7 @@ state 96:  items:    expr_tuple_atoms -> expr_tuple_atom 'COMMA' expr_tuple_atom
     action 'THEN' (explicit right 9992):   reduce ty --> ty 'ARROW' ty
     action 'ELSE' (explicit right 9992):   reduce ty --> ty 'ARROW' ty
     action 'FUN' (explicit right 9992):   reduce ty --> ty 'ARROW' ty
-    action 'ARROW' (explicit right 9992):   shift 101
+    action 'ARROW' (explicit right 9992):   shift 108
     action 'LET' (explicit right 9992):   reduce ty --> ty 'ARROW' ty
     action 'REC' (explicit right 9992):   reduce ty --> ty 'ARROW' ty
     action 'IN' (explicit right 9992):   reduce ty --> ty 'ARROW' ty
@@ -4253,7 +4536,7 @@ state 96:  items:    expr_tuple_atoms -> expr_tuple_atom 'COMMA' expr_tuple_atom
     action 'KET' (explicit right 9992):   reduce ty --> ty 'ARROW' ty
     action 'PLUS' (explicit right 9992):   reduce ty --> ty 'ARROW' ty
     action 'MINUS' (explicit right 9992):   reduce ty --> ty 'ARROW' ty
-    action 'STAR' (explicit left 9997):   shift 106
+    action 'STAR' (explicit left 9997):   shift 113
     action 'SLASH' (explicit right 9992):   reduce ty --> ty 'ARROW' ty
     action 'PERCENT' (explicit right 9992):   reduce ty --> ty 'ARROW' ty
     action 'LT' (explicit right 9992):   reduce ty --> ty 'ARROW' ty
@@ -4276,7 +4559,7 @@ state 96:  items:    expr_tuple_atoms -> expr_tuple_atom 'COMMA' expr_tuple_atom
     action 'error' (explicit right 9992):   reduce ty --> ty 'ARROW' ty
     action '#' (explicit right 9992):   reduce ty --> ty 'ARROW' ty
     action '$$' (explicit right 9992):   reduce ty --> ty 'ARROW' ty
-  immediate action: <none>  gotos:state 99:  items:    ty -> ty . 'ARROW' ty
+  immediate action: <none>  gotos:state 106:  items:    ty -> ty . 'ARROW' ty
     ty -> 'BRA' ty . 'KET'
     ty_tuple -> ty . 
     ty_tuple -> ty . 'STAR' ty_tuple
@@ -4285,17 +4568,17 @@ state 96:  items:    expr_tuple_atoms -> expr_tuple_atom 'COMMA' expr_tuple_atom
     action 'THEN' (noprec):   reduce ty_tuple --> ty
     action 'ELSE' (noprec):   reduce ty_tuple --> ty
     action 'FUN' (noprec):   reduce ty_tuple --> ty
-    action 'ARROW' (explicit right 9992):   shift 101
+    action 'ARROW' (explicit right 9992):   shift 108
     action 'LET' (noprec):   reduce ty_tuple --> ty
     action 'REC' (noprec):   reduce ty_tuple --> ty
     action 'IN' (noprec):   reduce ty_tuple --> ty
     action 'TRUE' (noprec):   reduce ty_tuple --> ty
     action 'FALSE' (noprec):   reduce ty_tuple --> ty
     action 'BRA' (noprec):   reduce ty_tuple --> ty
-    action 'KET' (noprec):   shift 105
+    action 'KET' (noprec):   shift 112
     action 'PLUS' (noprec):   reduce ty_tuple --> ty
     action 'MINUS' (noprec):   reduce ty_tuple --> ty
-    action 'STAR' (explicit left 9997):   shift 106
+    action 'STAR' (explicit left 9997):   shift 113
     action 'SLASH' (noprec):   reduce ty_tuple --> ty
     action 'PERCENT' (noprec):   reduce ty_tuple --> ty
     action 'LT' (noprec):   reduce ty_tuple --> ty
@@ -4318,7 +4601,7 @@ state 96:  items:    expr_tuple_atoms -> expr_tuple_atom 'COMMA' expr_tuple_atom
     action 'error' (noprec):   reduce ty_tuple --> ty
     action '#' (noprec):   reduce ty_tuple --> ty
     action '$$' (noprec):   reduce ty_tuple --> ty
-  immediate action: <none>  gotos:state 100:  items:    ty -> ty . 'ARROW' ty
+  immediate action: <none>  gotos:state 107:  items:    ty -> ty . 'ARROW' ty
     ty_tuple -> ty . 
     ty_tuple -> ty . 'STAR' ty_tuple
   actions:    action 'EOF' (noprec):   reduce ty_tuple --> ty
@@ -4326,7 +4609,7 @@ state 96:  items:    expr_tuple_atoms -> expr_tuple_atom 'COMMA' expr_tuple_atom
     action 'THEN' (noprec):   reduce ty_tuple --> ty
     action 'ELSE' (noprec):   reduce ty_tuple --> ty
     action 'FUN' (noprec):   reduce ty_tuple --> ty
-    action 'ARROW' (explicit right 9992):   shift 101
+    action 'ARROW' (explicit right 9992):   shift 108
     action 'LET' (noprec):   reduce ty_tuple --> ty
     action 'REC' (noprec):   reduce ty_tuple --> ty
     action 'IN' (noprec):   reduce ty_tuple --> ty
@@ -4336,7 +4619,7 @@ state 96:  items:    expr_tuple_atoms -> expr_tuple_atom 'COMMA' expr_tuple_atom
     action 'KET' (noprec):   reduce ty_tuple --> ty
     action 'PLUS' (noprec):   reduce ty_tuple --> ty
     action 'MINUS' (noprec):   reduce ty_tuple --> ty
-    action 'STAR' (explicit left 9997):   shift 106
+    action 'STAR' (explicit left 9997):   shift 113
     action 'SLASH' (noprec):   reduce ty_tuple --> ty
     action 'PERCENT' (noprec):   reduce ty_tuple --> ty
     action 'LT' (noprec):   reduce ty_tuple --> ty
@@ -4359,7 +4642,7 @@ state 96:  items:    expr_tuple_atoms -> expr_tuple_atom 'COMMA' expr_tuple_atom
     action 'error' (noprec):   reduce ty_tuple --> ty
     action '#' (noprec):   reduce ty_tuple --> ty
     action '$$' (noprec):   reduce ty_tuple --> ty
-  immediate action: <none>  gotos:state 101:  items:    ty -> ty 'ARROW' . ty
+  immediate action: <none>  gotos:state 108:  items:    ty -> ty 'ARROW' . ty
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   error
     action 'THEN' (noprec):   error
@@ -4371,7 +4654,7 @@ state 96:  items:    expr_tuple_atoms -> expr_tuple_atom 'COMMA' expr_tuple_atom
     action 'IN' (noprec):   error
     action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
-    action 'BRA' (noprec):   shift 104
+    action 'BRA' (noprec):   shift 111
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
     action 'MINUS' (noprec):   error
@@ -4391,16 +4674,16 @@ state 96:  items:    expr_tuple_atoms -> expr_tuple_atom 'COMMA' expr_tuple_atom
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
     action 'STRING' (noprec):   error
-    action 'ID' (noprec):   shift 97
+    action 'ID' (noprec):   shift 104
     action 'CHAR' (noprec):   error
     action 'FLOAT' (noprec):   error
     action 'INT' (noprec):   error
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:    goto ty: 98
-    goto ty_tuple: 102
-state 102:  items:    ty -> ty_tuple . 
+  immediate action: <none>  gotos:    goto ty: 105
+    goto ty_tuple: 109
+state 109:  items:    ty -> ty_tuple . 
   actions:    action 'EOF' (noprec):   reduce ty --> ty_tuple
     action 'IF' (noprec):   reduce ty --> ty_tuple
     action 'THEN' (noprec):   reduce ty --> ty_tuple
@@ -4439,7 +4722,7 @@ state 102:  items:    ty -> ty_tuple .
     action 'error' (noprec):   reduce ty --> ty_tuple
     action '#' (noprec):   reduce ty --> ty_tuple
     action '$$' (noprec):   reduce ty --> ty_tuple
-  immediate action:   reduce ty --> ty_tuple  gotos:state 103:  items:    ty -> ty_tuple . 
+  immediate action:   reduce ty --> ty_tuple  gotos:state 110:  items:    ty -> ty_tuple . 
     ty_tuple -> ty 'STAR' ty_tuple . 
   actions:    action 'EOF' (noprec):   reduce ty --> ty_tuple
     action 'IF' (noprec):   reduce ty --> ty_tuple
@@ -4479,7 +4762,7 @@ state 102:  items:    ty -> ty_tuple .
     action 'error' (noprec):   reduce ty --> ty_tuple
     action '#' (noprec):   reduce ty --> ty_tuple
     action '$$' (noprec):   reduce ty --> ty_tuple
-  immediate action: <none>  gotos:state 104:  items:    ty -> 'BRA' . ty 'KET'
+  immediate action: <none>  gotos:state 111:  items:    ty -> 'BRA' . ty 'KET'
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   error
     action 'THEN' (noprec):   error
@@ -4491,7 +4774,7 @@ state 102:  items:    ty -> ty_tuple .
     action 'IN' (noprec):   error
     action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
-    action 'BRA' (noprec):   shift 104
+    action 'BRA' (noprec):   shift 111
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
     action 'MINUS' (noprec):   error
@@ -4511,16 +4794,16 @@ state 102:  items:    ty -> ty_tuple .
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
     action 'STRING' (noprec):   error
-    action 'ID' (noprec):   shift 97
+    action 'ID' (noprec):   shift 104
     action 'CHAR' (noprec):   error
     action 'FLOAT' (noprec):   error
     action 'INT' (noprec):   error
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:    goto ty: 99
-    goto ty_tuple: 102
-state 105:  items:    ty -> 'BRA' ty 'KET' . 
+  immediate action: <none>  gotos:    goto ty: 106
+    goto ty_tuple: 109
+state 112:  items:    ty -> 'BRA' ty 'KET' . 
   actions:    action 'EOF' (noprec):   reduce ty --> 'BRA' ty 'KET'
     action 'IF' (noprec):   reduce ty --> 'BRA' ty 'KET'
     action 'THEN' (noprec):   reduce ty --> 'BRA' ty 'KET'
@@ -4559,7 +4842,7 @@ state 105:  items:    ty -> 'BRA' ty 'KET' .
     action 'error' (noprec):   reduce ty --> 'BRA' ty 'KET'
     action '#' (noprec):   reduce ty --> 'BRA' ty 'KET'
     action '$$' (noprec):   reduce ty --> 'BRA' ty 'KET'
-  immediate action:   reduce ty --> 'BRA' ty 'KET'  gotos:state 106:  items:    ty_tuple -> ty 'STAR' . ty_tuple
+  immediate action:   reduce ty --> 'BRA' ty 'KET'  gotos:state 113:  items:    ty_tuple -> ty 'STAR' . ty_tuple
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   error
     action 'THEN' (noprec):   error
@@ -4571,7 +4854,7 @@ state 105:  items:    ty -> 'BRA' ty 'KET' .
     action 'IN' (noprec):   error
     action 'TRUE' (noprec):   error
     action 'FALSE' (noprec):   error
-    action 'BRA' (noprec):   shift 104
+    action 'BRA' (noprec):   shift 111
     action 'KET' (noprec):   error
     action 'PLUS' (noprec):   error
     action 'MINUS' (noprec):   error
@@ -4591,15 +4874,134 @@ state 105:  items:    ty -> 'BRA' ty 'KET' .
     action 'SEMICOLON2' (noprec):   error
     action 'COMMA' (noprec):   error
     action 'STRING' (noprec):   error
-    action 'ID' (noprec):   shift 97
+    action 'ID' (noprec):   shift 104
     action 'CHAR' (noprec):   error
     action 'FLOAT' (noprec):   error
     action 'INT' (noprec):   error
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:    goto ty: 100
-    goto ty_tuple: 103
-
+  immediate action: <none>  gotos:    goto ty: 107
+    goto ty_tuple: 110
+state 114:  items:    tuple_decompose_id -> 'ID' . 
+    tuple_decompose_id -> 'ID' . 'COMMA' tuple_decompose_id
+  actions:    action 'EOF' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'IF' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'THEN' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'ELSE' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'FUN' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'ARROW' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'LET' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'REC' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'IN' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'TRUE' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'FALSE' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'BRA' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'KET' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'PLUS' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'MINUS' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'STAR' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'SLASH' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'PERCENT' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'LT' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'GT' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'LEQ' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'GEQ' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'EQ' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'NEQ' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'AND' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'OR' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'NOT' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'COLON' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'SEMICOLON2' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'COMMA' (explicit left 9991):   shift 115
+    action 'STRING' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'ID' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'CHAR' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'FLOAT' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'INT' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action 'error' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action '#' (noprec):   reduce tuple_decompose_id --> 'ID'
+    action '$$' (noprec):   reduce tuple_decompose_id --> 'ID'
+  immediate action: <none>  gotos:state 115:  items:    tuple_decompose_id -> 'ID' 'COMMA' . tuple_decompose_id
+  actions:    action 'EOF' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'ARROW' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'REC' (noprec):   error
+    action 'IN' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BRA' (noprec):   error
+    action 'KET' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'STAR' (noprec):   error
+    action 'SLASH' (noprec):   error
+    action 'PERCENT' (noprec):   error
+    action 'LT' (noprec):   error
+    action 'GT' (noprec):   error
+    action 'LEQ' (noprec):   error
+    action 'GEQ' (noprec):   error
+    action 'EQ' (noprec):   error
+    action 'NEQ' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'NOT' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'COMMA' (noprec):   error
+    action 'STRING' (noprec):   error
+    action 'ID' (noprec):   shift 114
+    action 'CHAR' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+  immediate action: <none>  gotos:    goto tuple_decompose_id: 116
+state 116:  items:    tuple_decompose_id -> 'ID' 'COMMA' tuple_decompose_id . 
+  actions:    action 'EOF' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'IF' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'THEN' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'ELSE' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'FUN' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'ARROW' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'LET' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'REC' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'IN' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'TRUE' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'FALSE' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'BRA' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'KET' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'PLUS' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'MINUS' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'STAR' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'SLASH' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'PERCENT' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'LT' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'GT' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'LEQ' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'GEQ' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'EQ' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'NEQ' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'AND' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'OR' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'NOT' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'COLON' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'SEMICOLON2' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'COMMA' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'STRING' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'ID' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'CHAR' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'FLOAT' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'INT' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action 'error' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action '#' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+    action '$$' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
+  immediate action:   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id  gotos:
 startStates = 0;2
 ------------------------

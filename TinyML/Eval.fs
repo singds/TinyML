@@ -45,6 +45,14 @@ let rec eval_expr (env : value env) (e : expr) : value =
         let v1 = eval_expr env e1
         eval_expr ((x, v1) :: env) e2
 
+    | LetTuple (ns, e1, e2) ->
+        let v1 = eval_expr env e1
+        match v1 with
+        | VTuple(vs) ->
+            let pairs = List.zip ns vs
+            eval_expr (pairs @ env) e2
+        | _ -> unexpected_error "eval_expr: non-tuple in let tuple decomposition: %s" (pretty_value v1)
+
     | LetRec (f, _, e1, e2) -> 
         let v1 = eval_expr env e1
         let vc = (

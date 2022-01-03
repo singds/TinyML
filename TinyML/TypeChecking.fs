@@ -49,6 +49,16 @@ let rec typecheck_expr (env : ty env) (e : expr) : ty =
         | Some t -> if t <> t1 then type_error "type annotation in let binding of %s is wrong: exptected %s, but got %s" x (pretty_ty t) (pretty_ty t1)
         typecheck_expr ((x, t1) :: env) e2
 
+    | LetTuple (ns, e1, e2) ->
+        let t1 = typecheck_expr env e1
+        match t1 with
+        | TyTuple(ts) ->
+            if ts.Length <> ns.Length then
+                type_error "error TODO" // TODO complete the error message
+            let pairs = List.zip ns ts
+            typecheck_expr (pairs @ env) e2
+        | _ -> type_error "error TODO" // TODO complete the error message
+
     | IfThenElse (e1, e2, e3o) ->
         let t1 = typecheck_expr env e1
         if t1 <> TyBool then type_error "if condition must be a bool, but got a %s" (pretty_ty t1)
