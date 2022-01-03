@@ -40,6 +40,8 @@ let rec apply_subst_env (sub : subst) (env : scheme env) : scheme env =
     | (tvar, sch)::tail ->
         (tvar, apply_subst_scheme sub sch)::(apply_subst_env sub tail)
 
+(* Check the given type variable appears somewhere in the given type.
+*)
 let rec ty_contains_tyvar (v : tyvar) (t : ty) : bool =
     match t with
     | TyName (n) ->
@@ -52,8 +54,10 @@ let rec ty_contains_tyvar (v : tyvar) (t : ty) : bool =
     | TyTuple (tl) ->
         List.fold (fun (state:bool) (t:ty) -> state || (ty_contains_tyvar v t)) false tl
 
-// this returns s3 = s2 o s1
-// applying s3 is the same as applying s1 first and s2 next
+(* This returns s3 = s2 o s1.
+Applying s3 is the same as applying s1 first and s2 next.
+The order matters.
+*)
 let compose_subst (s2 : subst) (s1 : subst) : subst =
     // apply the substitution s2 to s1
     let newSub = List.map (fun (var, t) -> (var, apply_subst_ty s2 t)) s1
