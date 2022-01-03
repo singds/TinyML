@@ -273,3 +273,89 @@ type Test_unify () =
         let t2 = TyTuple [TyVar(2); TyVar(3)]
         let s = unify t1 t2
         Assert.Equal<subst> ([(1, TyVar(3)); (2, TyVar(3))], s)
+
+
+type Test_freevars_ty () =
+    [<Fact>]
+    let ``freevars of tuple type`` () =
+        let t = TyTuple [TyVar(1); TyVar(2)]
+        let freevars = freevars_ty t
+        let exp = Set [1; 2]
+        Assert.Equal<tyvar Set> (exp, freevars)
+
+    [<Fact>]
+    let ``freevars of arrow type`` () =
+        let t = TyArrow (TyVar(1), TyVar(2))
+        let freevars = freevars_ty t
+        let exp = Set [1; 2]
+        Assert.Equal<tyvar Set> (exp, freevars)
+
+    [<Fact>]
+    let ``freevars of base type`` () =
+        Assert.Equal<tyvar Set> (Set.empty, freevars_ty TyInt)
+
+    [<Fact>]
+    let ``freevars of type variable`` () =
+        Assert.Equal<tyvar Set> (Set [1], freevars_ty (TyVar(1)))
+
+type Test_freevars_scheme () =
+    [<Fact>]
+    let ``freevars scheme relevant example`` () =
+        let s = Forall ([1;2], TyTuple [TyVar(1); TyVar(2); TyVar(3)])
+        let freevars = freevars_scheme s
+        let exp = Set [3]
+        Assert.Equal<tyvar Set> (exp, freevars)
+
+type Test_freevars_env () =
+    [<Fact>]
+    let ``freevars env relevant example`` () =
+        let env = [
+            ("x", Forall ([], TyVar(1)));
+            ("y", Forall ([], TyVar(2)))
+            ("z", Forall ([3], TyVar(3))) // this is not a free variable
+        ]
+        let freevars = freevars_env env
+        let exp = Set [1;2]
+        Assert.Equal<tyvar Set> (exp, freevars)
+
+type Test_inst_scheme () =
+    [<Fact>]
+    let ``inst single universally quantified variable`` () =
+        // inst (forall 'a . 'a) = 'b
+        fresh_tyvar <- 50
+        let scheme = Forall ([1], TyVar(1))
+        let exp = TyVar(51)
+        Assert.Equal (exp, inst_scheme scheme)
+
+    [<Fact>]
+    let ``inst single non universally quantified variable`` () =
+        // inst (forall . 'a) = 'a
+        let scheme = Forall ([], TyVar(1))
+        let exp = TyVar(1)
+        Assert.Equal (exp, inst_scheme scheme)
+
+    [<Fact>]
+    let ``inst relevant example`` () =
+        // inst (forall 'a,'c . 'a * 'b * 'c * 'd) = 'e * 'b * 'f * 'd
+        fresh_tyvar <- 50
+        let scheme = Forall ([1;3], TyTuple [TyVar(1); TyVar(2); TyVar(3); TyVar(4)])
+        let exp = TyTuple [TyVar(51); TyVar(2); TyVar(52); TyVar(4)]
+        Assert.Equal (exp, inst_scheme scheme)
+
+type Test_generalize_ty () =
+    [<Fact>]
+    let ``gen type variable when variable not in env.`` () =
+        let exp = Forall ([1], TyVar(1))
+        Assert.Equal (exp, generalize_ty [] (TyVar 1))
+
+    [<Fact>]
+    let ``gen type variable when variable present in env.`` () =
+        let env = [("x", Forall([], TyVar 1))]
+        let exp = Forall ([], TyVar 1)
+        Assert.Equal (exp, generalize_ty env (TyVar 1))
+
+    [<Fact>]
+    let ``gen relevant example`` () =
+        let env = [("x", Forall([], TyArrow (TyInt, TyVar 1)))]
+        let t = TyTuple [TyVar 1; TyVar 2]
+        Assert.Equal (Forall ([2], t), generalize_ty env t)

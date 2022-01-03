@@ -178,21 +178,18 @@ let get_new_fresh_tyvar () : tyvar =
     fresh_tyvar <- fresh_tyvar + 1
     fresh_tyvar
 
-let rec get_fresh_substitution (vars: tyvar list) : subst =
-    match vars with
-    |[] -> []
-    |x::tail ->
-        (x,TyVar(get_new_fresh_tyvar ()))::get_fresh_substitution tail
-
 // scheme instantiation
 let rec inst_scheme (s:scheme) : ty =
     match s with
     | Forall (uqv, t) ->
         let freeVars = freevars_ty t
         let toBeRefresh = Set.intersect freeVars (Set uqv)
-        let sub = get_fresh_substitution (Set.toList toBeRefresh)
+        // build up a substitution mapping each of the type variable that needs to
+        // be refresh, in a new fresh type type variable
+        let sub = List.map (fun v -> (v, TyVar(get_new_fresh_tyvar ()))) (Set.toList toBeRefresh)
         apply_subst_ty sub t
 
+// type generalization
 let generalize_ty (env: scheme env) (t: ty) : scheme =
     // uqv = universally quantified vars
     let uqv = Set.difference (freevars_ty t) (freevars_env env)
