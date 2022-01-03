@@ -170,6 +170,13 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
     | Lit (LChar _) -> (TyChar, [])
 
     (* x | foo
+
+    Algorithm W (Damas and Milner)
+    W(A, e) = (S, T)
+    W(A, x)
+        x: forall a1...an t' in A
+        S = empty substitution
+        T = [bi / ai]t' where bi for i in [1..n] are new fresh type variables
     *)
     | Var x ->
         // lookup for the variable in the environment
@@ -179,19 +186,18 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
             (inst_scheme (s), [])
         with _ -> type_error "typeinfer_expr: use of undefined variable <%s>" x
 
-    (* fun (x:<type>) -> e1
-    t = type of the lambda parameter
-    *)
-    | Lambda (x, Some t, e1) ->
-        // enrich the environment binding the type of the parameter
-        let env = (x,Forall ([], t))::env
-        let t1, s1 = typeinfer_expr env e1
-        (TyArrow (t, t1), s1)
-
     (* fun x -> e
     x = name of the lambda parameter
     e1 = the body of the lambda
     this is the lambda with no type annotation
+
+    Algorithm W (Damas and Milner)
+    W(A, e) = (S, T)
+    W(A, fun x -> e1)
+        B is a new fresh type variable
+        W(A + {x: B}, e1) = (S1, t1)
+        S = S1
+        T = S1 B -> t1
     *)
     | Lambda (x, None, e1) ->
         // vParam = a new fresh type variable for the lambda parameter
@@ -204,6 +210,16 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         (TyArrow (domTy, codTy), s)
 
     (* e1 e2
+
+    Algorithm W (Damas and Milner)
+    W(A, e) = (S, T)
+    W(A, let x = e1 in e2)
+        W(A, e1) = (S1, t1)
+        W(S1 A, e2) = (S2, t2)
+        U(S2 t1, t2 -> B) = V
+        B is a new fresh type variable
+        S = V S2 S1
+        T = V B
     *)
     | App (e1, e2) ->
         let codTy = TyVar(get_new_fresh_tyvar ())
@@ -221,6 +237,14 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         (apply_subst_ty s3 codTy, s3)
 
     (* let x = e1 in e2
+
+    Algorithm W (Damas and Milner)
+    W(A, e) = (S, T)
+    W(A, let x = e1 in e2)
+        W(A, e1) = (S1, t1)
+        W(S1 A + {x: gen(S1 A, t1), e2) = (S2, t2)
+        S = S2 S1
+        T = t2
     *)
     | Let (x, None, e1, e2) ->
         // first i infeer the type of the bunded expression
@@ -233,6 +257,15 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         let t2, s2 = typeinfer_expr env e2
         let s = compose_subst_list [s2; s1]
         (t2, s)
+
+    (* fun (x:<type>) -> e1
+    t = type of the lambda parameter
+    *)
+    | Lambda (x, Some t, e1) ->
+        // enrich the environment binding the type of the parameter
+        let env = (x,Forall ([], t))::env
+        let t1, s1 = typeinfer_expr env e1
+        (TyArrow (t, t1), s1)
 
     (* let x:<type> = e1 in e2
 
