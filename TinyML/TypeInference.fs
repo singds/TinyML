@@ -109,6 +109,18 @@ let rec unify (t1 : ty) (t2 : ty) : subst =
         [(a, t1)]
     | TyArrow(ta1,ta2), TyArrow(ta3,ta4) ->
         let s = unify ta1 ta3
+        // The substitution obtained from the unification of the left hand side
+        // types, must be applied to the right hand side types before unifing them.
+        // To better understand check this special case:
+        // unify ('a -> 'a, 'b -> 'c)
+        // If you don't apply the substitution before unifying t2 and t3, you get:
+        //      S1 = U('a, 'b) = {'a -> 'b}
+        //      S2 = U('a, 'c) = {'a -> 'c}
+        //      S2 o S1 = {'a -> 'c} o {'a -> 'b} = {'a -> 'b}
+        // If you do apply, you get:
+        //      S1 = U('a, 'b) = {'a -> 'b}
+        //      S2 = U(S1('a), S1('c)) = U('b -> 'c) = {'b -> 'c}
+        //      S2 o S1 = {'b -> 'c} o {'a -> 'b} = {'a -> 'c, 'b -> 'c}
         let ta2 = apply_subst_ty s ta2
         let ta4 = apply_subst_ty s ta4
         compose_subst_list [unify ta2 ta4; s]

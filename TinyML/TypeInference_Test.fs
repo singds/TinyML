@@ -85,7 +85,7 @@ type Test_compose_subst () =
         let s2 = [(1, TyVar(3))]
         try
             let x = compose_subst s2 s1
-            assert_fail "no exception rised"
+            assert_fail "no exception raised"
         with UnexpectedError msg ->
             ()
 
@@ -143,7 +143,7 @@ type Test_apply_subst_scheme () =
         let substitution = [(1, TyInt)]
         try
             let x = apply_subst_scheme substitution scheme
-            assert_fail "no exception rised"
+            assert_fail "no exception raised"
         with UnexpectedError msg ->
             ()
 
@@ -160,4 +160,101 @@ type Test_apply_subst_env () =
                   ]
         Assert.Equal<scheme env> (exp, apply_subst_env substitution env)
 
+type Test_unify () =
+    [<Fact>]
+    let ``unify compatible base types`` () =
+        // the unification of two compatible base types must return the empty substitution
+        Assert.Equal<subst> ([], unify TyBool TyBool)
 
+    [<Fact>]
+    let ``unify incompatible base types`` () =
+        try
+            let x = unify TyInt TyBool
+            assert_fail "no exception raised"
+        with TypeError msg ->
+            ()
+
+    [<Fact>]
+    let ``unify a type variable with itself`` () =
+        // U('a, 'a) = {}
+        // when i unify a type variable with itself like unify('a,'a) i should get
+        // the empty substitution
+        let s = unify (TyVar(1)) (TyVar(1))
+        Assert.Equal<subst> ([], s)
+
+    [<Fact>]
+    let ``unify two different type variables`` () =
+        // U('a, 'b) = {'a > 'b}
+        let s = unify (TyVar(1)) (TyVar(2))
+        let exp = [(1, TyVar(2))]
+        Assert.Equal<subst> (exp, s)
+
+    [<Fact>]
+    let ``unify type variable with base type on the right`` () =
+        // U('a, int) = {'a > int}
+        let s = unify (TyVar(1)) TyInt
+        let exp = [(1, TyInt)]
+        Assert.Equal<subst> (exp, s)
+
+    [<Fact>]
+    let ``unify type variable with base type on the left`` () =
+        // U(int, 'a) = {'a > int}
+        let s = unify TyInt (TyVar(1))
+        let exp = [(1, TyInt)]
+        Assert.Equal<subst> (exp, s)
+
+    [<Fact>]
+    let ``type occurence check fail (type on the left)`` () =
+        // U('a, 'a -> int) = error
+        let t1 = TyVar(1)
+        let t2 = TyArrow (TyVar(1), TyInt)
+        try
+            let x = unify t1 t2
+            assert_fail "no exception raised"
+        with TypeError msg ->
+            ()
+
+    [<Fact>]
+    let ``type occurence check fail (type on the right)`` () =
+        // U('a -> int, 'a) = error
+        let t1 = TyArrow (TyVar(1), TyInt)
+        let t2 = TyVar(1)
+        try
+            let x = unify t1 t2
+            assert_fail "no exception raised"
+        with TypeError msg ->
+            ()
+
+    [<Fact>]
+    let ``unify type variable with complex type (variable on the right)`` () =
+        // U('a, 'b -> 'c) = {'a, 'b -> 'c}
+        let t1 = TyArrow (TyVar(2), TyVar(3))
+        let t2 = TyVar(1)
+        Assert.Equal<subst> ([(1, t1)], unify t1 t2)
+
+    [<Fact>]
+    let ``unify type variable with complex type (variable on the left)`` () =
+        // U('b -> 'c, 'a) = {'a, 'b -> 'c}
+        let t1 = TyVar(1)
+        let t2 = TyArrow (TyVar(2), TyVar(3))
+        Assert.Equal<subst> ([(1, t2)], unify t1 t2)
+
+    [<Fact>]
+    let ``unify arrow type with arrow type made by base types`` () =
+        // U('a -> 'b, int -> bool) = {'a > int, 'b > bool}
+        let t1 = TyArrow (TyVar(1), TyVar(2))
+        let t2 = TyArrow (TyInt, TyBool)
+        let s = unify t1 t2
+        let exp = [(1, TyInt); (2, TyBool)]
+        Assert.Equal<subst> (exp, s)
+
+    [<Fact>]
+    let ``unify arrow type with arrow type triky`` () =
+        // U('a -> 'a, 'b -> 'c) = {'a > 'c, 'b > 'c}
+        // This is a special case that requires attention.
+        // Check the comments on the TyArrow TyArrow case of the unify function
+        let t1 = TyArrow (TyVar(1), TyVar(1))
+        let t2 = TyArrow (TyVar(2), TyVar(3))
+        let exp = [(1, TyVar(3)); (2, TyVar(3))]
+        Assert.Equal<subst> (exp, unify t1 t2)
+    
