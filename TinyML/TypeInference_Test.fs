@@ -4,6 +4,9 @@ open Xunit
 open Ast
 open TypeInference
 
+let assert_fail msg =
+    Assert.True (false, msg)
+
 (* Unit tests for the <ty_contains_tyvar> function.
 *)
 type Test_ty_contains_tyvar () =
@@ -82,7 +85,7 @@ type Test_compose_subst () =
         let s2 = [(1, TyVar(3))]
         try
             let x = compose_subst s2 s1
-            Assert.True(false, "no exception rised")
+            assert_fail "no exception rised"
         with UnexpectedError msg ->
             ()
 
@@ -106,3 +109,55 @@ type Test_compose_subst_list () =
         let s3 = [(3, TyVar(4))]
         let exp = [(1, TyVar(4)); (2, TyVar(4)); (3, TyVar(4))]
         Assert.Equal<subst> (exp, (compose_subst_list [s3; s2; s1]))
+
+type Test_apply_subst_ty () =
+    [<Fact>]
+    let ``substitute type variable`` () =
+        let t = TyVar(1)
+        let s = [(1, TyInt)]
+        Assert.Equal (TyInt, apply_subst_ty s t)
+
+    let ``substitute arrow type`` () =
+        let t = TyArrow(TyVar(1), TyVar(2))
+        let s = [(1, TyBool); (2, TyString)]
+        let exp = TyArrow(TyBool, TyString)
+        Assert.Equal (exp, apply_subst_ty s t)
+
+    let ``substitute arrow type`` () =
+        let t = TyTuple [TyVar(1); TyVar(2)]
+        let s = [(1, TyBool); (2, TyString)]
+        let exp = TyTuple [TyBool; TyString]
+        Assert.Equal (exp, apply_subst_ty s t)
+
+type Test_apply_subst_scheme () =
+    [<Fact>]
+    let ``example ok`` () =
+        let scheme = Forall ([2;3], TyArrow(TyVar(1), TyVar(2)))
+        let substitution = [(1, TyInt)]
+        let exp = Forall ([2;3], TyArrow(TyInt, TyVar(2)))
+        Assert.Equal (exp, apply_subst_scheme substitution scheme)
+
+    [<Fact>]
+    let ``example exception`` () =
+        let scheme = Forall ([1], TyVar(1))
+        let substitution = [(1, TyInt)]
+        try
+            let x = apply_subst_scheme substitution scheme
+            assert_fail "no exception rised"
+        with UnexpectedError msg ->
+            ()
+
+type Test_apply_subst_env () =
+    [<Fact>]
+    let ``example ok`` () =
+        let env = [("x",  Forall ([], TyVar(1)));
+                   ("y",  Forall ([], TyVar(2)))
+                  ]
+        let substitution = [(1, TyInt); (2, TyBool)]
+
+        let exp = [("x",  Forall ([], TyInt));
+                   ("y",  Forall ([], TyBool))
+                  ]
+        Assert.Equal<scheme env> (exp, apply_subst_env substitution env)
+
+
