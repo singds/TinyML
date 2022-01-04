@@ -268,7 +268,7 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         let funType = TyArrow (t2, codTy)
         let s3 = unify t1 funType
         let s = compose_subst_list [s3; s2; s1]
-        (apply_subst_ty s3 codTy, s3)
+        (apply_subst_ty s3 codTy, s)
 
     (* let x = e1 in e2
 
@@ -421,6 +421,24 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         | _ -> type_error "expecting a tuple in decomposition (%s) but got type %s"
                     (pretty_tupled_string_list ns) (pretty_ty t1)
 
+    (* e1 <op> e2
+    
+    Interesting expressions (ie.):
+    1) fun x -> fun y ->
+         fun f1 -> fun f2 -> fun f3 ->
+           (f1 y, f2 y, f3 y, (((if true then f1 else f2) x) + ((if true then f1 else f3) x)))
+           
+    *)
+    //| BinOp (e1, ("+" | "-" | "/" | "%" | "*" as op), e2) ->
+    //    let t1, s1 = typeinfer_expr env e1
+    //    let su = unify t1 TyInt
+    //    let s = compose_subst_list [su; s1]
+    //    let env = apply_subst_env s env
+    //    let t2, s2 = typeinfer_expr env e2
+    //    let su = unify t2 TyInt
+    //    let s = compose_subst_list [su; s2; s]
+    //    (TyInt, s)
+
     | BinOp (e1, ("+" | "-" | "/" | "%" | "*" as op), e2) ->
         let t1, s1 = typeinfer_expr env e1
         let t2, s2 = typeinfer_expr env e2
@@ -454,3 +472,18 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
     | UnOp (op, _) -> unexpected_error "typeinfer_expr: typecheck_expr: unsupported unary operator (%s)" op
 
     | _ -> unexpected_error "typeinfer_expr: unsupported expression: %s [AST: %A]" (pretty_expr e) e
+
+//and typeinfer_binop env e1 e2 op argType retType =
+//    let t1, s1 = typeinfer_expr env e1
+//    let su = unify t1 argType
+//    let s = compose_subst_list [su; s1]
+//    let env = apply_subst_env s env
+//    let t2, s2 = typeinfer_expr env e2
+//    let su = unify t2 argType
+//    let s = compose_subst_list [su; s2; s]
+//    (retType, s)
+//
+// fun x -> fun y -> fun z -> fun f1 -> fun f2 -> fun f3 -> (f1 x, f2 y, f3 z, (if true then f1  else f2) + (if true then f1 x else f3 z))
+// fun x -> fun y -> fun f1 -> fun f2 -> (f1 x, f2 y, (if true then f1 x else f2 y) + 1)
+
+// fun x -> fun y -> fun f1 -> fun f2 -> fun f3 -> (f1 y, f2 y, f3 y, (((if true then f1 else f2) x) + ((if true then f1 else f3) x)));;
