@@ -50,6 +50,7 @@ let rec eval_expr (env : value env) (e : expr) : value =
         match v1 with
         | VTuple(vs) ->
             let pairs = List.zip ns vs
+            let pairs = List.filter (fun (n,v) -> n <> "_") pairs
             eval_expr (pairs @ env) e2
         | _ -> unexpected_error "eval_expr: non-tuple in let tuple decomposition: %s" (pretty_value v1)
 

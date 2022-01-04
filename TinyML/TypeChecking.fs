@@ -53,11 +53,18 @@ let rec typecheck_expr (env : ty env) (e : expr) : ty =
         let t1 = typecheck_expr env e1
         match t1 with
         | TyTuple(ts) ->
+            let actualNames = List.filter (fun x -> x <> "_") ns
+            let distinct = List.distinct actualNames
+            if distinct.Length < actualNames.Length then
+                type_error "repeated identifier in tuple decomposition (%s)" (pretty_tupled_string_list ns)
             if ts.Length <> ns.Length then
-                type_error "error TODO" // TODO complete the error message
+                type_error "expecting a tuple with %d elements in decomposition (%s) but got %d elements with type %s"
+                    ns.Length (pretty_tupled_string_list ns) ts.Length (pretty_ty t1)
             let pairs = List.zip ns ts
+            let pairs = List.filter (fun (n,v) -> n <> "_") pairs
             typecheck_expr (pairs @ env) e2
-        | _ -> type_error "error TODO" // TODO complete the error message
+        | _ -> type_error "expecting a tuple in decomposition (%s) but got type %s"
+                    (pretty_tupled_string_list ns) (pretty_ty t1)
 
     | IfThenElse (e1, e2, e3o) ->
         let t1 = typecheck_expr env e1

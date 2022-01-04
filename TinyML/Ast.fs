@@ -109,6 +109,7 @@ let pretty_env p env = sprintf "[%s]" (flatten (fun (x, o) -> sprintf "%s=%s" x 
 
 // print any tuple given a printer p for its elements
 let pretty_tupled p l = flatten p ", " l
+let pretty_tupled_string_list l = pretty_tupled (sprintf "%s") l
 
 let rec pretty_ty t =
     match t with
@@ -164,7 +165,7 @@ let rec pretty_expr e =
     
     | UnOp (op, e) -> sprintf "%s %s" op (pretty_expr e)
 
-    | LetTuple (l, e1, e2) -> sprintf "(%s) = %s in %s" (pretty_tupled (sprintf "%s") l) (pretty_expr e1) (pretty_expr e2)
+    | LetTuple (l, e1, e2) -> sprintf "(%s) = %s in %s" (pretty_tupled_string_list l) (pretty_expr e1) (pretty_expr e2)
     
     | _ -> unexpected_error "pretty_expr: %s" (pretty_expr e)
 

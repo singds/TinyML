@@ -640,7 +640,7 @@ state 13:  items:    expr -> 'BRA' expr_tuple_atoms . 'KET'
     binding -> 'LET' . 'ID' 'COLON' ty 'EQ' expr
     binding -> 'LET' . 'REC' 'ID' 'EQ' expr
     binding -> 'LET' . 'REC' 'ID' 'COLON' ty 'EQ' expr
-    expr_tuple_atom -> 'LET' . 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+    expr_tuple_atom -> 'LET' . 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   error
     action 'THEN' (noprec):   error
@@ -3234,7 +3234,7 @@ state 73:  items:    expr_tuple_atom -> binding 'IN' expr .
     action 'error' (noprec):   reduce expr_tuple_atom --> binding 'IN' expr
     action '#' (noprec):   reduce expr_tuple_atom --> binding 'IN' expr
     action '$$' (noprec):   reduce expr_tuple_atom --> binding 'IN' expr
-  immediate action:   reduce expr_tuple_atom --> binding 'IN' expr  gotos:state 74:  items:    expr_tuple_atom -> 'LET' 'BRA' . tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
+  immediate action:   reduce expr_tuple_atom --> binding 'IN' expr  gotos:state 74:  items:    expr_tuple_atom -> 'LET' 'BRA' . tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   error
     action 'THEN' (noprec):   error
@@ -3273,8 +3273,9 @@ state 73:  items:    expr_tuple_atom -> binding 'IN' expr .
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:    goto tuple_decompose_id: 75
-state 75:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id . 'KET' 'EQ' expr 'IN' expr
+  immediate action: <none>  gotos:    goto tuple_decompose_id: 118
+    goto tuple_decompose_ids: 75
+state 75:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_ids . 'KET' 'EQ' expr 'IN' expr
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   error
     action 'THEN' (noprec):   error
@@ -3313,7 +3314,7 @@ state 75:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id . 'KET' '
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:state 76:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id 'KET' . 'EQ' expr 'IN' expr
+  immediate action: <none>  gotos:state 76:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_ids 'KET' . 'EQ' expr 'IN' expr
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   error
     action 'THEN' (noprec):   error
@@ -3352,7 +3353,7 @@ state 75:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id . 'KET' '
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:state 77:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' . expr 'IN' expr
+  immediate action: <none>  gotos:state 77:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' . expr 'IN' expr
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
@@ -3395,7 +3396,7 @@ state 75:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id . 'KET' '
     goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 10
-state 78:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr . 'IN' expr
+state 78:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr . 'IN' expr
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   error
     action 'THEN' (noprec):   error
@@ -3434,7 +3435,7 @@ state 78:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:state 79:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' . expr
+  immediate action: <none>  gotos:state 79:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' . expr
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
@@ -3477,46 +3478,46 @@ state 78:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ
     goto binding: 71
     goto expr_app_atom: 42
     goto expr_tuple_atom: 10
-state 80:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr . 
-  actions:    action 'EOF' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'IF' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'THEN' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'ELSE' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'FUN' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'ARROW' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'LET' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'REC' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'IN' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'TRUE' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'FALSE' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'BRA' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'KET' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'PLUS' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'MINUS' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'STAR' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'SLASH' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'PERCENT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'LT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'GT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'LEQ' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'GEQ' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'EQ' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'NEQ' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'AND' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'OR' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'NOT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'COLON' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'SEMICOLON2' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'COMMA' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'STRING' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'ID' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'CHAR' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'FLOAT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'INT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action 'error' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action '#' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-    action '$$' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr
-  immediate action:   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_id 'KET' 'EQ' expr 'IN' expr  gotos:state 81:  items:    expr_tuple_atom -> 'NOT' . expr_tuple_atom
+state 80:  items:    expr_tuple_atom -> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr . 
+  actions:    action 'EOF' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'IF' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'THEN' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'ELSE' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'FUN' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'ARROW' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'LET' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'REC' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'IN' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'TRUE' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'FALSE' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'BRA' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'KET' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'PLUS' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'MINUS' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'STAR' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'SLASH' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'PERCENT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'LT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'GT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'LEQ' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'GEQ' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'EQ' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'NEQ' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'AND' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'OR' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'NOT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'COLON' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'SEMICOLON2' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'COMMA' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'STRING' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'ID' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'CHAR' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'FLOAT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'INT' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action 'error' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action '#' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+    action '$$' (noprec):   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr
+  immediate action:   reduce expr_tuple_atom --> 'LET' 'BRA' tuple_decompose_ids 'KET' 'EQ' expr 'IN' expr  gotos:state 81:  items:    expr_tuple_atom -> 'NOT' . expr_tuple_atom
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   shift 96
     action 'THEN' (noprec):   error
@@ -4884,7 +4885,6 @@ state 112:  items:    ty -> 'BRA' ty 'KET' .
   immediate action: <none>  gotos:    goto ty: 107
     goto ty_tuple: 110
 state 114:  items:    tuple_decompose_id -> 'ID' . 
-    tuple_decompose_id -> 'ID' . 'COMMA' tuple_decompose_id
   actions:    action 'EOF' (noprec):   reduce tuple_decompose_id --> 'ID'
     action 'IF' (noprec):   reduce tuple_decompose_id --> 'ID'
     action 'THEN' (noprec):   reduce tuple_decompose_id --> 'ID'
@@ -4914,7 +4914,7 @@ state 114:  items:    tuple_decompose_id -> 'ID' .
     action 'NOT' (noprec):   reduce tuple_decompose_id --> 'ID'
     action 'COLON' (noprec):   reduce tuple_decompose_id --> 'ID'
     action 'SEMICOLON2' (noprec):   reduce tuple_decompose_id --> 'ID'
-    action 'COMMA' (explicit left 9991):   shift 115
+    action 'COMMA' (noprec):   reduce tuple_decompose_id --> 'ID'
     action 'STRING' (noprec):   reduce tuple_decompose_id --> 'ID'
     action 'ID' (noprec):   reduce tuple_decompose_id --> 'ID'
     action 'CHAR' (noprec):   reduce tuple_decompose_id --> 'ID'
@@ -4923,7 +4923,47 @@ state 114:  items:    tuple_decompose_id -> 'ID' .
     action 'error' (noprec):   reduce tuple_decompose_id --> 'ID'
     action '#' (noprec):   reduce tuple_decompose_id --> 'ID'
     action '$$' (noprec):   reduce tuple_decompose_id --> 'ID'
-  immediate action: <none>  gotos:state 115:  items:    tuple_decompose_id -> 'ID' 'COMMA' . tuple_decompose_id
+  immediate action:   reduce tuple_decompose_id --> 'ID'  gotos:state 115:  items:    tuple_decompose_id_list -> tuple_decompose_id . 
+    tuple_decompose_id_list -> tuple_decompose_id . 'COMMA' tuple_decompose_id_list
+  actions:    action 'EOF' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'IF' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'THEN' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'ELSE' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'FUN' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'ARROW' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'LET' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'REC' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'IN' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'TRUE' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'FALSE' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'BRA' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'KET' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'PLUS' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'MINUS' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'STAR' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'SLASH' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'PERCENT' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'LT' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'GT' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'LEQ' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'GEQ' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'EQ' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'NEQ' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'AND' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'OR' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'NOT' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'COLON' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'SEMICOLON2' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'COMMA' (explicit left 9991):   shift 116
+    action 'STRING' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'ID' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'CHAR' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'FLOAT' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'INT' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action 'error' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action '#' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+    action '$$' (noprec):   reduce tuple_decompose_id_list --> tuple_decompose_id
+  immediate action: <none>  gotos:state 116:  items:    tuple_decompose_id_list -> tuple_decompose_id 'COMMA' . tuple_decompose_id_list
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   error
     action 'THEN' (noprec):   error
@@ -4962,46 +5002,166 @@ state 114:  items:    tuple_decompose_id -> 'ID' .
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:    goto tuple_decompose_id: 116
-state 116:  items:    tuple_decompose_id -> 'ID' 'COMMA' tuple_decompose_id . 
-  actions:    action 'EOF' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'IF' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'THEN' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'ELSE' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'FUN' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'ARROW' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'LET' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'REC' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'IN' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'TRUE' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'FALSE' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'BRA' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'KET' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'PLUS' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'MINUS' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'STAR' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'SLASH' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'PERCENT' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'LT' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'GT' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'LEQ' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'GEQ' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'EQ' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'NEQ' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'AND' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'OR' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'NOT' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'COLON' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'SEMICOLON2' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'COMMA' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'STRING' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'ID' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'CHAR' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'FLOAT' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'INT' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action 'error' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action '#' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-    action '$$' (explicit left 9991):   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id
-  immediate action:   reduce tuple_decompose_id --> 'ID' 'COMMA' tuple_decompose_id  gotos:
+  immediate action: <none>  gotos:    goto tuple_decompose_id: 115
+    goto tuple_decompose_id_list: 117
+state 117:  items:    tuple_decompose_id_list -> tuple_decompose_id 'COMMA' tuple_decompose_id_list . 
+  actions:    action 'EOF' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'IF' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'THEN' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'ELSE' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'FUN' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'ARROW' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'LET' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'REC' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'IN' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'TRUE' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'FALSE' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'BRA' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'KET' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'PLUS' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'MINUS' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'STAR' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'SLASH' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'PERCENT' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'LT' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'GT' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'LEQ' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'GEQ' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'EQ' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'NEQ' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'AND' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'OR' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'NOT' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'COLON' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'SEMICOLON2' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'COMMA' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'STRING' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'ID' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'CHAR' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'FLOAT' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'INT' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'error' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action '#' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action '$$' (explicit left 9991):   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+  immediate action:   reduce tuple_decompose_id_list --> tuple_decompose_id 'COMMA' tuple_decompose_id_list  gotos:state 118:  items:    tuple_decompose_ids -> tuple_decompose_id . 'COMMA' tuple_decompose_id_list
+  actions:    action 'EOF' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'ARROW' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'REC' (noprec):   error
+    action 'IN' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BRA' (noprec):   error
+    action 'KET' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'STAR' (noprec):   error
+    action 'SLASH' (noprec):   error
+    action 'PERCENT' (noprec):   error
+    action 'LT' (noprec):   error
+    action 'GT' (noprec):   error
+    action 'LEQ' (noprec):   error
+    action 'GEQ' (noprec):   error
+    action 'EQ' (noprec):   error
+    action 'NEQ' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'NOT' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'COMMA' (explicit left 9991):   shift 119
+    action 'STRING' (noprec):   error
+    action 'ID' (noprec):   error
+    action 'CHAR' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+  immediate action: <none>  gotos:state 119:  items:    tuple_decompose_ids -> tuple_decompose_id 'COMMA' . tuple_decompose_id_list
+  actions:    action 'EOF' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'ARROW' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'REC' (noprec):   error
+    action 'IN' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BRA' (noprec):   error
+    action 'KET' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'STAR' (noprec):   error
+    action 'SLASH' (noprec):   error
+    action 'PERCENT' (noprec):   error
+    action 'LT' (noprec):   error
+    action 'GT' (noprec):   error
+    action 'LEQ' (noprec):   error
+    action 'GEQ' (noprec):   error
+    action 'EQ' (noprec):   error
+    action 'NEQ' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'NOT' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'COMMA' (noprec):   error
+    action 'STRING' (noprec):   error
+    action 'ID' (noprec):   shift 114
+    action 'CHAR' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+  immediate action: <none>  gotos:    goto tuple_decompose_id: 115
+    goto tuple_decompose_id_list: 120
+state 120:  items:    tuple_decompose_ids -> tuple_decompose_id 'COMMA' tuple_decompose_id_list . 
+  actions:    action 'EOF' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'IF' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'THEN' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'ELSE' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'FUN' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'ARROW' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'LET' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'REC' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'IN' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'TRUE' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'FALSE' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'BRA' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'KET' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'PLUS' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'MINUS' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'STAR' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'SLASH' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'PERCENT' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'LT' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'GT' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'LEQ' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'GEQ' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'EQ' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'NEQ' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'AND' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'OR' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'NOT' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'COLON' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'SEMICOLON2' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'COMMA' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'STRING' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'ID' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'CHAR' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'FLOAT' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'INT' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action 'error' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action '#' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+    action '$$' (explicit left 9991):   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list
+  immediate action:   reduce tuple_decompose_ids --> tuple_decompose_id 'COMMA' tuple_decompose_id_list  gotos:
 startStates = 0;2
 ------------------------

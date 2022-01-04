@@ -394,4 +394,26 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         let s = compose_subst_list [s2; s]
         (apply_subst_ty s t2, s)
 
+    (* let (id1,id2,..,idn) = e1 in e2
+    *)
+    | LetTuple (ns, e1, e2) ->
+        let t1, s1 = typeinfer_expr env e1
+        match t1 with
+        | TyTuple(ts) ->
+            let actualNames = List.filter (fun x -> x <> "_") ns
+            let distinct = List.distinct actualNames
+            if distinct.Length < actualNames.Length then
+                type_error "repeated identifier in tuple decomposition (%s)" (pretty_tupled_string_list ns)
+            if ts.Length <> ns.Length then
+                type_error "expecting a tuple with %d elements in decomposition (%s) but got %d elements with type %s"
+                    ns.Length (pretty_tupled_string_list ns) ts.Length (pretty_ty t1)
+            
+            let env = apply_subst_env s1 env
+            let schemes = List.map (fun t -> generalize_ty env t) ts
+            let pairs = List.zip ns schemes
+            let pairs = List.filter (fun (n,v) -> n <> "_") pairs // remove ignored names
+            typeinfer_expr (pairs @ env) e2
+        | _ -> type_error "expecting a tuple in decomposition (%s) but got type %s"
+                    (pretty_tupled_string_list ns) (pretty_ty t1)
+
     | _ -> unexpected_error "typeinfer_expr: unsupported expression: %s [AST: %A]" (pretty_expr e) e
