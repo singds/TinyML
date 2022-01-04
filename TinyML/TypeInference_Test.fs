@@ -361,11 +361,21 @@ type Test_generalize_ty () =
         let t = TyTuple [TyVar 1; TyVar 2]
         Assert.Equal (Forall ([2], t), generalize_ty env t)
 
-let test_typeinfer_expr (program:string) (expected:ty) =
+let typeinfer_expr_from_string (program:string) =
     fresh_tyvar <- 1
     let exp = Parsing.parse_from_string SyntaxError program "example" (1, 1) Parser.program Lexer.tokenize Parser.tokenTagToTokenId
-    let t,s = TypeInference.typeinfer_expr [] exp
+    TypeInference.typeinfer_expr [] exp
+
+let test_typeinfer_expr (program:string) (expected:ty) =
+    let t,s = typeinfer_expr_from_string program
     Assert.Equal (expected, t)
+
+let test_typeinfer_expr_error (program:string) =
+    try
+        let _,_ = typeinfer_expr_from_string program
+        assert_fail "exception not raised"
+    with _ ->
+        ()
 
 type Test_typeinfer_expr () =
     [<Fact>]
@@ -395,3 +405,42 @@ type Test_typeinfer_expr () =
             "fun x -> fun y -> if x then x else y"
             (TyArrow(TyBool, TyArrow (TyBool, TyBool)))
 
+    [<Fact>]
+    let ``ex lambda with unification in nested let`` () =
+        // bool -> bool -> bool
+        test_typeinfer_expr
+            "fun y -> let x:int = y in x"
+            (TyArrow(TyInt, TyInt))
+    
+    [<Fact>]
+    let ``ex tuple made of base types`` () =
+        // int * string * bool
+        test_typeinfer_expr
+            "(1, \"ciao\", true)"
+            (TyTuple [TyInt; TyString; TyBool])
+
+    [<Fact>]
+    let ``ex tuple tricky`` () =
+        // int -> int -> int -> (int, int, int)
+        test_typeinfer_expr
+            "fun x -> fun y -> fun z -> (if true then x else y, if true then x else z, z + 1)"
+            (TyArrow (TyInt, TyArrow (TyInt, TyArrow (TyInt, TyTuple [TyInt; TyInt; TyInt]))))
+
+    [<Fact>]
+    let ``ex let rec sum of the first x numbers`` () =
+        // int -> int
+        test_typeinfer_expr
+            "let rec f = fun x -> if x > 0 then x + (f (x - 1)) else 0 in f"
+            (TyArrow (TyInt, TyInt))
+
+    [<Fact>]
+    let ``ex let rec defining a function not really recursive`` () =
+        // int -> int
+        test_typeinfer_expr
+            "let rec f = fun x -> x + 1 in f"
+            (TyArrow (TyInt, TyInt))
+
+[<Theory>]
+[<InlineData("let rec f = f 1 in f")>]
+let Test_typeinfer_expr_error (exp:string) =
+    test_typeinfer_expr_error exp

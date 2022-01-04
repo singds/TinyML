@@ -302,6 +302,7 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         (TyArrow (t, t1), s1)
 
     (* let x:<type> = e1 in e2
+    type annotations can't contain type variables
 
     Interesting expressions (ie):
     1) fun y -> let x:int = y in x
@@ -310,11 +311,13 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         // first i infer the type of the bunded expression
         let t1, s1 = typeinfer_expr env e1
         // t1 can be a type variable (see ie. (1))
-        let s = compose_subst_list [unify t1 t; s1]
-        let env1 = (x,Forall ([], t))::env
-        let t2, s2 = typeinfer_expr (apply_subst_env s env1) e2
+        let su = unify t1 t
+        let s = compose_subst_list [su; s1]
+        let env = (x,Forall ([], t))::env
+        let env = apply_subst_env s env
+        let t2, s2 = typeinfer_expr env e2
         let s = compose_subst_list [s2; s]
-        (apply_subst_ty s t2, s)
+        (t2, s)
 
     (* if e1 then e2 [else e3]
     
@@ -338,10 +341,60 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         | Some e3 ->
             let env = apply_subst_env s env
             let t3, s3 = typeinfer_expr env e3
-            let t2 = apply_subst_ty s3 t2
+            let t2 = apply_subst_ty s3 t2 // typing e3 i can learn something about the type of e2 (es. fun x -> if true then x else x + 1)
             let su = unify t2 t3
             let s = compose_subst_list [su; s3; s]
             (apply_subst_ty su t3, s)
+
+    (* (e1, e2, .., en)
+
+    Interesting expressions (ie):
+    1) fun x -> fun y -> fun z -> (if true then x else y, if true then x else z)
+        tricky example, the type should be: 'a -> 'a -> 'a -> ('a, 'a)
+    2) fun x -> fun y -> fun z -> (if true then x else y, if true then x else z, z + 1)
+        type: int -> int -> int -> (int, int, int)
+    *)
+    | Tuple es ->
+        // first i get all the types and substitutions from inferring the type
+        // for all the expressions in the tuple
+        let state = List.fold (fun state exp ->
+            match state with
+            // env = the current refined environment
+            // s = the current total composed substitution
+            // ts = the list of inferred types
+            | (env:scheme env, s:subst, ts:ty list) ->
+                let env = apply_subst_env s env
+                let tExp, sExp = typeinfer_expr env exp
+                // I apply what I have learned from this step, to all the types previously found.
+                // I keep all the types refined.
+                let ts = List.map (fun t -> apply_subst_ty sExp t) ts
+                let s = compose_subst_list [sExp; s]
+                let ts = ts @ [tExp]
+                (env, s, ts)) (env, [], []) es
+        let (_, s, ts) = state // retrieve the substitution and the list of types from the fold state
+        (TyTuple ts, s)
+
+    (* let rec f = e1 in e2
+    The identifier <f> can appear in the expression e1.
+    The let rec must bind the identifier to a function.
+
+    Interesting expressions (ie):
+    1) let rec f = f 1 in f;; this must produce an error
+    *)
+    | LetRec (f, None, e1, e2) ->
+        let funTy = TyArrow (TyVar (get_new_fresh_tyvar ()), TyVar (get_new_fresh_tyvar ()))
+        let env1 = (f,Forall ([], funTy))::env
+        let t1, s1 = typeinfer_expr env1 e1
+        let funTy = apply_subst_ty s1 funTy // apply to <f> type what learned from typing <e1>
+        let su = unify funTy t1             // the type of <e1> must unify with the type of <f>
+        let t1 = apply_subst_ty su t1       // refine <t1> with what learned from unification
+        let s = compose_subst_list [su; s1]
+        let env2 = apply_subst_env s env
+        // infer the type of <e2> in an environment enriched with <f> bounded to the generalization of <t1>
+        let env2 = (f, generalize_ty env2 t1)::env2
+        let t2, s2 = typeinfer_expr env2 e2
+        let s = compose_subst_list [s2; s]
+        (t2, s)
 
     | BinOp (e1, ("+" | "-" | "/" | "%" | "*" as op), e2) ->
         let t1, s1 = typeinfer_expr env e1
@@ -374,25 +427,6 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         (TyInt, s)
 
     | UnOp (op, _) -> unexpected_error "typeinfer_expr: typecheck_expr: unsupported unary operator (%s)" op
-
-    | Tuple es ->
-        // first i get all the types and substitutions from inferring the type
-        // for all the expressions in the tuple
-        let tipesSubs = List.map (typeinfer_expr env) es
-        let tipes = List.map (fun (t,s) -> t) tipesSubs // get the types list
-        let subs = List.map (fun (t,s) -> s) tipesSubs // get the substitutions list
-        let s = compose_subst_list subs
-        (apply_subst_ty s (TyTuple tipes), s)
-
-    | LetRec (f, None, e1, e2) ->
-        let fType = TyArrow (TyVar (get_new_fresh_tyvar ()), TyVar (get_new_fresh_tyvar ()))
-        let env1 = (f,Forall ([], fType))::env
-        let t1, s1 = typeinfer_expr env1 e1
-        let s = compose_subst_list [unify fType t1; s1]
-        let env2 = (f,generalize_ty env (apply_subst_ty s t1))::env
-        let t2, s2 = typeinfer_expr (apply_subst_env s env2) e2
-        let s = compose_subst_list [s2; s]
-        (apply_subst_ty s t2, s)
 
     (* let (id1,id2,..,idn) = e1 in e2
     *)
