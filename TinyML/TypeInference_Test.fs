@@ -336,6 +336,14 @@ type Test_inst_scheme () =
         Assert.Equal (exp, inst_scheme scheme)
 
     [<Fact>]
+    let ``inst a type where a universally quantified variable appears multiple times`` () =
+        // inst (forall 'a. 'a -> 'a) = 'b -> 'b
+        fresh_tyvar <- 50
+        let scheme = Forall ([1], TyArrow (TyVar(1), TyVar(1)))
+        let exp = TyArrow (TyVar(51), TyVar(51))
+        Assert.Equal (exp, inst_scheme scheme)
+
+    [<Fact>]
     let ``inst relevant example`` () =
         // inst (forall 'a,'c . 'a * 'b * 'c * 'd) = 'e * 'b * 'f * 'd
         fresh_tyvar <- 50

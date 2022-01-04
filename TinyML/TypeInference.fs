@@ -180,7 +180,7 @@ let rec inst_scheme (s:scheme) : ty =
         let toBeRefresh = Set.intersect freeVars (Set uqv)
         // build up a substitution mapping each of the type variable that needs to
         // be refresh, in a new fresh type type variable
-        let sub = List.map (fun v -> (v, TyVar(get_new_fresh_tyvar ()))) (Set.toList toBeRefresh)
+        let sub = List.map (fun v -> (v, TyVar(get_new_fresh_tyvar ()))) (List.sort (Set.toList toBeRefresh))
         apply_subst_ty sub t
 
 // type generalization
