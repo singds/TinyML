@@ -31,7 +31,7 @@
     <DocumentationFile>bin\$(Configuration)\$(AssemblyName).XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
     <StartWorkingDirectory>..\..</StartWorkingDirectory>
-    <StartArguments>test.tml</StartArguments>
+    <StartArguments>./ProgramExamples/example1.tml</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -44,7 +44,7 @@
     <DocumentationFile>bin\$(Configuration)\$(AssemblyName).XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
     <StartWorkingDirectory>..\..</StartWorkingDirectory>
-    <StartArguments>test.tml</StartArguments>
+    <StartArguments>./ProgramExamples/example1.tml</StartArguments>
   </PropertyGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
@@ -96,10 +96,9 @@
     <Compile Include="Lexer.fs" />
     <Compile Include="TypeChecking.fs" />
     <Compile Include="TypeInference.fs" />
-    <Compile Include="TypeInference_Test.fs" />
     <Compile Include="Eval.fs" />
+    <Compile Include="UnitTests\TypeInference_Test.fs" />
     <Compile Include="Main.fs" />
-    <None Include="test.tml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
