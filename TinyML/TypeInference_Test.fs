@@ -448,6 +448,19 @@ type Test_typeinfer_expr () =
             "let rec f = fun x -> x + 1 in f"
             (TyArrow (TyInt, TyInt))
 
+    [<Fact>]
+    let ``ex binary operation tricky inference`` () =
+        // x:int -> y:int ->
+        //   f1:(int -> int) -> f2:(int -> int) -> f3:(int -> int) ->
+        //     int * int * int * int * int
+        test_typeinfer_expr
+            "fun x -> fun y ->
+                fun f1 -> fun f2 -> fun f3 ->
+                    (f1 y, f2 y, f3 y, (((if true then f1 else f2) x) + ((if true then f1 else f3) x)), y + 1)"
+            (TyArrow (TyInt, TyArrow (TyInt,
+                 TyArrow (TyArrow(TyInt, TyInt), TyArrow (TyArrow(TyInt, TyInt), TyArrow (TyArrow(TyInt, TyInt),
+                    TyTuple [TyInt; TyInt; TyInt; TyInt; TyInt]))))))
+
 [<Theory>]
 [<InlineData("let rec f = f 1 in f")>]
 let Test_typeinfer_expr_error (exp:string) =
