@@ -97,8 +97,9 @@
     <Compile Include="TypeChecking.fs" />
     <Compile Include="TypeInference.fs" />
     <Compile Include="Eval.fs" />
-    <Compile Include="UnitTests\TypeInference_Test.fs" />
+    <Compile Include="Tests\TypeInference_Test.fs" />
     <Compile Include="Main.fs" />
+    <None Include="ProgramExamples\example1.tml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
