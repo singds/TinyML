@@ -37,3 +37,9 @@ type Test_eval_expr () =
         test_eval_expr
             "();();let f=fun x -> x in f 1"
             (VLit (LInt (1)))
+
+    [<Fact>]
+    let ``sequence operator 3 complex exprs`` () =
+        test_eval_expr
+            "let (a,b)=((), 2) in a; (if true then () else ()); let f=fun x -> x in f 1"
+            (VLit (LInt (1)))

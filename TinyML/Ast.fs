@@ -136,8 +136,7 @@ let rec pretty_expr e =
     | Lambda (x, None, e) -> sprintf "fun %s -> %s" x (pretty_expr e)
     | Lambda (x, Some t, e) -> sprintf "fun (%s : %s) -> %s" x (pretty_ty t) (pretty_expr e)
     
-    // TODO pattern-match sub-application cases
-    | App (e1, e2) -> sprintf "%s %s" (pretty_expr e1) (pretty_expr e2)
+    | App (e1, e2) -> pretty_app e
 
     | Var x -> x
 
@@ -166,11 +165,29 @@ let rec pretty_expr e =
     
     | UnOp (op, e) -> sprintf "%s %s" op (pretty_expr e)
 
-    | LetTuple (l, e1, e2) -> sprintf "(%s) = %s in %s" (pretty_tupled_string_list l) (pretty_expr e1) (pretty_expr e2)
+    | LetTuple (l, e1, e2) -> sprintf "let (%s) = %s in %s" (pretty_tupled_string_list l) (pretty_expr e1) (pretty_expr e2)
 
     | Seq (e1, e2) -> sprintf "%s; %s" (pretty_expr e1) (pretty_expr e2)
     
     | _ -> unexpected_error "pretty_expr: %s" (pretty_expr e)
+
+and pretty_app expr =
+    match expr with
+    | App (e1, e2) ->
+        let stringE1 =
+            match e1 with
+            | Var _ 
+            | Lit _ -> pretty_expr e1
+            | App (_, _) -> pretty_app e1
+            | _ -> sprintf "(%s)" (pretty_expr e1)
+        let stringE2 =
+            match e2 with
+            | Var _ 
+            | Lit _ -> pretty_expr e2
+            | _ -> sprintf "(%s)" (pretty_expr e2)
+        sprintf "%s %s" stringE1 stringE2
+    | _ -> unexpected_error "pretty_app: the expression is not an application"
+
 
 let rec pretty_value v =
     match v with
