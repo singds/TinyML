@@ -428,6 +428,13 @@ type Test_typeinfer_expr () =
             (TyTuple [TyInt; TyString; TyBool])
 
     [<Fact>]
+    let ``tuple unification with type variable in decomposition`` () =
+        // int * int -> int
+        test_typeinfer_expr
+            "fun x -> let (a,b)=x in a + b"
+            (TyArrow (TyTuple [TyInt; TyInt], TyInt))
+
+    [<Fact>]
     let ``tuple tricky`` () =
         // int -> int -> int -> (int, int, int)
         test_typeinfer_expr

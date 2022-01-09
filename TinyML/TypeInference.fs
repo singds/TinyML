@@ -402,6 +402,11 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
     *)
     | LetTuple (ns, e1, e2) ->
         let t1, s1 = typeinfer_expr env e1
+        let tupleTy = TyTuple (List.map (fun _ -> TyVar (get_new_fresh_tyvar ())) ns)
+        let su = unify t1 tupleTy
+        let t1 = apply_subst_ty su t1 // apply what i have learned from unification to t1
+        let s = compose_subst_list [su; s1]
+
         match t1 with
         | TyTuple(ts) ->
             let validNames = List.filter (fun x -> x <> "_") ns
@@ -409,17 +414,14 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
             let distinct = List.distinct validNames
             if distinct.Length < validNames.Length then
                 type_error "repeated identifier in tuple decomposition (%s)" (pretty_tupled_string_list ns)
-            if ts.Length <> ns.Length then
-                type_error "expecting a tuple with %d elements in decomposition (%s) but got %d elements with type %s"
-                    ns.Length (pretty_tupled_string_list ns) ts.Length (pretty_ty t1)
-
-            let env = apply_subst_env s1 env                            // refine the environment applying s1
+            
+            let env = apply_subst_env s env                             // refine the environment applying what i have learned untill now
             let schemes = List.map (fun t -> generalize_ty env t) ts    // generalize all the types of the tuple
             let pairs = List.zip ns schemes                             // pair each identifier with the corresponding scheme
             let pairs = List.filter (fun (n,v) -> n <> "_") pairs       // remove ignored names
             let t2, s2 = typeinfer_expr (pairs @ env) e2                // add identifiers to the env. and typeinfer the body
-            // return the type of the body e2 and what i have learned about types, that is the composition (s2 o s1)
-            (t2, compose_subst_list [s2; s1])
+            let s = compose_subst_list [s2; s]
+            (t2, s)
         | _ -> type_error "expecting a tuple in decomposition (%s) but got type %s"
                     (pretty_tupled_string_list ns) (pretty_ty t1)
 
