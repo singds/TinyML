@@ -32,6 +32,7 @@ let parse_error_rich = Some (fun ctx -> raise (ParseErrorContextException ctx))
 %left PLUS MINUS 
 %left STAR SLASH MOD 
 %left APP
+%left SEQUENCE
 %nonassoc NOT
 %nonassoc UMINUS
 
@@ -75,11 +76,12 @@ expr_app_atom:
   | BRA expr KET                        { $2 }
 
 expr_tuple_atom:
-    expr_app_atom                               { $1 }
-  | expr_tuple_atom expr_app_atom %prec APP     { App ($1, $2) }
+    expr_app_atom                                       { $1 }
+  | expr_tuple_atom expr_app_atom %prec APP             { App ($1, $2) }
+  // to apply to a tuple you have to put double parentheses f ((et1,..,etn))
 
-  | FUN ID ARROW expr                           { Lambda ($2, None, $4) }
-  | FUN BRA ID COLON ty KET ARROW expr          { Lambda ($3, Some $5, $8) }
+  | FUN ID ARROW expr                                   { Lambda ($2, None, $4) }
+  | FUN BRA ID COLON ty KET ARROW expr                  { Lambda ($3, Some $5, $8) }
 
   | binding IN expr                                     { LetIn ($1, $3) }
   | LET BRA tuple_decompose_ids KET EQ expr IN expr     { LetTuple ($3, $6, $8)}
@@ -105,7 +107,8 @@ expr_tuple_atom:
   | IF expr THEN expr                                   { IfThenElse ($2, $4, None) }
   | IF expr THEN expr ELSE expr                         { IfThenElse ($2, $4, Some $6) }
 
-  | expr_tuple_atom SEQUENCE expr                       { Seq ($1, $3) }
+  | expr_tuple_atom SEQUENCE expr_tuple_atom            { Seq ($1, $3) }
+  // for a tuple in the last expr you have to put double parentheses  e1; e2; ((et1,..,etn))
 
 expr_tuple_atoms:
     expr_tuple_atom                             { [$1] }

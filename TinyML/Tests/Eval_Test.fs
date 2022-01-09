@@ -19,3 +19,21 @@ type Test_eval_expr () =
         test_eval_expr
             "let f=fun x -> fun y -> x + y in f 1 2"
             (VLit (LInt (3)))
+    
+    [<Fact>]
+    let ``sequence operator pair`` () =
+        test_eval_expr
+            "();1"
+            (VLit (LInt (1)))
+
+    [<Fact>]
+    let ``sequence operator multiple`` () =
+        test_eval_expr
+            "();();1"
+            (VLit (LInt (1)))
+
+    [<Fact>]
+    let ``sequence operator complex expr as last`` () =
+        test_eval_expr
+            "();();let f=fun x -> x in f 1"
+            (VLit (LInt (1)))
