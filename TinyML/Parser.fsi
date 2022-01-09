@@ -31,6 +31,7 @@ type token =
   | COLON
   | SEMICOLON2
   | COMMA
+  | SEQUENCE
   | STRING of (System.String)
   | ID of (System.String)
   | CHAR of (System.Char)
@@ -67,6 +68,7 @@ type tokenId =
     | TOKEN_COLON
     | TOKEN_SEMICOLON2
     | TOKEN_COMMA
+    | TOKEN_SEQUENCE
     | TOKEN_STRING
     | TOKEN_ID
     | TOKEN_CHAR

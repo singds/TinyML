@@ -120,7 +120,7 @@ let rec typecheck_expr (env : ty env) (e : expr) : ty =
         | _ -> type_error "binary operator expects two bools operands, but got %s %s %s" (pretty_ty t1) op (pretty_ty t2)
         TyBool
 
-    | BinOp (_, op, _) -> unexpected_error "typecheck_expr: unsupported binary operator (%s)" op
+    | BinOp (_, op, _) -> unexpected_error "unsupported binary operator (%s)" op
 
     | UnOp ("not", e) ->
         let t = typecheck_expr env e
@@ -134,6 +134,11 @@ let rec typecheck_expr (env : ty env) (e : expr) : ty =
         | TyFloat -> TyFloat
         | _ -> type_error "unary negation expects a numeric operand, but got %s" (pretty_ty t)
 
-    | UnOp (op, _) -> unexpected_error "typecheck_expr: unsupported unary operator (%s)" op
+    | UnOp (op, _) -> unexpected_error "unsupported unary operator (%s)" op
+
+    | Seq (e1, e2) ->
+        let t1 = typecheck_expr env e1
+        if t1 <> TyUnit then type_error "left side of the ; operator does not match Unit type"
+        typecheck_expr env e2
 
     | _ -> unexpected_error "typecheck_expr: unsupported expression: %s [AST: %A]" (pretty_expr e) e

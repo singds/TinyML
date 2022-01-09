@@ -387,69 +387,69 @@ let test_typeinfer_expr_error (program:string) =
 
 type Test_typeinfer_expr () =
     [<Fact>]
-    let ``ex lambda int -> int`` () =
+    let ``lambda int -> int`` () =
         test_typeinfer_expr
             "fun x -> x + 1"
             (TyArrow(TyInt, TyInt))
 
     [<Fact>]
-    let ``ex ifThenElse with unification in then`` () =
+    let ``ifThenElse with unification in then`` () =
         // int -> int -> int
         test_typeinfer_expr
             "fun x -> fun y -> if true then x + 1 else y"
             (TyArrow(TyInt, TyArrow (TyInt, TyInt)))
 
     [<Fact>]
-    let ``ex ifThenElse with unification in else`` () =
+    let ``ifThenElse with unification in else`` () =
         // int -> int -> int
         test_typeinfer_expr
             "fun x -> fun y -> if true then x else y + 1"
             (TyArrow(TyInt, TyArrow (TyInt, TyInt)))
 
     [<Fact>]
-    let ``ex ifThenElse with unification in if`` () =
+    let ``ifThenElse with unification in if`` () =
         // bool -> bool -> bool
         test_typeinfer_expr
             "fun x -> fun y -> if x then x else y"
             (TyArrow(TyBool, TyArrow (TyBool, TyBool)))
 
     [<Fact>]
-    let ``ex lambda with unification in nested let`` () =
+    let ``lambda with unification in nested let`` () =
         // bool -> bool -> bool
         test_typeinfer_expr
             "fun y -> let x:int = y in x"
             (TyArrow(TyInt, TyInt))
     
     [<Fact>]
-    let ``ex tuple made of base types`` () =
+    let ``tuple made of base types`` () =
         // int * string * bool
         test_typeinfer_expr
             "(1, \"ciao\", true)"
             (TyTuple [TyInt; TyString; TyBool])
 
     [<Fact>]
-    let ``ex tuple tricky`` () =
+    let ``tuple tricky`` () =
         // int -> int -> int -> (int, int, int)
         test_typeinfer_expr
             "fun x -> fun y -> fun z -> (if true then x else y, if true then x else z, z + 1)"
             (TyArrow (TyInt, TyArrow (TyInt, TyArrow (TyInt, TyTuple [TyInt; TyInt; TyInt]))))
 
     [<Fact>]
-    let ``ex let rec sum of the first x numbers`` () =
+    let ``let rec sum of the first x numbers`` () =
         // int -> int
         test_typeinfer_expr
             "let rec f = fun x -> if x > 0 then x + (f (x - 1)) else 0 in f"
             (TyArrow (TyInt, TyInt))
 
     [<Fact>]
-    let ``ex let rec defining a function not really recursive`` () =
+    let ``let rec defining a function not really recursive`` () =
         // int -> int
         test_typeinfer_expr
             "let rec f = fun x -> x + 1 in f"
             (TyArrow (TyInt, TyInt))
 
     [<Fact>]
-    let ``ex binary operation tricky inference`` () =
+    let ``binary operation tricky inference`` () =
         // x:int -> y:int ->
         //   f1:(int -> int) -> f2:(int -> int) -> f3:(int -> int) ->
         //     int * int * int * int * int
@@ -460,6 +460,35 @@ type Test_typeinfer_expr () =
             (TyArrow (TyInt, TyArrow (TyInt,
                  TyArrow (TyArrow(TyInt, TyInt), TyArrow (TyArrow(TyInt, TyInt), TyArrow (TyArrow(TyInt, TyInt),
                     TyTuple [TyInt; TyInt; TyInt; TyInt; TyInt]))))))
+
+    [<Fact>]
+    let ``sequence operator single pair`` () = 
+        // float
+        test_typeinfer_expr
+            "(); 1.2"
+            TyFloat
+
+    [<Fact>]
+    let ``sequence operator multiple`` () = 
+        // float
+        test_typeinfer_expr
+            "(); (); 1.2"
+            TyFloat
+
+    [<Fact>]
+    let ``sequence operator left side unification`` () = 
+        // unit -> float
+        test_typeinfer_expr
+            "fun x -> x; 1.2"
+            (TyArrow (TyUnit, TyFloat))
+
+    [<Fact>]
+    let ``sequence operator tricky inference`` () = 
+        // int -> int -> int
+        test_typeinfer_expr
+            "fun x -> fun y -> let (a,b)=(if true then x else y, ()) in b; x + 1"
+            (TyArrow (TyInt, TyArrow (TyInt, TyInt)))
+
 
 [<Theory>]
 [<InlineData("let rec f = f 1 in f")>]

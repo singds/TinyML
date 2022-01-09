@@ -80,6 +80,7 @@ and tokenize = parse
     
     // punctuation
     | ':'               { COLON }
+    | ';'               { SEQUENCE }
     | ";;"              { SEMICOLON2 }
     | ','               { COMMA }
     

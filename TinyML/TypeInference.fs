@@ -417,9 +417,24 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
             let schemes = List.map (fun t -> generalize_ty env t) ts    // generalize all the types of the tuple
             let pairs = List.zip ns schemes                             // pair each identifier with the corresponding scheme
             let pairs = List.filter (fun (n,v) -> n <> "_") pairs       // remove ignored names
-            typeinfer_expr (pairs @ env) e2                             // add identifiers to the env. and typeinfer the body
+            let t2, s2 = typeinfer_expr (pairs @ env) e2                // add identifiers to the env. and typeinfer the body
+            // return the type of the body e2 and what i have learned about types, that is the composition (s2 o s1)
+            (t2, compose_subst_list [s2; s1])
         | _ -> type_error "expecting a tuple in decomposition (%s) but got type %s"
                     (pretty_tupled_string_list ns) (pretty_ty t1)
+
+    (* e1; e2
+
+    The left hand side of the sequence operator must have type Unit.
+    *)
+    | Seq (e1, e2) ->
+        let t1, s1 = typeinfer_expr env e1
+        let su = unify t1 TyUnit
+        let s = compose_subst_list [su; s1]
+        let env = apply_subst_env s env
+        let t2, s2 = typeinfer_expr env e2
+        let s = compose_subst_list [s2; s]
+        (t2, s)
 
     (* e1 op e2
     

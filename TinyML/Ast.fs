@@ -73,6 +73,7 @@ and expr =
     | BinOp of expr * string * expr
     | UnOp of string * expr
     | LetTuple of string list * expr * expr
+    | Seq of expr * expr // sequence expression, that is the ; operator
    
 let (|Let|_|) = function 
     | LetIn ((false, x, tyo, e1), e2) -> Some (x, tyo, e1, e2)
@@ -166,6 +167,8 @@ let rec pretty_expr e =
     | UnOp (op, e) -> sprintf "%s %s" op (pretty_expr e)
 
     | LetTuple (l, e1, e2) -> sprintf "(%s) = %s in %s" (pretty_tupled_string_list l) (pretty_expr e1) (pretty_expr e2)
+
+    | Seq (e1, e2) -> sprintf "%s; %s" (pretty_expr e1) (pretty_expr e2)
     
     | _ -> unexpected_error "pretty_expr: %s" (pretty_expr e)
 
@@ -179,11 +182,9 @@ let rec pretty_value v =
     
     | RecClosure (env, f, x, e) -> sprintf "<|%s;%s;%s;%s|>" (pretty_env pretty_value env) f x (pretty_expr e)
 
-let rec pretty_subs (s:subst) =
-    match s with
-    | [] -> ""
-    | (tvar,t)::tail ->
-        (sprintf "('%d >> %s)" tvar (pretty_ty t)) + (pretty_subs tail)
+let pretty_subs (subList:subst) =
+    let print_one_sub (tvar, t) = sprintf "'%d\%s" tvar (pretty_ty t)
+    sprintf "(%s)" (pretty_tupled_string_list (List.map (fun sub -> print_one_sub sub) subList))
 
 let rec pretty_scheme (s:scheme) =
     match s with

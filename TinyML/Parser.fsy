@@ -20,7 +20,7 @@ let parse_error_rich = Some (fun ctx -> raise (ParseErrorContextException ctx))
        PLUS MINUS STAR SLASH PERCENT
        LT GT LEQ GEQ EQ NEQ
        AND OR NOT
-       COLON SEMICOLON2 COMMA
+       COLON SEMICOLON2 COMMA SEQUENCE
 %token EOF
 
 %nonassoc THEN ELSE
@@ -104,6 +104,8 @@ expr_tuple_atom:
 
   | IF expr THEN expr                                   { IfThenElse ($2, $4, None) }
   | IF expr THEN expr ELSE expr                         { IfThenElse ($2, $4, Some $6) }
+
+  | expr_tuple_atom SEQUENCE expr                       { Seq ($1, $3) }
 
 expr_tuple_atoms:
     expr_tuple_atom                             { [$1] }
