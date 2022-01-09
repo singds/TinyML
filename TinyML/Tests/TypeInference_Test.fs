@@ -372,7 +372,7 @@ type Test_generalize_ty () =
 let typeinfer_expr_from_string (program:string) =
     fresh_tyvar <- 1
     let exp = Parsing.parse_from_string SyntaxError program "example" (1, 1) Parser.program Lexer.tokenize Parser.tokenTagToTokenId
-    TypeInference.typeinfer_expr [] exp
+    typeinfer_expr [] exp
 
 let test_typeinfer_expr (program:string) (expected:ty) =
     let t,s = typeinfer_expr_from_string program
