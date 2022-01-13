@@ -96,15 +96,24 @@ let rec typecheck_expr (env : ty env) (e : expr) : ty =
         if t1 <> tf then type_error "let rec type mismatch: expected %s, but got %s" (pretty_ty tf) (pretty_ty t1)
         typecheck_expr env0 e2
 
+    | Seq (e1, e2) ->
+        let t1 = typecheck_expr env e1
+        if t1 <> TyUnit then type_error "left side of the ; operator does not match Unit type"
+        typecheck_expr env e2
+
     | BinOp (e1, ("+" | "-" | "/" | "%" | "*" as op), e2) ->
         let t1 = typecheck_expr env e1
         let t2 = typecheck_expr env e2
         match t1, t2 with
         | TyInt, TyInt -> TyInt
-        | TyFloat, TyFloat -> TyFloat
-        | TyInt, TyFloat
-        | TyFloat, TyInt -> TyFloat
         | _ -> type_error "binary operator expects two int operands, but got %s %s %s" (pretty_ty t1) op (pretty_ty t2)
+
+    | BinOp (e1, ("+." | "-." | "/." | "%." | "*." as op), e2) ->
+        let t1 = typecheck_expr env e1
+        let t2 = typecheck_expr env e2
+        match t1, t2 with
+        | TyFloat, TyFloat -> TyInt
+        | _ -> type_error "binary operator expects two float operands, but got %s %s %s" (pretty_ty t1) op (pretty_ty t2)
         
     | BinOp (e1, ("<" | "<=" | ">" | ">=" | "=" | "<>" as op), e2) ->
         let t1 = typecheck_expr env e1
@@ -133,14 +142,25 @@ let rec typecheck_expr (env : ty env) (e : expr) : ty =
         let t = typecheck_expr env e
         match t with
         | TyInt -> TyInt
+        | _ -> type_error "unary negation <-> expects a integer operand, but got %s" (pretty_ty t)
+    | UnOp ("-.", e) ->
+        let t = typecheck_expr env e
+        match t with
         | TyFloat -> TyFloat
-        | _ -> type_error "unary negation expects a numeric operand, but got %s" (pretty_ty t)
+        | _ -> type_error "unary negation <-.> expects a float operand, but got %s" (pretty_ty t)
+
+    // conversion operators
+    | UnOp ("to_int", e) ->
+        let t = typecheck_expr env e
+        match t with
+        | TyFloat -> TyInt
+        | _ -> type_error "float to int conversion expects an integer operand, but got %s" (pretty_ty t)
+    | UnOp ("to_float", e) ->
+        let t = typecheck_expr env e
+        match t with
+        | TyFloat -> TyInt
+        | _ -> type_error "int to float conversion expects a float operand, but got %s" (pretty_ty t)
 
     | UnOp (op, _) -> unexpected_error "unsupported unary operator (%s)" op
-
-    | Seq (e1, e2) ->
-        let t1 = typecheck_expr env e1
-        if t1 <> TyUnit then type_error "left side of the ; operator does not match Unit type"
-        typecheck_expr env e2
 
     | _ -> unexpected_error "typecheck_expr: unsupported expression: %s [AST: %A]" (pretty_expr e) e

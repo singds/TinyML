@@ -91,6 +91,24 @@ type Test_eval_expr () =
             "if false then 1 else 2"
             (VLit (LInt (2)))
 
+    // minus operator
+    [<Fact>]
+    let ``minus operator for integers`` () =
+        test_eval_expr "let f = fun x -> -x in f 1" (VLit (LInt (-1)))
+
+    [<Fact>]
+    let ``minus operator for floats`` () =
+        test_eval_expr "let f = fun x -> -.x in f 1.1" (VLit (LFloat (-1.1)))
+
+    // int to float conversion built-in functions
+    [<Fact>]
+    let ``int to float conversion`` () =
+        test_eval_expr "Int (1.1)" (VLit (LInt (1)))
+
+    [<Fact>]
+    let ``float to int conversion`` () =
+        test_eval_expr "Float (1)" (VLit (LFloat (1.0)))
+
     // sequence operator
     [<Fact>]
     let ``sequence operator pair`` () =

@@ -465,6 +465,9 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
     | BinOp (e1, ("+" | "-" | "/" | "%" | "*" as op), e2) ->
         typeinfer_binop TyInt TyInt env e1 e2
 
+    | BinOp (e1, ("+." | "-." | "/." | "%." | "*." as op), e2) ->
+        typeinfer_binop TyFloat TyFloat env e1 e2
+
     | BinOp (e1, ("<" | "<=" | ">" | ">=" | "=" | "<>" as op), e2) ->
         typeinfer_binop TyInt TyBool env e1 e2
 
@@ -480,6 +483,15 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
             
     | UnOp ("-", e) ->
         typeinfer_unop TyInt TyInt env e
+    | UnOp ("-.", e) ->
+        typeinfer_unop TyFloat TyFloat env e
+
+    (* Int(e1) | Float(e1)
+    *)
+    | UnOp ("to_int", e) ->
+        typeinfer_unop TyFloat TyInt env e
+    | UnOp ("to_float", e) ->
+        typeinfer_unop TyInt TyFloat env e
 
     | UnOp (op, _) -> unexpected_error "typeinfer_expr: unsupported unary operator (%s)" op
 

@@ -78,8 +78,8 @@ expr_app_atom:
   
   | BRA expr KET                        { $2 }
 
-  | TO_FLOAT BRA expr KET               { App (Var ("to_float"), $3) }
-  | TO_INT BRA expr KET                 { App (Var ("to_int"), $3) }
+  | TO_FLOAT BRA expr KET               { UnOp ("to_float", $3) }
+  | TO_INT BRA expr KET                 { UnOp ("to_int", $3) }
 
 expr_tuple_atom:
     expr_app_atom                                       { $1 }
@@ -93,18 +93,22 @@ expr_tuple_atom:
   | LET BRA ID COMMA tuple_decompose_ids KET EQ expr IN expr    { LetTuple ($3::$5, $8, $10)}
   
   | NOT expr_tuple_atom                                 { UnOp ("not", $2) }
-  | MINUS expr_tuple_atom %prec UMINUS                  { UnOp ("-", $2) }
+  | MINUS   expr_tuple_atom %prec UMINUS                { UnOp ("-", $2) }
+  | MINUS_F expr_tuple_atom %prec UMINUS                { UnOp ("-.", $2) }
+  // I need to distinguish also unary operators for integer and floats,
+  // otherwise I was not able to infer the type of: fun x -> -x
+  // would it be (float -> float) or (int -> int)
 
   | expr_tuple_atom PLUS expr_tuple_atom                { BinOp ($1, "+", $3) }
-  | expr_tuple_atom PLUS_F expr_tuple_atom              { App (App (Var ("+."), $1), $3) }
+  | expr_tuple_atom PLUS_F expr_tuple_atom              { BinOp ($1, "+.", $3) }
   | expr_tuple_atom MINUS expr_tuple_atom               { BinOp ($1, "-", $3) }
-  | expr_tuple_atom MINUS_F expr_tuple_atom             { App (App (Var ("-."), $1), $3) }
+  | expr_tuple_atom MINUS_F expr_tuple_atom             { BinOp ($1, "-.", $3) }
   | expr_tuple_atom STAR expr_tuple_atom                { BinOp ($1, "*", $3) }
-  | expr_tuple_atom STAR_F expr_tuple_atom              { App (App (Var ("*."), $1), $3) }
+  | expr_tuple_atom STAR_F expr_tuple_atom              { BinOp ($1, "*.", $3) }
   | expr_tuple_atom SLASH expr_tuple_atom               { BinOp ($1, "/", $3) }
-  | expr_tuple_atom SLASH_F expr_tuple_atom             { App (App (Var ("/."), $1), $3) }
+  | expr_tuple_atom SLASH_F expr_tuple_atom             { BinOp ($1, "/.", $3) }
   | expr_tuple_atom PERCENT expr_tuple_atom             { BinOp ($1, "%", $3) }
-  | expr_tuple_atom PERCENT_F expr_tuple_atom           { App (App (Var ("%."), $1), $3) }
+  | expr_tuple_atom PERCENT_F expr_tuple_atom           { BinOp ($1, "%.", $3) }
 
   | expr_tuple_atom EQ expr_tuple_atom                  { BinOp ($1, "=", $3) }
   | expr_tuple_atom NEQ expr_tuple_atom                 { BinOp ($1, "<>", $3) }

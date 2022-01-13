@@ -494,6 +494,26 @@ type Test_typeinfer_expr () =
             "fun x -> fun y -> let (a,b)=(if true then x else y, ()) in b; x + 1"
             (TyArrow (TyInt, TyArrow (TyInt, TyInt)))
 
+    [<Fact>]
+    let ``integer to float built-in converter`` () = 
+        // int -> float
+        test_typeinfer_expr "fun x -> Float(x)" (TyArrow (TyInt, TyFloat))
+
+    [<Fact>]
+    let ``float to integer built-in converter`` () = 
+        // float -> int
+        test_typeinfer_expr "fun x -> Int(x)" (TyArrow (TyFloat, TyInt))
+
+    [<Fact>]
+    let ``unary minus for integer numbers`` () = 
+        // int -> int
+        test_typeinfer_expr "fun x -> -x" (TyArrow (TyInt, TyInt))
+
+    [<Fact>]
+    let ``unary minus for float numbers`` () = 
+        // float -> float
+        test_typeinfer_expr "fun x -> -.x" (TyArrow (TyFloat, TyFloat))
+
 
 [<Theory>]
 [<InlineData("let rec f = f 1 in f")>]
