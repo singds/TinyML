@@ -32,6 +32,13 @@ type token =
   | SEMICOLON2
   | COMMA
   | SEQUENCE
+  | TO_FLOAT
+  | TO_INT
+  | PLUS_F
+  | MINUS_F
+  | STAR_F
+  | SLASH_F
+  | PERCENT_F
   | STRING of (System.String)
   | ID of (System.String)
   | CHAR of (System.Char)
@@ -69,6 +76,13 @@ type tokenId =
     | TOKEN_SEMICOLON2
     | TOKEN_COMMA
     | TOKEN_SEQUENCE
+    | TOKEN_TO_FLOAT
+    | TOKEN_TO_INT
+    | TOKEN_PLUS_F
+    | TOKEN_MINUS_F
+    | TOKEN_STAR_F
+    | TOKEN_SLASH_F
+    | TOKEN_PERCENT_F
     | TOKEN_STRING
     | TOKEN_ID
     | TOKEN_CHAR

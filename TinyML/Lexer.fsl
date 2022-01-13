@@ -73,6 +73,17 @@ and tokenize = parse
     | "let"             { LET }
     | "rec"             { REC }
     | "in"              { IN }
+
+    // built in functions for doing the conversion between int and float
+    | "Int"             { TO_INT }
+    | "Float"           { TO_FLOAT }
+
+    // operators for float numbers
+    | "+."              { PLUS_F }
+    | "-."              { MINUS_F }
+    | "*."              { STAR_F }
+    | "/."              { SLASH_F }
+    | "%."              { PERCENT_F }
     
     // brakets
     | '('               { BRA }
