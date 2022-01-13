@@ -514,6 +514,14 @@ type Test_typeinfer_expr () =
         // float -> float
         test_typeinfer_expr "fun x -> -.x" (TyArrow (TyFloat, TyFloat))
 
+    [<Fact>]
+    let ``float plus operator`` () =
+        test_typeinfer_expr "fun x -> x +. x" (TyArrow (TyFloat, TyFloat))
+
+    [<Fact>]
+    let ``integer plus operator`` () =
+        test_typeinfer_expr "fun x -> x + x" (TyArrow (TyInt, TyInt))
+
 
 [<Theory>]
 [<InlineData("let rec f = f 1 in f")>]

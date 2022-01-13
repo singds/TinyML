@@ -133,3 +133,12 @@ type Test_eval_expr () =
         test_eval_expr
             "let (a,b)=((), 2) in a; (if true then () else ()); let f=fun x -> x in f 1"
             (VLit (LInt (1)))
+
+    // operators
+    [<Fact>]
+    let ``float plus operator`` () =
+        test_eval_expr "1.2 +. 1.3" (VLit (LFloat (2.5)))
+
+    [<Fact>]
+    let ``integer plus operator`` () =
+        test_eval_expr "1 + 2" (VLit (LInt (3)))
