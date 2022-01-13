@@ -4,9 +4,7 @@ open Xunit
 open Ast
 open TypeInference
 open FSharp.Common
-
-let assert_fail msg =
-    Assert.True (false, msg)
+open Utility
 
 (* Unit tests for the <ty_contains_tyvar> function.
 *)

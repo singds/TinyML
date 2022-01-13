@@ -9,9 +9,11 @@ open Ast
 
 let type_error fmt = throw_formatted TypeError fmt
 
-// type checker
-//
-    
+(* type checker
+env = the type environment
+e   = the expression of which you want to check the type
+returns the type of <e>
+*)
 let rec typecheck_expr (env : ty env) (e : expr) : ty =
     match e with
     | Lit (LInt _) -> TyInt

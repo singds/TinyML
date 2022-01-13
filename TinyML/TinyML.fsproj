@@ -94,6 +94,7 @@
     <Compile Include="Parsing.fs" />
     <Compile Include="Parser.fs" />
     <Compile Include="Lexer.fs" />
+    <Compile Include="Utility.fs" />
     <Compile Include="TypeChecking.fs" />
     <Compile Include="TypeInference.fs" />
     <Compile Include="Eval.fs" />

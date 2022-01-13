@@ -189,11 +189,17 @@ let generalize_ty (env: scheme env) (t: ty) : scheme =
     let uqv = Set.difference (freevars_ty t) (freevars_env env)
     Forall (Set.toList uqv, t)
 
-// type inference
-//
+(* type inference
+Compute the principal type of the given expression in the provided environment.
+??? Check if the principal type is a concept associated only with an expression or
+if also the env. is involved.
 
-// challenging cases
-// let f = fun x -> (x + 1) + (x + 1.1) in f 1
+env = the scheme environment
+e   = the expression of which to infer the type
+returns:
+- the principal type of <e> in <env>
+- the substitution produced inferring the type of <e>
+*)
 let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
     match e with
     | Lit (LBool _) -> (TyBool, [])
@@ -355,13 +361,17 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         type: int -> int -> int -> (int, int, int)
     *)
     | Tuple es ->
-        // first i get all the types and substitutions from inferring the type
-        // for all the expressions in the tuple
+        // Starting from the head of the tuple I infer each expression.
+        // For each field of the tuple I get a type and a substitution.
+        // Every time I get a new substitution i have to do two things:
+        //  - Apply it to the environment before inferring the following expressions.
+        //  - Apply it to all the types I have previously obtained.
+        //    Doing so, at the end all types are refined.
         let state = List.fold (fun state exp ->
             match state with
             // env = the current refined environment
-            // s = the current total composed substitution
-            // ts = the list of inferred types
+            // s   = the current total composed substitution
+            // ts  = the list of inferred types
             | (env:scheme env, s:subst, ts:ty list) ->
                 let env = apply_subst_env s env
                 let tExp, sExp = typeinfer_expr env exp
@@ -369,6 +379,9 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
                 // I keep all the types refined.
                 let ts = List.map (fun t -> apply_subst_ty sExp t) ts
                 let s = compose_subst_list [sExp; s]
+                // Adding an element in this way at the end of the list is not efficient.
+                // Consider producing a list in the reverse order and reverting it after the fold end.
+                // I keep it in this way because it is clearer.
                 let ts = ts @ [tExp]
                 (env, s, ts)) (env, [], []) es
         let (_, s, ts) = state // retrieve the substitution and the list of types from the fold state
