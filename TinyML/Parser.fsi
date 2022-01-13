@@ -85,11 +85,9 @@ type nonTerminalId =
     | NONTERM_binding
     | NONTERM_expr_app_atom
     | NONTERM_expr_tuple_atom
-    | NONTERM_expr_tuple_atoms
     | NONTERM_ty
     | NONTERM_ty_tuple
-    | NONTERM_tuple_decompose_id
-    | NONTERM_tuple_decompose_id_list
+    | NONTERM_expr_tuple_atoms
     | NONTERM_tuple_decompose_ids
 /// This function maps tokens to integer indexes
 val tagOfToken: token -> int

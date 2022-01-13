@@ -88,7 +88,7 @@ type Test_eval_expr () =
     [<Fact>]
     let ``if then else false`` () =
         test_eval_expr
-            "if true then 1 else 2"
+            "if false then 1 else 2"
             (VLit (LInt (2)))
 
     // sequence operator

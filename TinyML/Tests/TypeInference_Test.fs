@@ -6,6 +6,22 @@ open TypeInference
 open FSharp.Common
 open Utility
 
+let typeinfer_expr_from_string (program:string) =
+    fresh_tyvar <- 1
+    let exp = Parsing.parse_from_string SyntaxError program "example" (1, 1) Parser.program Lexer.tokenize Parser.tokenTagToTokenId
+    typeinfer_expr [] exp
+
+let test_typeinfer_expr (program:string) (expected:ty) =
+    let t,s = typeinfer_expr_from_string program
+    Assert.Equal (expected, t)
+
+let test_typeinfer_expr_error (program:string) =
+    try
+        let _,_ = typeinfer_expr_from_string program
+        assert_fail "exception not raised"
+    with _ ->
+        ()
+
 (* Unit tests for the <ty_contains_tyvar> function.
 *)
 type Test_ty_contains_tyvar () =
@@ -366,22 +382,6 @@ type Test_generalize_ty () =
         let env = [("x", Forall([], TyArrow (TyInt, TyVar 1)))]
         let t = TyTuple [TyVar 1; TyVar 2]
         Assert.Equal (Forall ([2], t), generalize_ty env t)
-
-let typeinfer_expr_from_string (program:string) =
-    fresh_tyvar <- 1
-    let exp = Parsing.parse_from_string SyntaxError program "example" (1, 1) Parser.program Lexer.tokenize Parser.tokenTagToTokenId
-    typeinfer_expr [] exp
-
-let test_typeinfer_expr (program:string) (expected:ty) =
-    let t,s = typeinfer_expr_from_string program
-    Assert.Equal (expected, t)
-
-let test_typeinfer_expr_error (program:string) =
-    try
-        let _,_ = typeinfer_expr_from_string program
-        assert_fail "exception not raised"
-    with _ ->
-        ()
 
 type Test_typeinfer_expr () =
     [<Fact>]
