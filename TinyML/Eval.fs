@@ -116,11 +116,11 @@ let rec eval_expr (env : value env) (e : expr) : value =
 
     // thise binary operators support only integers
     // "+" | "-" | "/" | "%" | "*"
-    | BinOp (e1, "+", e2) -> binop_int_to_int (+) env e1 e2
-    | BinOp (e1, "-", e2) -> binop_int_to_int (-) env e1 e2
-    | BinOp (e1, "/", e2) -> binop_int_to_int (/) env e1 e2
-    | BinOp (e1, "%", e2) -> binop_int_to_int (%) env e1 e2
-    | BinOp (e1, "*", e2) -> binop_int_to_int (*) env e1 e2
+    | BinOp (e1, "+", e2) -> binop_int (+) env e1 e2 LInt
+    | BinOp (e1, "-", e2) -> binop_int (-) env e1 e2 LInt
+    | BinOp (e1, "/", e2) -> binop_int (/) env e1 e2 LInt
+    | BinOp (e1, "%", e2) -> binop_int (%) env e1 e2 LInt
+    | BinOp (e1, "*", e2) -> binop_int (*) env e1 e2 LInt
 
     // thise binary operators support only floats
     // "+" | "-" | "/" | "%" | "*"
@@ -132,30 +132,30 @@ let rec eval_expr (env : value env) (e : expr) : value =
 
     // int binary operators
     // "<" | "<=" | ">" | ">=" | "=" | "<>"
-    | BinOp (e1, "<", e2) -> binop_int_to_bool (<) env e1 e2
-    | BinOp (e1, "<=", e2) -> binop_int_to_bool (<=) env e1 e2
-    | BinOp (e1, ">", e2) -> binop_int_to_bool (>) env e1 e2
-    | BinOp (e1, ">=", e2) -> binop_int_to_bool (>=) env e1 e2
-    | BinOp (e1, "=", e2) -> binop_int_to_bool (=) env e1 e2
-    | BinOp (e1, "<>", e2) -> binop_int_to_bool (<>) env e1 e2
+    | BinOp (e1, "<" , e2) -> binop_int (<)  env e1 e2 LBool
+    | BinOp (e1, "<=", e2) -> binop_int (<=) env e1 e2 LBool
+    | BinOp (e1, ">" , e2) -> binop_int (>)  env e1 e2 LBool
+    | BinOp (e1, ">=", e2) -> binop_int (>=) env e1 e2 LBool
+    | BinOp (e1, "=" , e2) -> binop_int (=)  env e1 e2 LBool
+    | BinOp (e1, "<>", e2) -> binop_int (<>) env e1 e2 LBool
 
     // boolean binary operators
     | BinOp (e1, "and", e2) -> binop_bool (&&) env e1 e2
     | BinOp (e1, "or", e2) -> binop_bool (||) env e1 e2
 
+    // unary operators
     | UnOp ("not", e) ->
         let v = eval_expr env e
         match v with
         | VLit (LBool b) -> VLit (LBool (not b))
         | _ -> unexpected_error "eval_expr: non-bool in not operator <%s>" (pretty_value v)
 
-    // unary operators
     | UnOp ("-", e)
     | UnOp ("-.", e) ->
         let v = eval_expr env e
         match v with
-        | VLit (LInt b) -> VLit (LInt (-b))
-        | VLit (LFloat b) -> VLit (LFloat (-b))
+        | VLit (LInt x) -> VLit (LInt (-x))
+        | VLit (LFloat x) -> VLit (LFloat (-x))
         | _ -> unexpected_error "eval_expr: incompatible value in minus operator <%s>" (pretty_value v)
 
     // conversion operators
@@ -169,18 +169,13 @@ let rec eval_expr (env : value env) (e : expr) : value =
 
     | _ -> unexpected_error "eval_expr: unsupported expression: %s [AST: %A]" (pretty_expr e) e
 
-and binop_int_to_int op env e1 e2 =
+// This is a polymorphic recursive function
+// A polymorhic recursive function must be fully annotated in F#
+and binop_int<'a> (op:int->int->'a) (env:value env) (e1:expr) (e2:expr) (litResult:'a->lit) : value =
     let v1 = eval_expr env e1
     let v2 = eval_expr env e2
     match v1,v2 with
-    | VLit (LInt a), VLit (LInt b) -> VLit (LInt (op a b))
-    | _ -> unexpected_error "eval_expr: illegal operands in binary operator: %s <op> %s" (pretty_value v1) (pretty_value v2)
-
-and binop_int_to_bool op env e1 e2 =
-    let v1 = eval_expr env e1
-    let v2 = eval_expr env e2
-    match v1,v2 with
-    | VLit (LInt a), VLit (LInt b) -> VLit (LBool (op a b))
+    | VLit (LInt a), VLit (LInt b) -> VLit (litResult (op a b))
     | _ -> unexpected_error "eval_expr: illegal operands in binary operator: %s <op> %s" (pretty_value v1) (pretty_value v2)
 
 and binop_bool op env e1 e2 =

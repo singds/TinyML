@@ -6,8 +6,7 @@
 module TinyML.TypeChecking
 
 open Ast
-
-let type_error fmt = throw_formatted TypeError fmt
+open Utility
 
 (* type checker
 env = the type environment

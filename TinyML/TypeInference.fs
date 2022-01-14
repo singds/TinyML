@@ -1,9 +1,10 @@
 ﻿module TinyML.TypeInference
 
 open Ast
+open Utility
 
-let type_error fmt = throw_formatted TypeError fmt
-
+(* apply substitution to type
+*)
 let rec apply_subst_ty (s : subst) (t : ty) : ty =
     match t with
     | TyName (n) ->
@@ -20,7 +21,8 @@ let rec apply_subst_ty (s : subst) (t : ty) : ty =
     | TyTuple (tl) ->
         TyTuple (List.map (apply_subst_ty s) tl)
 
-
+(* apply substitution to scheme
+*)
 let rec apply_subst_scheme (sub : subst) (sch : scheme) : scheme =
     match sch with
     // uql = universally quantified variable list
@@ -34,13 +36,16 @@ let rec apply_subst_scheme (sub : subst) (sch : scheme) : scheme =
             unexpected_error "apply_subst_scheme: substitution of a universally quantified variable, scheme=%s substitution=%s" (pretty_scheme sch) (pretty_subs sub)
         Forall (uql, apply_subst_ty sub tipe)
 
+(* apply substitution to environment
+*)
 let rec apply_subst_env (sub : subst) (env : scheme env) : scheme env =
     match env with
     | [] -> []
     | (tvar, sch)::tail ->
         (tvar, apply_subst_scheme sub sch)::(apply_subst_env sub tail)
 
-(* Check the given type variable appears somewhere in the given type.
+(* Check if the given type variable appears somewhere in the given type.
+return true if t.contains(v).
 *)
 let rec ty_contains_tyvar (v : tyvar) (t : ty) : bool =
     match t with
@@ -76,6 +81,11 @@ let compose_subst (s2 : subst) (s1 : subst) : subst =
     let s2 = List.filter (fun (var, _) -> not (Set.contains var intersect)) s2
     newSub @ s2
 
+(* compose a list of substitution: Sn o Sn-1 o .. o S2 o S1
+The right-most substitution is the tail of the list.
+The left-most substitution is the head of the list.
+Applying the obtained subst is equivalent of applying in order S1,S2,..,Sn-1,Sn
+*)
 let rec compose_subst_list (subsList : subst list) : subst =
     match subsList with
     | [] -> []
@@ -83,9 +93,8 @@ let rec compose_subst_list (subsList : subst list) : subst =
         compose_subst x (compose_subst_list tail)
 
 (* return the most general unifier between the two types provided
-the function returns a substitution that applied to both t1 and t2 produces the
+The function returns a substitution that applied to both t1 and t2 produces the
 same type : apply(substitution, t1) = apply(substitution, t1)
-
 *)
 let rec unify (t1 : ty) (t2 : ty) : subst =
     match t1, t2 with
@@ -113,8 +122,8 @@ let rec unify (t1 : ty) (t2 : ty) : subst =
 
     | TyArrow(ta1,ta2), TyArrow(ta3,ta4) ->
         let s = unify ta1 ta3
-        // The substitution obtained from the unification of the left hand side
-        // types, must be applied to the right hand side types before unifing them.
+        // The substitution obtained from the unification of the left-hand-side
+        // types, must be applied to the right-hand-side types before unifing them.
         // To better understand check this special case:
         // unify ('a -> 'a, 'b -> 'c)
         // If you don't apply the substitution before unifying t2 and t3, you get:
@@ -150,6 +159,9 @@ let rec unify (t1 : ty) (t2 : ty) : subst =
     // (TyName, TyArrow) | (TyName, TyTuple) | (TyArrow, TyTuple)
     | _ -> type_error "unify: type %s can't be unified with type %s" (pretty_ty t1) (pretty_ty t2)
 
+(* get the set of free-type-variables in the type
+The ftv of a type are all the type vars appearing on the type.
+*)
 let rec freevars_ty (t : ty) : tyvar Set =
     match t with
     | TyName _ -> Set.empty
@@ -157,22 +169,34 @@ let rec freevars_ty (t : ty) : tyvar Set =
     | TyVar tv -> Set.singleton tv
     | TyTuple ts -> List.fold (fun set t -> Set.union set (freevars_ty t)) Set.empty ts 
 
+(* get the set of free-type-variables in the scheme.
+The ftv of a scheme are all the type vars appearing on the type minus the universally
+quantified vars.
+*)
 let freevars_scheme (Forall (tvs, t)) : tyvar Set =
     Set.difference (freevars_ty t) (Set.ofList tvs)
 
+(* get the set of free-type-variables in the environment.
+The ftv of an env. are the sum of all the ftv of the scheme that contains.
+*)
 let rec freevars_env (env: scheme env) : tyvar Set =
     match env with
     | [] -> Set.empty
     | (_,s)::tail ->
         Set.union (freevars_scheme s) (freevars_env tail)
 
-
+(* produce a new fresh type variable
+*)
 let mutable fresh_tyvar :tyvar = 0
 let get_new_fresh_tyvar () : tyvar =
     fresh_tyvar <- fresh_tyvar + 1
     fresh_tyvar
 
-// scheme instantiation
+(* scheme instantiation
+Instantiate the given scheme in a type.
+The ty-vars universally quantified appearing on the type are substituted with
+new fresh ty-vars.
+*)
 let rec inst_scheme (s:scheme) : ty =
     match s with
     | Forall (uqv, t) ->
@@ -183,11 +207,17 @@ let rec inst_scheme (s:scheme) : ty =
         let sub = List.map (fun v -> (v, TyVar(get_new_fresh_tyvar ()))) (List.sort (Set.toList toBeRefresh))
         apply_subst_ty sub t
 
-// type generalization
+(* type generalization
+Generalize the given type in the given environment.
+The generalization produces a scheme.
+In the schema are universally quantified all the type-variable that appear on
+the type <t> but don't appear free on the env.
+*)
 let generalize_ty (env: scheme env) (t: ty) : scheme =
     // uqv = universally quantified vars
     let uqv = Set.difference (freevars_ty t) (freevars_env env)
     Forall (Set.toList uqv, t)
+
 
 (* type inference
 Compute the principal type of the given expression in the provided environment.
@@ -480,7 +510,6 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
     *)
     | UnOp ("not", e) ->
         typeinfer_unop TyBool TyBool env e
-            
     | UnOp ("-", e) ->
         typeinfer_unop TyInt TyInt env e
     | UnOp ("-.", e) ->
