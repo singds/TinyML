@@ -84,6 +84,15 @@ and tokenize = parse
     | "*."              { STAR_F }
     | "/."              { SLASH_F }
     | "%."              { PERCENT_F }
+
+    // tokens for lists
+    | '['               { BRASQ }
+    | ']'               { KETSQ }
+    | "::"              { CHAIN }
+    | "IsEmpty"         { ISEMPTY }
+    | "match"           { MATCH }
+    | "with"            { WITH }
+    | '|'               { VSEP }
     
     // brakets
     | '('               { BRA }

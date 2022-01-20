@@ -66,3 +66,36 @@ type Test_parser () =
         test_ast "f Float (1)"
             (App (Var "f", UnOp ("to_float", Lit (LInt 1))))
 
+// LIST
+type Test_parser_list () =
+    [<Fact>]
+    let ``empty list with no type`` () =
+        test_ast "[]" (Empty None)
+
+    [<Fact>]
+    let ``empty list with type`` () =
+        test_ast "[int]" (Empty (Some TyInt))
+
+    [<Fact>]
+    let ``list chain head plus empty with no type`` () =
+        test_ast "1::[]" (List (Lit (LInt 1), Empty None))
+
+    [<Fact>]
+    let ``list chain head plus empty with type`` () =
+        test_ast "1::[int]" (List (Lit (LInt 1), Empty (Some TyInt)))
+
+    [<Fact>]
+    let ``list chain two elements`` () =
+        test_ast "1::2::[]" (List (Lit (LInt 1), (List (Lit (LInt 2), Empty (None)))))
+
+    [<Fact>]
+    let ``list is emtpy`` () =
+        test_ast "IsEmpty x" (IsEmpty (Var ("x")))
+
+    [<Fact>]
+    let ``list match`` () =
+        // This expression is clearly wrong but i just need to check the parser
+        test_ast
+            "match 1 with x::y -> 2 | [] -> 3"
+            (Match (Lit (LInt 1), "x", "y", Lit (LInt 2), Lit (LInt 3)))
+

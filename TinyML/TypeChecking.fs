@@ -26,9 +26,9 @@ let rec typecheck_expr (env : ty env) (e : expr) : ty =
         try
             let _, t = List.find (fun (y, _) -> x = y) env
             t
-        with _ -> type_error "typecheck_expr: use of undefined variable %s" x
+        with _ -> type_error "use of undefined variable %s" x
 
-    | Lambda (x, None, e) -> unexpected_error "typecheck_expr: unannotated lambda is not supported"
+    | Lambda (x, None, e) -> unexpected_error "unannotated lambda is not supported"
     
     | Lambda (x, Some t1, e) ->
         let t2 = typecheck_expr ((x, t1) :: env) e
@@ -99,6 +99,43 @@ let rec typecheck_expr (env : ty env) (e : expr) : ty =
         let t1 = typecheck_expr env e1
         if t1 <> TyUnit then type_error "left side of the ; operator does not match Unit type"
         typecheck_expr env e2
+
+    // list specific expressions
+    | Empty (None) ->
+        type_error "unannotated empty list is not supported"
+    
+    | Empty (Some t) ->
+        TyList t
+    
+    | List (e1, e2) ->
+        let t1 = typecheck_expr env e1
+        let t2 = typecheck_expr env e2
+        match t2 with
+        | TyList t ->
+            if t <> t1 then
+                type_error "wrong types in :: operator, %s::%s" (pretty_ty t1) (pretty_ty t2)
+            t2
+        | _ -> type_error "left side of the :: operator is not a list"
+
+    | IsEmpty (e) ->
+        let t = typecheck_expr env e
+        match t with
+        | TyList _ ->
+            TyBool
+        | _ -> type_error "IsEmpty expected type bool but got %s" (pretty_ty t)
+
+    // TODO take care of the _ identifier
+    | Match (e_list, head, tail, e_full, e_empty) ->
+        let t_list = typecheck_expr env e_list
+        match t_list with
+        | TyList t ->
+            let t_full = typecheck_expr ((head, t)::(tail, t_list)::env) e_full
+            let t_empty = typecheck_expr env e_empty
+            if t_full <> t_empty then
+                type_error "type mismatch in match with: full list case has type %s while empty list case has type %s" (pretty_ty t_full) (pretty_ty t_empty)
+            t_full
+        | _ -> type_error "match expected a list type but got %s" (pretty_ty t_list)
+
 
     | BinOp (e1, ("+" | "-" | "/" | "%" | "*" as op), e2) ->
         let t1 = typecheck_expr env e1

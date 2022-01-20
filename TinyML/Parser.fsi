@@ -39,6 +39,13 @@ type token =
   | STAR_F
   | SLASH_F
   | PERCENT_F
+  | BRASQ
+  | KETSQ
+  | CHAIN
+  | ISEMPTY
+  | MATCH
+  | WITH
+  | VSEP
   | STRING of (System.String)
   | ID of (System.String)
   | CHAR of (System.Char)
@@ -83,6 +90,13 @@ type tokenId =
     | TOKEN_STAR_F
     | TOKEN_SLASH_F
     | TOKEN_PERCENT_F
+    | TOKEN_BRASQ
+    | TOKEN_KETSQ
+    | TOKEN_CHAIN
+    | TOKEN_ISEMPTY
+    | TOKEN_MATCH
+    | TOKEN_WITH
+    | TOKEN_VSEP
     | TOKEN_STRING
     | TOKEN_ID
     | TOKEN_CHAR

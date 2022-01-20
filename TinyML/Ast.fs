@@ -29,6 +29,7 @@ type ty =
     | TyArrow of ty * ty
     | TyVar of tyvar
     | TyTuple of ty list
+    | TyList of ty  // a list which contains elements of type <ty>
 
 // pseudo data constructors for literal types
 let TyFloat = TyName "float"
@@ -74,6 +75,10 @@ and expr =
     | UnOp of string * expr
     | LetTuple of string list * expr * expr
     | Seq of expr * expr // sequence expression, that is the ; operator
+    | Empty of ty option // the empty list can be annotate
+    | List of expr * expr // head element and list tail
+    | IsEmpty of expr // to check if the list is empty
+    | Match of expr * string * string * expr * expr // list, head, tail, non-empty body, empty body
    
 let (|Let|_|) = function 
     | LetIn ((false, x, tyo, e1), e2) -> Some (x, tyo, e1, e2)
@@ -90,6 +95,8 @@ type value =
     | VTuple of value list
     | Closure of value env * string * expr
     | RecClosure of value env * string * string * expr
+    | VEmpty // the empty list
+    | VList of value * value // the first value is an element, the second value is a list
 
 type interactive = IExpr of expr | IBinding of binding
 
@@ -168,6 +175,18 @@ let rec pretty_expr e =
     | LetTuple (l, e1, e2) -> sprintf "let (%s) = %s in %s" (pretty_tupled_string_list l) (pretty_expr e1) (pretty_expr e2)
 
     | Seq (e1, e2) -> sprintf "%s; %s" (pretty_expr e1) (pretty_expr e2)
+
+    // list specific expressions
+    | Empty (None) -> "[]"
+    
+    | Empty (Some t) -> sprintf "[%s]" (pretty_ty t)
+    
+    | List (head, tail) -> sprintf "%s::%s" (pretty_expr head) (pretty_expr tail)
+    
+    | IsEmpty (e) -> sprintf "IsEmpty (%s)" (pretty_expr e)
+    
+    | Match (l, h, t, e_full, e_empty) ->
+        sprintf "match %s with %s::%s -> %s | [] -> %s" (pretty_expr l) h t (pretty_expr e_full) (pretty_expr e_empty)
     
     | _ -> unexpected_error "pretty_expr: %s" (pretty_expr e)
 

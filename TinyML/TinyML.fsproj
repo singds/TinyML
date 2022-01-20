@@ -99,8 +99,9 @@
     <Compile Include="TypeInference.fs" />
     <Compile Include="Eval.fs" />
     <Compile Include="Tests\Parser_Test.fs" />
-    <Compile Include="Tests\TypeInference_Test.fs" />
+    <Compile Include="Tests\TypeChecking_Test.fs" />
     <Compile Include="Tests\Eval_Test.fs" />
+    <Compile Include="Tests\TypeInference_Test.fs" />
     <Compile Include="Main.fs" />
     <None Include="ProgramExamples\example1.tml" />
   </ItemGroup>
