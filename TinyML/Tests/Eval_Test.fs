@@ -142,3 +142,53 @@ type Test_eval_expr () =
     [<Fact>]
     let ``integer plus operator`` () =
         test_eval_expr "1 + 2" (VLit (LInt (3)))
+
+
+type Test_eval_expr_list () =
+    [<Fact>]
+    let ``empty list without type`` () =
+        test_eval_expr "[]" VEmpty
+
+    [<Fact>]
+    let ``empty list with type`` () =
+        test_eval_expr "[int]" VEmpty
+
+    [<Fact>]
+    let ``list chain with compatible types`` () =
+        test_eval_expr "1::[int]" (VList (VLit (LInt 1), VEmpty))
+
+    [<Fact>]
+    let ``list chain two elements`` () =
+        test_eval_expr "1::2::[int]" (VList (VLit (LInt 1), VList (VLit (LInt 2), VEmpty)))
+
+    [<Fact>]
+    let ``list is emtpy`` () =
+        test_eval_expr "IsEmpty []" (VLit (LBool true))
+
+    [<Fact>]
+    let ``list is not emtpy`` () =
+        test_eval_expr "IsEmpty (1::[])" (VLit (LBool false))
+
+    [<Fact>]
+    let ``list match, right branch`` () =
+        test_eval_expr
+            "match [] with h::t -> 1 | [] -> 2"
+            (VLit (LInt 2))
+
+    [<Fact>]
+    let ``list match, left branch`` () =
+        test_eval_expr
+            "match 3::[] with h::t -> 1 | [] -> 2"
+            (VLit (LInt 1))
+
+    [<Fact>]
+    let ``list match, return head`` () =
+        test_eval_expr
+            "match 3::4::[] with h::t -> h | [] -> 2"
+            (VLit (LInt 3))
+
+    [<Fact>]
+    let ``list match, return tail`` () =
+        test_eval_expr
+            "match 3::4::[] with h::t -> t | [] -> 2"
+            (VList (VLit (LInt 4), VEmpty))

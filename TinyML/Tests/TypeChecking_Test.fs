@@ -49,7 +49,15 @@ type Test_typechecking_expr () =
         test_typecheck_expr "IsEmpty [int]" TyBool
 
     [<Fact>]
-    let ``list match`` () =
+    let ``list match with correct types in the two breanches`` () =
         test_typecheck_expr
             "match [int] with x::y -> 1.1 | [] -> 2.2"
             TyFloat
+
+    [<Fact>]
+    let ``list match with wrong types in the two breanches`` () =
+        test_typecheck_expr_error "match [int] with x::y -> 1.1 | [] -> 2"
+
+    [<Fact>]
+    let ``list match with something that is not a list`` () =
+        test_typecheck_expr_error "match 1 with x::y -> 1.1 | [] -> 2.2"

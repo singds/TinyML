@@ -114,6 +114,40 @@ let rec eval_expr (env : value env) (e : expr) : value =
         let _ = eval_expr env e1
         eval_expr env e2
 
+    (* [] | [<ty>]
+    *)
+    | Empty (_) -> VEmpty
+    
+    (* e1::e2
+    If e1 is a value of type T, e2 is a value of type T List. This is ensured
+    by typecheck of typeinfer.
+    *)
+    | List (e1, e2) ->
+        let v1 = eval_expr env e1
+        let v2 = eval_expr env e2
+        VList (v1, v2)
+
+    (* IsEmpty(e)
+    This expression could be implemented using the match construct like this:
+    match e with _::_ -> false | [] -> true
+    *)
+    | IsEmpty (e) ->
+        eval_expr env (Match (e, "_", "_", Lit (LBool false), Lit (LBool true)))
+
+    // TODO take care of the _ identifier
+    (* match e1 with id1::id2 -> e2 | [] -> e3
+    e2 is the expression that is evaluated when the list is not empty
+    e3 is evaluated when the list is empty
+    *)
+    | Match (e_list, head, tail, e_full, e_empty) ->
+        let v_list = eval_expr env e_list
+        match v_list with
+        | VEmpty ->
+            eval_expr env e_empty
+        | VList (vh, vt) ->
+            eval_expr ((head, vh)::(tail, vt)::env) e_full
+        | _ -> unexpected_error "wrong value in match construct: expected VList or VEmpty but got %s" (pretty_value v_list)
+
     // thise binary operators support only integers
     // "+" | "-" | "/" | "%" | "*"
     | BinOp (e1, "+", e2) -> binop_int (+) env e1 e2 LInt

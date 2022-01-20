@@ -129,6 +129,8 @@ expr_tuple_atom:
   | expr_tuple_atom SEQUENCE expr_tuple_atom            { Seq ($1, $3) }
   // for a tuple in the last expr you have to put double parentheses  e1; e2; ((et1,..,etn))
 
+  // The IsEmpty expression could be implemented as a syntactic sugar of the Match construct
+  //| ISEMPTY expr_app_atom                               { Match ($2, "_", "_", Lit (LBool false), Lit (LBool true)) }
   | ISEMPTY expr_app_atom                               { IsEmpty ($2) }
   | expr_tuple_atom CHAIN expr_tuple_atom               { List ($1, $3) }
 
