@@ -125,6 +125,7 @@ let rec pretty_ty t =
     | TyArrow (t1, t2) -> sprintf "%s -> %s" (pretty_ty t1) (pretty_ty t2)
     | TyVar n -> sprintf "'%d" n
     | TyTuple ts -> sprintf "(%s)" (pretty_tupled pretty_ty ts)
+    | TyList elemT -> sprintf "%s list" (pretty_ty elemT)
 
 let pretty_lit lit =
     match lit with
@@ -217,6 +218,11 @@ let rec pretty_value v =
     | Closure (env, x, e) -> sprintf "<|%s;%s;%s|>" (pretty_env pretty_value env) x (pretty_expr e)
     
     | RecClosure (env, f, x, e) -> sprintf "<|%s;%s;%s;%s|>" (pretty_env pretty_value env) f x (pretty_expr e)
+
+    | VEmpty -> "[]"
+
+    // TODO pretty print a value that is a list
+    | VList (head, tail) -> ""
 
 let pretty_subs (subList:subst) =
     let print_one_sub (tvar, t) = sprintf "'%d\%s" tvar (pretty_ty t)
