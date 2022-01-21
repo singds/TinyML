@@ -523,7 +523,7 @@ type Test_typeinfer_expr () =
         test_typeinfer_expr "fun x -> x + x" (TyArrow (TyInt, TyInt))
 
 
-type Test_typechecking_expr () =
+type Test_typechecking_expr_list () =
     [<Fact>]
     let ``empty list with no type`` () =
         // empty lists must be annotated for the typechecker
@@ -570,6 +570,18 @@ type Test_typechecking_expr () =
     [<Fact>]
     let ``list match with something that is not a list`` () =
         test_typeinfer_expr_error "match 1 with x::y -> 1.1 | [] -> 2.2"
+
+    [<Fact>]
+    let ``list match with type given by the empty case`` () =
+        test_typeinfer_expr
+            "fun l -> match l with h::t -> h | [] -> 1"
+            (TyArrow (TyList TyInt, TyInt)) // int list -> int
+
+    [<Fact>]
+    let ``list match with type given by the not-empty case`` () =
+        test_typeinfer_expr
+            "fun l -> fun x -> match l with h::t -> h + 1 | [] -> x"
+            (TyArrow (TyList TyInt, TyArrow (TyInt, TyInt))) // int list -> int -> int
 
 
 [<Theory>]
