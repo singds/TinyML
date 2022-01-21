@@ -523,7 +523,7 @@ type Test_typeinfer_expr () =
         test_typeinfer_expr "fun x -> x + x" (TyArrow (TyInt, TyInt))
 
 
-type Test_typechecking_expr_list () =
+type Test_typeinfer_expr_list () =
     [<Fact>]
     let ``empty list with no type`` () =
         // empty lists must be annotated for the typechecker
@@ -573,15 +573,43 @@ type Test_typechecking_expr_list () =
 
     [<Fact>]
     let ``list match with type given by the empty case`` () =
+        // int list -> int
         test_typeinfer_expr
             "fun l -> match l with h::t -> h | [] -> 1"
-            (TyArrow (TyList TyInt, TyInt)) // int list -> int
+            (TyArrow (TyList TyInt, TyInt))
 
     [<Fact>]
     let ``list match with type given by the not-empty case`` () =
+        // int list -> int -> int
         test_typeinfer_expr
             "fun l -> fun x -> match l with h::t -> h + 1 | [] -> x"
-            (TyArrow (TyList TyInt, TyArrow (TyInt, TyInt))) // int list -> int -> int
+            (TyArrow (TyList TyInt, TyArrow (TyInt, TyInt)))
+
+    [<Fact>]
+    let ``map function`` () =
+        // int list -> int list
+        test_typeinfer_expr
+            "
+            let rec map f l =
+                    match l with
+                    h::t -> (f h)::(map f t)
+                    | [] -> []
+            in map (fun x -> x + 1)
+            "
+            (TyArrow (TyList TyInt, TyList TyInt))
+
+    [<Fact>]
+    let ``fold function`` () =
+        // bool -> int list -> bool
+        test_typeinfer_expr
+            "
+            let rec fold f z l =
+                    match l with
+                    h::t -> fold f (f z h) t
+                    | [] -> z
+            in fold (fun z -> fun x -> z or (x > 0))
+            "
+            (TyArrow (TyBool, TyArrow (TyList TyInt, TyBool)))
 
 
 [<Theory>]

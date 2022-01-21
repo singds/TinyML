@@ -192,3 +192,29 @@ type Test_eval_expr_list () =
         test_eval_expr
             "match 3::4::[] with h::t -> t | [] -> 2"
             (VList (VLit (LInt 4), VEmpty))
+
+    [<Fact>]
+    let ``map function`` () =
+        // int list -> int list
+        test_eval_expr
+            "
+            let rec map f l =
+                    match l with
+                    h::t -> (f h)::(map f t)
+                    | [] -> []
+            in map (fun x -> x + 1) (1::2::[])
+            "
+            (VList (VLit (LInt 2), VList (VLit (LInt 3), VEmpty)))
+
+    [<Fact>]
+    let ``fold function`` () =
+        // bool -> int list -> bool
+        test_eval_expr
+            "
+            let rec fold f z l =
+                    match l with
+                    h::t -> fold f (f z h) t
+                    | [] -> z
+            in fold (fun z -> fun x -> z + x) 0 (1::2::3::[])
+            "
+            (VLit (LInt 6))
