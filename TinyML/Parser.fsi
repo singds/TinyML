@@ -111,6 +111,7 @@ type nonTerminalId =
     | NONTERM_interactive
     | NONTERM_expr
     | NONTERM_binding
+    | NONTERM_parms
     | NONTERM_expr_app_atom
     | NONTERM_expr_tuple_atom
     | NONTERM_ty

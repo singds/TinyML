@@ -80,6 +80,9 @@ and expr =
     | IsEmpty of expr // to check if the list is empty
     | Match of expr * string * string * expr * expr // list, head, tail, non-empty body, empty body
    
+let fold_params parms e0 = 
+    List.foldBack (fun (id, tyo) e -> Lambda (id, tyo, e)) parms e0
+
 let (|Let|_|) = function 
     | LetIn ((false, x, tyo, e1), e2) -> Some (x, tyo, e1, e2)
     | _ -> None
