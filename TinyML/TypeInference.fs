@@ -523,12 +523,14 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
 
     // TODO take care of the _ identifier
     (* match e1 with id1::id2 -> e2 | [] -> e3
+    id1 and id2 can be the ignore identifier "_".
 
     interestin expressions:
     1) fun l -> match l with h::t -> h | [] -> 1                      : int list -> int
     2) fun l -> fun x -> match l with h::t -> h + 1 | [] -> x         : int list -> int -> int
     *)
     | Match (e_list, head, tail, e_full, e_empty) ->
+        // create a new fresh type representing the type of the elements in the list
         let elemT = TyVar (get_new_fresh_tyvar ())
         let t1, s1 = typeinfer_expr env e_list
         let su = unify t1 (TyList elemT)
@@ -537,7 +539,9 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         let s = compose_subst_list [su; s1]
         let env = apply_subst_env s env
 
-        let env1 = (head, Forall ([], elemT))::(tail, Forall ([], TyList elemT))::env
+        // add the tail-id bind to the env. only if tail-id is not "_"
+        // add the head-id bind to the env. only if head-id is not "_"
+        let env1 = prepend_if_not_ignore [(head, Forall ([], elemT)); (tail, Forall ([], TyList elemT))] env
         let tf, sf = typeinfer_expr env1 e_full
         let env = apply_subst_env sf env
         let te, se = typeinfer_expr env e_empty

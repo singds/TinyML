@@ -124,12 +124,17 @@ let rec typecheck_expr (env : ty env) (e : expr) : ty =
             TyBool
         | _ -> type_error "IsEmpty expected type bool but got %s" (pretty_ty t)
 
-    // TODO take care of the _ identifier
+    (*
+    id1 and id2 can be the ignore identifier "_".
+    *)
     | Match (e_list, head, tail, e_full, e_empty) ->
         let t_list = typecheck_expr env e_list
         match t_list with
         | TyList t ->
-            let t_full = typecheck_expr ((head, t)::(tail, t_list)::env) e_full
+            // add the tail-id bind to the env. only if tail-id is not "_"
+            // add the head-id bind to the env. only if head-id is not "_"
+            let env1 = prepend_if_not_ignore [(head, t); (tail, t_list)] env
+            let t_full = typecheck_expr env1 e_full
             let t_empty = typecheck_expr env e_empty
             if t_full <> t_empty then
                 type_error "type mismatch in match with: full list case has type %s while empty list case has type %s" (pretty_ty t_full) (pretty_ty t_empty)

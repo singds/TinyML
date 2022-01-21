@@ -6,6 +6,7 @@
 module TinyML.Eval
 
 open Ast
+open Utility
 
 (* evaluator
 env = the value environment (binds names to values)
@@ -134,10 +135,10 @@ let rec eval_expr (env : value env) (e : expr) : value =
     | IsEmpty (e) ->
         eval_expr env (Match (e, "_", "_", Lit (LBool false), Lit (LBool true)))
 
-    // TODO take care of the _ identifier
     (* match e1 with id1::id2 -> e2 | [] -> e3
-    e2 is the expression that is evaluated when the list is not empty
-    e3 is evaluated when the list is empty
+    e2 is the expression that is evaluated when the list is not empty.
+    e3 is evaluated when the list is empty.
+    id1 and id2 can be the ignore identifier "_".
     *)
     | Match (e_list, head, tail, e_full, e_empty) ->
         let v_list = eval_expr env e_list
@@ -145,7 +146,10 @@ let rec eval_expr (env : value env) (e : expr) : value =
         | VEmpty ->
             eval_expr env e_empty
         | VList (vh, vt) ->
-            eval_expr ((head, vh)::(tail, vt)::env) e_full
+            // add the head-id bind to the env. only if head-id is not "_"
+            // add the tail-id bind to the env. only if tail-id is not "_"
+            let env = prepend_if_not_ignore [(head, vh); (tail, vt)] env
+            eval_expr env e_full
         | _ -> unexpected_error "wrong value in match construct: expected VList or VEmpty but got %s" (pretty_value v_list)
 
     // thise binary operators support only integers
