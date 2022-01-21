@@ -20,6 +20,8 @@ let rec apply_subst_ty (s : subst) (t : ty) : ty =
         TyArrow ((apply_subst_ty s t1), (apply_subst_ty s t2))
     | TyTuple (tl) ->
         TyTuple (List.map (apply_subst_ty s) tl)
+    | TyList (elemT) ->
+        TyList (apply_subst_ty s elemT)
 
 (* apply substitution to scheme
 *)
@@ -58,6 +60,8 @@ let rec ty_contains_tyvar (v : tyvar) (t : ty) : bool =
         (ty_contains_tyvar v t1) || (ty_contains_tyvar v t2)
     | TyTuple (tl) ->
         List.fold (fun (state:bool) (t:ty) -> state || (ty_contains_tyvar v t)) false tl
+    | TyList (elemT) ->
+        ty_contains_tyvar v elemT
 
 (* This returns s3 = s2 o s1.
 Applying s3 is the same as applying s1 first and s2 next.
@@ -155,6 +159,9 @@ let rec unify (t1 : ty) (t2 : ty) : subst =
             compose_subst subU s
         ) [] pairs
 
+    | TyList(te1), TyList(te2) ->
+        unify te1 te2
+
     // this case encompasses all those cases:
     // (TyName, TyArrow) | (TyName, TyTuple) | (TyArrow, TyTuple)
     | _ -> type_error "unify: type %s can't be unified with type %s" (pretty_ty t1) (pretty_ty t2)
@@ -167,7 +174,8 @@ let rec freevars_ty (t : ty) : tyvar Set =
     | TyName _ -> Set.empty
     | TyArrow (t1, t2) -> Set.union (freevars_ty t1) (freevars_ty t2)
     | TyVar tv -> Set.singleton tv
-    | TyTuple ts -> List.fold (fun set t -> Set.union set (freevars_ty t)) Set.empty ts 
+    | TyTuple ts -> List.fold (fun set t -> Set.union set (freevars_ty t)) Set.empty ts
+    | TyList elemT -> freevars_ty elemT
 
 (* get the set of free-type-variables in the scheme.
 The ftv of a scheme are all the type vars appearing on the type minus the universally
@@ -480,6 +488,63 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         let t2, s2 = typeinfer_expr env e2
         let s = compose_subst_list [s2; s]
         (t2, s)
+
+    (* []
+    *)
+    | Empty (None) -> (TyVar (get_new_fresh_tyvar ()), [])
+
+    (* [<ty>]
+    *)
+    | Empty (Some t) -> (TyList t, [])
+    
+    (* e1::e2
+    If e1 is a value of type T, e2 is a value of type T List. This is ensured
+    by typecheck of typeinfer.
+
+    interesting expressions:
+    1) 1::[]               : int list
+    2) fun x -> x::[int]   : int -> int list
+    *)
+    | List (e1, e2) ->
+        let t1, s1 = typeinfer_expr env e1
+        let env = apply_subst_env s1 env
+        let t2, s2 = typeinfer_expr env e2
+        let t1 = apply_subst_ty s2 t1
+        let su = unify t2 (TyList t1)
+        let s = compose_subst_list [su; s2; s1]
+        (apply_subst_ty su t2, s)
+
+    (* IsEmpty(e)
+    This expression can be implemented using the match construct like this:
+    match e with _::_ -> false | [] -> true
+    *)
+    | IsEmpty (e) ->
+        typeinfer_expr env (Match (e, "_", "_", Lit (LBool false), Lit (LBool true)))
+
+    // TODO take care of the _ identifier
+    (* match e1 with id1::id2 -> e2 | [] -> e3
+
+    interestin expressions:
+    1) fun l -> match l with h::t -> h | [] -> 1                      : int list -> int
+    2) fun l -> fun x -> match l with h::t -> h + 1 | [] -> x         : int list -> int -> int
+    *)
+    | Match (e_list, head, tail, e_full, e_empty) ->
+        let elemT = TyVar (get_new_fresh_tyvar ())
+        let t1, s1 = typeinfer_expr env e_list
+        let su = unify t1 (TyList elemT)
+        let elemT = apply_subst_ty su elemT
+
+        let s = compose_subst_list [su; s1]
+        let env = apply_subst_env s env
+
+        let env1 = (head, Forall ([], elemT))::(tail, Forall ([], TyList elemT))::env
+        let tf, sf = typeinfer_expr env1 e_full
+        let env = apply_subst_env sf env
+        let te, se = typeinfer_expr env e_empty
+        let tf = apply_subst_ty se tf
+        let su = unify tf te
+        let s = compose_subst_list [su; se; sf; s]
+        (apply_subst_ty su tf, s)
 
     (* e1 op e2
     

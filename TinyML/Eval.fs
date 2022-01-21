@@ -128,7 +128,7 @@ let rec eval_expr (env : value env) (e : expr) : value =
         VList (v1, v2)
 
     (* IsEmpty(e)
-    This expression could be implemented using the match construct like this:
+    This expression can be implemented using the match construct like this:
     match e with _::_ -> false | [] -> true
     *)
     | IsEmpty (e) ->

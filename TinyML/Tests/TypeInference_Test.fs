@@ -523,6 +523,55 @@ type Test_typeinfer_expr () =
         test_typeinfer_expr "fun x -> x + x" (TyArrow (TyInt, TyInt))
 
 
+type Test_typechecking_expr () =
+    [<Fact>]
+    let ``empty list with no type`` () =
+        // empty lists must be annotated for the typechecker
+        test_typeinfer_expr "[]" (TyVar 2)
+
+    [<Fact>]
+    let ``empty list with type`` () =
+        test_typeinfer_expr "[int]" (TyList TyInt)
+
+    [<Fact>]
+    let ``list chain, type defined by element`` () =
+        test_typeinfer_expr "1::[]" (TyList TyInt)
+
+    [<Fact>]
+    let ``list chain, type defined by empty`` () =
+        test_typeinfer_expr "fun x -> x::[int]" (TyArrow (TyInt, TyList TyInt))
+
+    [<Fact>]
+    let ``list chain with incompatible element type and empty-end-type`` () =
+        test_typeinfer_expr_error "1.2::[int]"
+
+    [<Fact>]
+    let ``list chain with incompatible elements types`` () =
+        test_typeinfer_expr_error "1::1.2::[]"
+
+    [<Fact>]
+    let ``list chain two compatible elements`` () =
+        test_typeinfer_expr "true::false::[bool]" (TyList TyBool)
+
+    [<Fact>]
+    let ``list is emtpy`` () =
+        test_typeinfer_expr "IsEmpty [int]" TyBool
+
+    [<Fact>]
+    let ``list match with correct types in the two breanches`` () =
+        test_typeinfer_expr
+            "match [int] with x::y -> 1.1 | [] -> 2.2"
+            TyFloat
+
+    [<Fact>]
+    let ``list match with wrong types in the two breanches`` () =
+        test_typeinfer_expr_error "match [int] with x::y -> 1.1 | [] -> 2"
+
+    [<Fact>]
+    let ``list match with something that is not a list`` () =
+        test_typeinfer_expr_error "match 1 with x::y -> 1.1 | [] -> 2.2"
+
+
 [<Theory>]
 [<InlineData("let rec f = f 1 in f")>]
 let Test_typeinfer_expr_error (exp:string) =
