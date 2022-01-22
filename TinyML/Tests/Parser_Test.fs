@@ -99,3 +99,28 @@ type Test_parser_list () =
             "match 1 with x::y -> 2 | [] -> 3"
             (Match (Lit (LInt 1), "x", "y", Lit (LInt 2), Lit (LInt 3)))
 
+// TYPES
+type Test_parser_type () =
+    [<Fact>]
+    let ``type with one simple constructor`` () =
+        test_ast "type color = Yellow in x"
+            (NewTy ("color", [Constr ("Yellow", None)], Var "x"))
+
+    let ``type with two simple constructors`` () =
+        test_ast "type color = Yellow | Red in x"
+            (NewTy ("color", [Constr ("Yellow", None); Constr ("Red", None)], Var "x"))
+
+    [<Fact>]
+    let ``type with one constructor with attached data`` () =
+        test_ast "type color = Rgb of int in x"
+            (NewTy ("color", [Constr ("Rgb", Some (TyInt))], Var "x"))
+
+    [<Fact>]
+    let ``type with one constructor with attached tuple`` () =
+        test_ast "type color = Rgb of int * bool * string in x"
+            (NewTy ("color", [Constr ("Rgb", Some (TyTuple [TyInt; TyBool; TyString]))], Var "x"))
+
+    [<Fact>]
+    let ``type with one constructor recursive`` () =
+        test_ast "type color = Rgb of color in x"
+            (NewTy ("color", [Constr ("Rgb", Some (TyName "color"))], Var "x"))

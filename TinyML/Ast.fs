@@ -61,8 +61,13 @@ type lit = LInt of int
          | LBool of bool
          | LUnit 
 
-type binding = bool * string * ty option * expr    // (is_recursive, id, optional_type_annotation, expression)
+// a data constructor: the nema of the constructor plus attached data
+type constr = Constr of string * ty option
+// a deconstructor: the constructor name plus identifiers for its attached data
+type deconstr = Deconstr of string * string list
 
+type binding = bool * string * ty option * expr    // (is_recursive, id, optional_type_annotation, expression)
+and aMatch = deconstr * expr           // constructor name + possible ids + the expression of this case
 and expr = 
     | Lit of lit
     | Lambda of string * ty option * expr
@@ -79,6 +84,11 @@ and expr =
     | List of expr * expr // head element and list tail
     | IsEmpty of expr // to check if the list is empty
     | Match of expr * string * string * expr * expr // list, head, tail, non-empty body, empty body
+
+    // type name + possible constructors + the rest of the program
+    | NewTy of string * constr list * expr
+    // the expression to match plus a list of match cases
+    | MatchFull of expr * aMatch list
    
 let fold_params parms e0 = 
     List.foldBack (fun (id, tyo) e -> Lambda (id, tyo, e)) parms e0

@@ -46,6 +46,9 @@ type token =
   | MATCH
   | WITH
   | VSEP
+  | MATCHFULL
+  | TYPE
+  | OF
   | STRING of (System.String)
   | ID of (System.String)
   | CHAR of (System.Char)
@@ -97,6 +100,9 @@ type tokenId =
     | TOKEN_MATCH
     | TOKEN_WITH
     | TOKEN_VSEP
+    | TOKEN_MATCHFULL
+    | TOKEN_TYPE
+    | TOKEN_OF
     | TOKEN_STRING
     | TOKEN_ID
     | TOKEN_CHAR
@@ -114,8 +120,12 @@ type nonTerminalId =
     | NONTERM_parms
     | NONTERM_expr_app_atom
     | NONTERM_expr_tuple_atom
+    | NONTERM_constructors
+    | NONTERM_constructor
     | NONTERM_ty
+    | NONTERM_ty_basic
     | NONTERM_ty_tuple
+    | NONTERM_ty_basic_list
     | NONTERM_expr_tuple_atoms
     | NONTERM_tuple_decompose_ids
 /// This function maps tokens to integer indexes

@@ -93,6 +93,10 @@ and tokenize = parse
     | "match"           { MATCH }
     | "with"            { WITH }
     | '|'               { VSEP }
+
+    | "type"            { TYPE }
+    | "of"              { OF }
+    | "matchfull"       { MATCHFULL }
     
     // brakets
     | '('               { BRA }

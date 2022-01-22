@@ -24,6 +24,7 @@ let parse_error_rich = Some (fun ctx -> raise (ParseErrorContextException ctx))
        TO_FLOAT TO_INT
        PLUS_F MINUS_F STAR_F SLASH_F PERCENT_F
        BRASQ KETSQ CHAIN ISEMPTY MATCH WITH VSEP
+       MATCHFULL TYPE OF
 %token EOF
 
 %nonassoc THEN ELSE
@@ -146,19 +147,34 @@ expr_tuple_atom:
   //| ISEMPTY expr_app_atom                               { Match ($2, "_", "_", Lit (LBool false), Lit (LBool true)) }
   | ISEMPTY expr_app_atom                               { IsEmpty ($2) }
   | expr_tuple_atom CHAIN expr_tuple_atom               { List ($1, $3) }
-
+   
   | MATCH expr_tuple_atom WITH ID CHAIN ID ARROW expr VSEP BRASQ KETSQ ARROW expr       { Match ($2, $4, $6, $8, $13) }
-  
+
+  | TYPE ID EQ constructors IN expr                     { NewTy ($2, $4, $6) }
+
+constructors:
+    constructor                               { [$1] }
+  | constructor VSEP constructors             { $1 :: $3 }
+
+constructor:
+    ID                                        { Constr ($1, None) } 
+  | ID OF ty                                  { Constr ($1, Some ($3)) }
 
 ty:
-    ID                                  { TyName $1 }
+  | ty_basic                            { $1 }
+  | ty_tuple                            { $1 }
+
+ty_basic:
+  | ID                                  { TyName $1 }
   | ty ARROW ty                         { TyArrow ($1, $3) }
-  | ty_tuple                            { TyTuple $1 }
   | BRA ty KET                          { $2 }
 
 ty_tuple:
-    ty                                  { [$1] }
-  | ty STAR ty_tuple                    { $1 :: $3 }
+  | ty_basic STAR ty_basic_list         { TyTuple ($1 :: $3) }
+
+ty_basic_list:
+  | ty_basic                            { [$1] }
+  | ty_basic STAR ty_basic_list         { $1 :: $3 }
 
 expr_tuple_atoms:
     expr_tuple_atom                             { [$1] }
