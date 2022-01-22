@@ -88,4 +88,32 @@ type Test_typechecking_expr_type () =
     let ``type: check constructor call with parameters`` () =
         test_typecheck_expr "type color = Rgb of int * int in Rgb ((1,2))"
             (TyNew (2, [Constr ("Rgb", Some (TyTuple [TyInt; TyInt]))]))
+
+    [<Fact>]
+    let ``type match with one simple constructor`` () =
+        test_typecheck_expr "type color = Rgb in matchf Rgb with Rgb -> 1"
+            TyInt
+
+    [<Fact>]
+    let ``type match with one constructor, one parameter`` () =
+        test_typecheck_expr "type color = Rgb of float in matchf (Rgb (1.1)) with Rgb (x) -> x"
+            TyFloat
+
+    [<Fact>]
+    let ``type match with one constructor, two parameter`` () =
+        test_typecheck_expr "type color = Rgb of int * float in matchf Rgb ((1, 2.2)) with Rgb (x, y) -> (x, y)"
+            (TyTuple [TyInt; TyFloat])
+
+    [<Fact>]
+    let ``type match with two constructors`` () =
+        test_typecheck_expr "type color = A | B in matchf A with A -> 1 | B -> 2"
+            TyInt
+
+    [<Fact>]
+    let ``(error) type match with two constructors incomplete match`` () =
+        test_typecheck_expr_error "type color = A | B in matchf A with A -> 1"
+
+    [<Fact>]
+    let ``(error) type match with two constructors incompatible returns`` () =
+        test_typecheck_expr_error "type color = A | B in matchf A with A -> 1 | B -> 2.2"
     
