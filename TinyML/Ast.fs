@@ -129,8 +129,12 @@ let rec flatten p sep es =
 let pretty_env p env = sprintf "[%s]" (flatten (fun (x, o) -> sprintf "%s=%s" x (p o)) ";" env)
 
 // print any tuple given a printer p for its elements
+// adds the "," separator between the printed elements
 let pretty_tupled p l = flatten p ", " l
+// print the string list separating the elements with the "," separator
 let pretty_tupled_string_list l = pretty_tupled (sprintf "%s") l
+// adds the "|" separator between the printed elements
+let pretty_match p l = flatten p " | " l
 
 let rec pretty_ty t =
     match t with
@@ -149,6 +153,11 @@ let pretty_lit lit =
     | LBool true -> "true"
     | LBool false -> "false"
     | LUnit -> "()"
+
+let pretty_constr constr =
+    match constr with
+    | Constr (name, None) -> sprintf "%s" name
+    | Constr (name, Some t) -> sprintf "%s of %s" name (pretty_ty t)
 
 let rec pretty_expr e =
     match e with
@@ -201,8 +210,14 @@ let rec pretty_expr e =
     
     | Match (l, h, t, e_full, e_empty) ->
         sprintf "match %s with %s::%s -> %s | [] -> %s" (pretty_expr l) h t (pretty_expr e_full) (pretty_expr e_empty)
-    
-    | _ -> unexpected_error "pretty_expr: %s" (pretty_expr e)
+
+    | NewTy (n, cl, e) -> // name, list of constructors, expr.
+        sprintf "type %s = %s in %s" n (pretty_match pretty_constr cl) (pretty_expr e)
+
+    | MatchFull (e, ml) -> // exp., match list
+        sprintf "match %s with %s" (pretty_expr e) (pretty_match pretty_case ml)
+        
+    | _ -> unexpected_error "pretty_expr"
 
 and pretty_app expr =
     match expr with
@@ -221,6 +236,12 @@ and pretty_app expr =
         sprintf "%s %s" stringE1 stringE2
     | _ -> unexpected_error "pretty_app: the expression is not an application"
 
+and pretty_case case =
+    match case with
+    | (Deconstr (n, None), e) ->
+        sprintf "%s -> %s" n (pretty_expr e)
+    | (Deconstr (n, Some idl), e) ->
+        sprintf "%s (%s) -> %s" n (pretty_tupled_string_list idl) (pretty_expr e)
 
 let rec pretty_value v =
     match v with
