@@ -8,6 +8,11 @@ module TinyML.TypeChecking
 open Ast
 open Utility
 
+let mutable new_ty_id :tyvar = 0
+let get_new_fresh_ty_id () : tyvar =
+    new_ty_id <- new_ty_id + 1
+    new_ty_id
+
 (* type checker
 env = the type environment
 e   = the expression of which you want to check the type
@@ -141,6 +146,76 @@ let rec typecheck_expr (env : ty env) (e : expr) : ty =
             t_full
         | _ -> type_error "match expected a list type but got %s" (pretty_ty t_list)
 
+    (* type <name> = c1 | c2 of t1 | ...
+    name = the type name
+    constrs = list of possible Data Constructors for this type
+    e = the rest of the program
+    *)
+    | NewTy (name, constrs, e) ->
+        let newTy = TyNew (get_new_fresh_ty_id (), constrs)
+        // When I find a constructor with no parameters I put the constructor identifier
+        // in the environ. binding it to the new type.
+        //
+        // When I find a constructor with parameters I put the constructor identifier
+        // in the environ. binding it to a function type. This function has a domain
+        // that is the type specified in the constructor, and a codomain that is the
+        // new type. This function doesn't really exists but we don't care.
+        let cfs = List.map (fun x ->
+            match x with
+            | Constr (cid, None) -> (cid, newTy)
+            | Constr (cid, Some t) -> (cid, TyArrow (t, newTy))) constrs
+        let env = cfs @ env
+        typecheck_expr env e
+
+    (* match e with c1 -> e1 | c2 (x) -> e2 | ...
+    e = the expression to match
+    cases = the match mases
+
+    TODO handle the ignore case _
+    TODO handle unordered match
+    *)
+    | MatchFull (e, cases)->
+        let t = typecheck_expr env e
+        match t with
+        | TyNew (_, constrs) ->
+            if cases.Length > constrs.Length then
+                type_error "too many cases in match for type %s" (pretty_ty t)
+            if cases.Length < constrs.Length then
+                type_error "incomplete match for type %s" (pretty_ty t)
+            let cases = List.zip cases constrs
+            let tipes = List.map    (fun case ->
+                match case with
+                | ((Deconstr (n1, d1), e), Constr (n2, d2)) ->
+                    if n1 <> n2 then
+                        type_error "deconstructor %s does not match the constructor %s" n1 n2
+                    match d1,d2 with
+                    // match a constructor with no parameters
+                    | None, None ->
+                        typecheck_expr env e
+                    // match a constructor with parameters
+                    | Some idl, Some t ->
+                        match t with
+                        // constructor with multiple parameters
+                        | TyTuple tl ->
+                            if idl.Length <> tl.Length then
+                                type_error "in %s deconstructor: ids does not match constructor parameters" n1
+                            let env = (List.zip idl tl) @ env
+                            typecheck_expr env e
+                        // constructor with single parameter
+                        | _ ->
+                            if idl.Length <> 1 then
+                                type_error "in %s deconstructor: ids qunatity does not match constructor parameters quantity" n1
+                            let env = (idl.Head, t) :: env
+                            typecheck_expr env e
+                    | _, _ ->
+                        type_error "deconstructor mismatch"
+                                    ) cases
+            let commonTy = tipes.Head
+            let tyOk = List.fold (fun state x -> state && (x = commonTy)) true tipes
+            if tyOk <> true then type_error "incompatible return types in match construct (%s)" (pretty_tupled pretty_ty tipes)
+            commonTy
+            
+        | _ -> type_error "the expression %s has type %s that can't be matched" (pretty_expr e) (pretty_ty t)
 
     | BinOp (e1, ("+" | "-" | "/" | "%" | "*" as op), e2) ->
         let t1 = typecheck_expr env e1

@@ -31,6 +31,12 @@ type ty =
     | TyTuple of ty list
     | TyList of ty  // a list which contains elements of type <ty>
 
+    // every new type brings along an id and its internal structure
+    | TyNew of int * constr list
+
+// a data constructor: the name of the constructor + the attached data
+and constr = Constr of string * ty option
+
 // pseudo data constructors for literal types
 let TyFloat = TyName "float"
 let TyInt = TyName "int"
@@ -61,8 +67,6 @@ type lit = LInt of int
          | LBool of bool
          | LUnit 
 
-// a data constructor: the nema of the constructor plus attached data
-type constr = Constr of string * ty option
 // a deconstructor: the constructor name plus identifiers for its attached data
 type deconstr = Deconstr of string * string list option
 

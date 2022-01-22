@@ -7,6 +7,7 @@ open FSharp.Common
 open Utility
 
 let typecheck_expr_from_string (program:string) =
+    new_ty_id <- 1
     let exp = Parsing.parse_from_string SyntaxError program "example" (1, 1) Parser.program Lexer.tokenize Parser.tokenTagToTokenId
     typecheck_expr [] exp
 
@@ -61,3 +62,30 @@ type Test_typechecking_expr () =
     [<Fact>]
     let ``list match with something that is not a list`` () =
         test_typecheck_expr_error "match 1 with x::y -> 1.1 | [] -> 2.2"
+
+
+// TYPES
+type Test_typechecking_expr_type () =
+    [<Fact>]
+    let ``type: check constructor binded with simple type`` () =
+        test_typecheck_expr "type color = Yellow in Yellow"
+            (TyNew (2, [Constr ("Yellow", None)]))
+
+    [<Fact>]
+    let ``type: check constructor binded with arrow type`` () =
+        test_typecheck_expr "type color = Rgb of int in Rgb"
+            (TyArrow (TyInt, (TyNew (2, [Constr ("Rgb", Some TyInt)]))))
+
+    [<Fact>]
+    let ``type: check constructor binded with arrow type, two parameters`` () =
+        test_typecheck_expr "type color = Rgb of int * int in Rgb"
+            (TyArrow (TyTuple [TyInt; TyInt],
+                (TyNew (2, [Constr ("Rgb", Some (TyTuple [TyInt; TyInt]))]))
+                )
+            )
+
+    [<Fact>]
+    let ``type: check constructor call with parameters`` () =
+        test_typecheck_expr "type color = Rgb of int * int in Rgb ((1,2))"
+            (TyNew (2, [Constr ("Rgb", Some (TyTuple [TyInt; TyInt]))]))
+    
