@@ -122,6 +122,9 @@ type nonTerminalId =
     | NONTERM_expr_tuple_atom
     | NONTERM_constructors
     | NONTERM_constructor
+    | NONTERM_match_case_list
+    | NONTERM_match_case
+    | NONTERM_deconstructor
     | NONTERM_ty
     | NONTERM_ty_basic
     | NONTERM_ty_tuple

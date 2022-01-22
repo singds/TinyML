@@ -124,3 +124,30 @@ type Test_parser_type () =
     let ``type with one constructor recursive`` () =
         test_ast "type color = Rgb of color in x"
             (NewTy ("color", [Constr ("Rgb", Some (TyName "color"))], Var "x"))
+
+    [<Fact>]
+    let ``match with one simple case`` () =
+        test_ast "matchf () with White -> 1"
+            (MatchFull (Lit LUnit, [(Deconstr ("White", None), Lit (LInt 1))]))
+
+    [<Fact>]
+    let ``match with two cases`` () =
+        test_ast "matchf () with White -> 1 | Green -> 2"
+            (MatchFull (Lit LUnit, [
+                (Deconstr ("White", None), Lit (LInt 1));
+                (Deconstr ("Green", None), Lit (LInt 2))]))
+
+    [<Fact>]
+    let ``match with one case and attached ids`` () =
+        test_ast "matchf () with Rgb (r,g,b) -> 1"
+            (MatchFull (Lit LUnit, [(Deconstr ("Rgb", Some ["r"; "g"; "b"]), Lit (LInt 1))]))
+
+    [<Fact>]
+    let ``match with two cases and attached ids`` () =
+        test_ast "matchf () with
+                    Rgb (r,g,b) -> 1
+                  | Gray (l) -> l"
+            (MatchFull (Lit LUnit, [
+                (Deconstr ("Rgb", Some ["r"; "g"; "b"]), Lit (LInt 1))
+                (Deconstr ("Gray", Some ["l"]), Var "l")
+            ]))

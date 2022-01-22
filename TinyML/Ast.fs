@@ -64,7 +64,7 @@ type lit = LInt of int
 // a data constructor: the nema of the constructor plus attached data
 type constr = Constr of string * ty option
 // a deconstructor: the constructor name plus identifiers for its attached data
-type deconstr = Deconstr of string * string list
+type deconstr = Deconstr of string * string list option
 
 type binding = bool * string * ty option * expr    // (is_recursive, id, optional_type_annotation, expression)
 and aMatch = deconstr * expr           // constructor name + possible ids + the expression of this case
