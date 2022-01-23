@@ -624,7 +624,7 @@ let rec typeinfer_expr_expanded (uEnv : unionTy env) (env : scheme env) (e : exp
                     // env       = the current refined environment
                     // s         = the current total composed substitution
                     // commonTy  = the common return type of all the cases
-                    | (env:scheme env, s:subst, commonTy:ty option) ->
+                    | (env:scheme env, s1:subst, commonTy:ty option) ->
                         match case with
                         // case_ty = the type of the variable for this case
                         // id      = the name of the type constructor
@@ -632,9 +632,9 @@ let rec typeinfer_expr_expanded (uEnv : unionTy env) (env : scheme env) (e : exp
                         //           env. before evaluating this case expression.
                         // e       = the expression of this case
                         | (case_ty:ty, (Deconstr (id:string, var:string), e:expr)) ->
-                            let env = apply_subst_env s env
+                            let env = apply_subst_env s1 env
                             let tExp, sExp = typeinfer_expr ((var, Forall ([], case_ty))::env) e
-                            
+
                             match commonTy with
                             // this happens in the first iteration
                             | None ->
@@ -649,14 +649,14 @@ let rec typeinfer_expr_expanded (uEnv : unionTy env) (env : scheme env) (e : exp
 
                                 // I compose in proper order all the substitutions I get
                                 // in thi iteration.
-                                let s = compose_subst_list [su; sExp; s]
-                                (env, s, Some t)
+                                let s1 = compose_subst_list [su; sExp; s1]
+                                (env, s1, Some t)
                             ) (env, [], None) cases
 
                 let (_, subRet, tyRetOpt) = state // retrieve the substitution and the commmon type
                 match tyRetOpt with
                 | Some tyRet ->
-                    (tyRet, subRet)
+                    (tyRet, compose_subst_list [subRet; s])
                 | None -> unexpected_error "impossible none type after match fold"
             with _ ->
                 type_error "invalid deconstructors in match cases"
@@ -675,51 +675,51 @@ let rec typeinfer_expr_expanded (uEnv : unionTy env) (env : scheme env) (e : exp
            int * int * int * int
     *)
     | BinOp (e1, ("+" | "-" | "/" | "%" | "*" as op), e2) ->
-        typeinfer_binop TyInt TyInt env e1 e2
+        typeinfer_binop TyInt TyInt uEnv env e1 e2
 
     | BinOp (e1, ("+." | "-." | "/." | "%." | "*." as op), e2) ->
-        typeinfer_binop TyFloat TyFloat env e1 e2
+        typeinfer_binop TyFloat TyFloat uEnv env e1 e2
 
     | BinOp (e1, ("<" | "<=" | ">" | ">=" | "=" | "<>" as op), e2) ->
-        typeinfer_binop TyInt TyBool env e1 e2
+        typeinfer_binop TyInt TyBool uEnv env e1 e2
 
     | BinOp (e1, ("and" | "or" as op), e2) ->
-        typeinfer_binop TyBool TyBool env e1 e2
+        typeinfer_binop TyBool TyBool uEnv env e1 e2
 
     | BinOp (_, op, _) -> unexpected_error "typeinfer_expr: unsupported binary operator (%s)" op
     
     (* op exp
     *)
     | UnOp ("not", e) ->
-        typeinfer_unop TyBool TyBool env e
+        typeinfer_unop TyBool TyBool uEnv env e
     | UnOp ("-", e) ->
-        typeinfer_unop TyInt TyInt env e
+        typeinfer_unop TyInt TyInt uEnv env e
     | UnOp ("-.", e) ->
-        typeinfer_unop TyFloat TyFloat env e
+        typeinfer_unop TyFloat TyFloat uEnv env e
 
     (* Int(e1) | Float(e1)
     *)
     | UnOp ("to_int", e) ->
-        typeinfer_unop TyFloat TyInt env e
+        typeinfer_unop TyFloat TyInt uEnv env e
     | UnOp ("to_float", e) ->
-        typeinfer_unop TyInt TyFloat env e
+        typeinfer_unop TyInt TyFloat uEnv env e
 
     | UnOp (op, _) -> unexpected_error "typeinfer_expr: unsupported unary operator (%s)" op
 
     | _ -> unexpected_error "typeinfer_expr: unsupported expression: %s [AST: %A]" (pretty_expr e) e
 
-and typeinfer_binop e1E2Type resType env e1 e2 =
-    let t1, s1 = typeinfer_expr env e1
+and typeinfer_binop e1E2Type resType uEnv env e1 e2 =
+    let t1, s1 = typeinfer_expr_expanded uEnv env e1
     let su = unify t1 e1E2Type
     let s = compose_subst_list [su; s1]
     let env = apply_subst_env s env
-    let t2, s2 = typeinfer_expr env e2
+    let t2, s2 = typeinfer_expr_expanded uEnv env e2
     let su = unify t2 e1E2Type
     let s = compose_subst_list [su; s2; s]
     (resType, s)
 
-and typeinfer_unop eType resType env exp =
-    let t, s = typeinfer_expr env exp
+and typeinfer_unop eType resType uEnv env exp =
+    let t, s = typeinfer_expr_expanded uEnv env exp
     let su = unify t eType
     let s = compose_subst_list [su; s]
     (resType, s)

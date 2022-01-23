@@ -9,7 +9,7 @@ open Utility
 let typeinfer_expr_from_string (program:string) =
     fresh_tyvar <- 1
     let exp = Parsing.parse_from_string SyntaxError program "example" (1, 1) Parser.program Lexer.tokenize Parser.tokenTagToTokenId
-    typeinfer_expr [] exp
+    typeinfer_expr_expanded [] [] exp
 
 let test_typeinfer_expr (program:string) (expected:ty) =
     let t,s = typeinfer_expr_from_string program
@@ -618,3 +618,71 @@ type Test_typeinfer_expr_list () =
 [<InlineData("let rec f = f 1 in f")>]
 let Test_typeinfer_expr_error (exp:string) =
     test_typeinfer_expr_error exp
+
+
+// TYPES
+type Test_typechecking_expr_type () =
+    [<Fact>]
+    let ``type: check constructor binded with simple type`` () =
+        test_typeinfer_expr "type color = Yellow of unit in Yellow ()"
+            (TyName ("color"))
+
+    [<Fact>]
+    let ``type: unification in if then else with custom type`` () =
+        test_typeinfer_expr "
+            type ty = A of unit in
+            fun x ->
+            if true then x
+            else A ()
+            "
+            (TyArrow (TyName "ty", TyName "ty"))
+
+    [<Fact>]
+    let ``type: unification in with match expression`` () =
+        test_typeinfer_expr "
+            type ty = A of unit | B of unit in
+            fun x ->
+            (matchf x with
+              A (_) -> ()
+            | B (_) -> ());
+            (x)
+            "
+            (TyArrow (TyName ("ty"), TyName ("ty")))
+
+    [<Fact>]
+    let ``type: unification in match branches; type understand in branch 1`` () =
+        test_typeinfer_expr "
+            type ty = A of unit | B of unit | C of unit in
+            fun x -> fun y ->
+            matchf A () with
+              A (_) -> 1
+            | B (_) -> x
+            | C (_) -> y
+            "
+            (TyArrow (TyInt, TyArrow (TyInt, TyInt)))
+
+    [<Fact>]
+    let ``type: unification in match branches; type understand in branch 2`` () =
+        test_typeinfer_expr "
+            type ty = A of unit | B of unit | C of unit in
+            fun x -> fun y ->
+            matchf A () with
+              A (_) -> x
+            | B (_) -> 1
+            | C (_) -> y
+            "
+            (TyArrow (TyInt, TyArrow (TyInt, TyInt)))
+
+    [<Fact>]
+    let ``type: unification in match branches; type understand in branch 3`` () =
+        test_typeinfer_expr "
+            type ty = A of unit | B of unit | C of unit in
+            fun x -> fun y ->
+            matchf A () with
+              A (_) -> x
+            | B (_) -> y
+            | C (_) -> 1
+            "
+            (TyArrow (TyInt, TyArrow (TyInt, TyInt)))
+
+

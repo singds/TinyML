@@ -16,7 +16,8 @@ let interpret_expr tenv venv e =
     printfn "AST:\t%A\npretty:\t%s" e (pretty_expr e)
     #endif
     #if TYPEINFER
-    let t,s = TypeInference.typeinfer_expr tenv e
+    // TODO add environment for custom types
+    let t,s = TypeInference.typeinfer_expr_expanded [] tenv e
     #else
     let t = TypeChecking.typecheck_expr tenv e
     #endif
