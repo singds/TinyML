@@ -152,6 +152,7 @@ let rec typecheck_expr (env : ty env) (e : expr) : ty =
     e = the rest of the program
     *)
     | NewTy (name, constrs, e) ->
+        // TODO take care of repeated names
         let newTy = TyNew (get_new_fresh_ty_id (), constrs)
         // When I find a constructor with no parameters I put the constructor identifier
         // in the environ. binding it to the new type.
@@ -176,6 +177,7 @@ let rec typecheck_expr (env : ty env) (e : expr) : ty =
     *)
     | MatchFull (e, cases)->
         let t = typecheck_expr env e
+        // TODO check the type corrispondence ????
         match t with
         | TyNew (_, constrs) ->
             if cases.Length > constrs.Length then

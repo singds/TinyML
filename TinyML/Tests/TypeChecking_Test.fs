@@ -16,11 +16,14 @@ let test_typecheck_expr (program:string) (expected:ty) =
     Assert.Equal (expected, t)
 
 let test_typecheck_expr_error (program:string) =
+    let mutable ok = false
     try
         let _ = typecheck_expr_from_string program
-        assert_fail "exception not raised"
+        ok <- false
     with _ ->
-        ()
+        ok <- true
+    if ok = false then assert_fail "exception not raised" else ()
+
 
 
 type Test_typechecking_expr () =
@@ -116,4 +119,13 @@ type Test_typechecking_expr_type () =
     [<Fact>]
     let ``(error) type match with two constructors incompatible returns`` () =
         test_typecheck_expr_error "type color = A | B in matchf A with A -> 1 | B -> 2.2"
+
+    [<Fact>]
+    let ``type constructor invocation with single parameter`` () =
+        test_typecheck_expr "type color = A of int in A 1"
+            (TyNew (2, [Constr ("A", Some (TyInt))]))
+
+    [<Fact>]
+    let ``(error) type constructor invocation with single parameter of wring type`` () =
+        test_typecheck_expr_error "type color = A of int in A 1.2"
     

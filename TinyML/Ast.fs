@@ -93,6 +93,7 @@ and expr =
     | NewTy of string * constr list * expr
     // the expression to match plus a list of match cases
     | MatchFull of expr * aMatch list
+    | TyInst of string * expr
    
 let fold_params parms e0 = 
     List.foldBack (fun (id, tyo) e -> Lambda (id, tyo, e)) parms e0
@@ -114,6 +115,7 @@ type value =
     | RecClosure of value env * string * string * expr
     | VEmpty // the empty list
     | VList of value * value // the first value is an element, the second value is a list
+    | VNewTy of string * value
 
 type interactive = IExpr of expr | IBinding of binding
 

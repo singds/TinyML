@@ -16,11 +16,13 @@ let test_typeinfer_expr (program:string) (expected:ty) =
     Assert.Equal (expected, t)
 
 let test_typeinfer_expr_error (program:string) =
+    let mutable ok = false
     try
-        let _,_ = typeinfer_expr_from_string program
-        assert_fail "exception not raised"
+        let _ = typeinfer_expr_from_string program
+        ok <- false
     with _ ->
-        ()
+        ok <- true
+    if ok = false then assert_fail "exception not raised" else ()
 
 (* Unit tests for the <ty_contains_tyvar> function.
 *)

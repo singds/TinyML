@@ -15,11 +15,13 @@ let test_eval_expr (program:string) (expected:value) =
     Assert.Equal (expected, v)
 
 let test_eval_expr_error (program:string) =
+    let mutable ok = false
     try
         let _ = eval_expr_from_string program
-        assert_fail "exception not raised"
+        ok <- false
     with _ ->
-        ()
+        ok <- true
+    if ok = false then assert_fail "exception not raised" else ()
 
 type Test_eval_expr () =
     // let
