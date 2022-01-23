@@ -24,3 +24,18 @@ let rec prepend_if_not_ignore l env =
 let list_all_equals l =
     let same = Set.ofList l
     if same.Count <> 1 then false else true
+
+let get_const_list (uEnv: unionTy env) =
+    List.fold (fun s (tyname, c_list) ->
+        let cl = List.map (fun c_single -> (tyname, c_single)) c_list
+        s @ cl
+    ) [] uEnv
+
+// uEnv = union type environment
+// cn = constructor name
+let get_constr_by_name (uEnv: unionTy env) (cn: string) =
+    let allconstr = get_const_list uEnv
+    let c = List.find   (fun x ->
+        match x with (tn, Constr (id, _)) -> id = cn
+                        ) allconstr
+    c

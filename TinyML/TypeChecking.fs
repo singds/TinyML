@@ -8,25 +8,11 @@ module TinyML.TypeChecking
 open Ast
 open Utility
 
+
 let mutable new_ty_id :tyvar = 0
 let get_new_fresh_ty_id () : tyvar =
     new_ty_id <- new_ty_id + 1
     new_ty_id
-
-let get_const_list (uEnv: unionTy env) =
-    List.fold (fun s (tyname, c_list) ->
-        let cl = List.map (fun c_single -> (tyname, c_single)) c_list
-        s @ cl
-    ) [] uEnv
-
-// uEnv = union type environment
-// cn = constructor name
-let get_constr_by_name (uEnv: unionTy env) (cn: string) =
-    let allconstr = get_const_list uEnv
-    let c = List.find   (fun x ->
-        match x with (tn, Constr (id, _)) -> id = cn
-                        ) allconstr
-    c
 
 (* type checker
 env = the type environment
@@ -173,6 +159,15 @@ let rec typecheck_expr_expanded (uEnv : unionTy env) (env : ty env) (e : expr) :
         let distinct = Set.ofList ids
         if ids.Length <> distinct.Count then
             type_error "repeated constructor name in type %s" tn
+
+        // types names must be different to builtin types
+        if List.exists (fun x -> x = tn) builtin_types then
+            type_error "type %s can't be defined becuse it is a builtin type" tn
+
+        // types names must be unique
+        // constructors can be shadowed but should not be
+        if List.exists (fun (tname, _) -> tn = tname) uEnv then
+            type_error "redefinition of perviously defined type %s" tn
         
         // When I find a constructor with no parameters I put the constructor identifier
         // in the environ. binding it to the new type.
@@ -183,7 +178,7 @@ let rec typecheck_expr_expanded (uEnv : unionTy env) (env : ty env) (e : expr) :
         // new type. This function doesn't really exists but we don't care.
         let cfs = List.map (fun x ->
             match x with
-            | Constr (cid, t) -> (cid, TyArrow (t, TyUnion tn))) constrs
+            | Constr (cid, t) -> (cid, TyArrow (t, TyName tn))) constrs
         let env = cfs @ env
         let uEnv = (tn, constrs)::uEnv
         typecheck_expr_expanded uEnv env e
@@ -193,20 +188,11 @@ let rec typecheck_expr_expanded (uEnv : unionTy env) (env : ty env) (e : expr) :
     cases = the match mases
 
     TODO handle the ignore case _
-    TODO handle unordered match
     *)
     | MatchFull (e, cases)->
-
-        /// none of the case deconstructor identifiers can be in the environment
-        //let ids = List.map (fun (Deconstr (id, _), _) -> id) cases
-        //let defined = List.map (fun id -> List.exists (fun (x, _) -> x = id) env) ids
-        //let allUndef = List.fold (fun s x -> s && x) true defined
-        //if allUndef <> true
-        //    type_error "error"
-
         let t = typecheck_expr env e
         match t with
-        | TyUnion (tn) ->
+        | TyName (tn) ->
             try
                 let cs = List.map (fun x -> match x with (Deconstr (id, _), _) -> get_constr_by_name uEnv id) cases
                 let ts = List.map (fun (tipe, _) -> tipe) cs
@@ -229,7 +215,7 @@ let rec typecheck_expr_expanded (uEnv : unionTy env) (env : ty env) (e : expr) :
             with _ ->
                 type_error "invalid deconstructors in match cases"
             
-        | _ -> type_error "the expression %s has type %s that can't be matched" (pretty_expr e) (pretty_ty t)
+        | _ -> type_error "incompatible type in match expression %s" (pretty_ty t)
 
     | BinOp (e1, ("+" | "-" | "/" | "%" | "*" as op), e2) ->
         let t1 = typecheck_expr env e1

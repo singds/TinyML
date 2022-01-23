@@ -72,22 +72,22 @@ type Test_typechecking_expr_type () =
     [<Fact>]
     let ``type: check constructor binded with simple type`` () =
         test_typecheck_expr "type color = Yellow of unit in Yellow ()"
-            (TyUnion ("color"))
+            (TyName ("color"))
 
     [<Fact>]
     let ``type: check constructor binded with arrow type`` () =
         test_typecheck_expr "type color = Rgb of int in Rgb"
-            (TyArrow (TyInt, (TyUnion "color")))
+            (TyArrow (TyInt, (TyName "color")))
 
     [<Fact>]
     let ``type: check constructor binded with arrow type, two parameters`` () =
         test_typecheck_expr "type color = Rgb of int * int in Rgb"
-            (TyArrow (TyTuple [TyInt; TyInt], TyUnion "color"))
+            (TyArrow (TyTuple [TyInt; TyInt], TyName "color"))
 
     [<Fact>]
     let ``type: check constructor call with parameters`` () =
         test_typecheck_expr "type color = Rgb of int * int in Rgb ((1,2))"
-            (TyUnion ("color"))
+            (TyName ("color"))
 
     [<Fact>]
     let ``type match with one simple constructor`` () =
@@ -125,9 +125,27 @@ type Test_typechecking_expr_type () =
     [<Fact>]
     let ``type constructor invocation with single parameter`` () =
         test_typecheck_expr "type color = A of int in A 1"
-            (TyUnion "color")
+            (TyName "color")
 
     [<Fact>]
     let ``(error) type constructor invocation with single parameter of wring type`` () =
         test_typecheck_expr_error "type color = A of int in A 1.2"
+
+    [<Fact>]
+    let ``type recursive list empty`` () =
+        test_typecheck_expr "type list = empty of unit | full of int * list in empty ()"
+            (TyName "list")
+
+    [<Fact>]
+    let ``type recursive list nonempty`` () =
+        test_typecheck_expr "type list = empty of unit | full of int * list in full ((1, empty ()))"
+            (TyName "list")
+
+    [<Fact>]
+    let ``(error) type redefinition`` () =
+        test_typecheck_expr_error "type color = A of unit in type color = B of unit in 1"
+
+    [<Fact>]
+    let ``(error) type redefinition of builtin type`` () =
+        test_typecheck_expr_error "type int = A of unit in 1"
     

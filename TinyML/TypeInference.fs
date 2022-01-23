@@ -238,7 +238,8 @@ returns:
 - the principal type of <e> in <env>
 - the substitution produced inferring the type of <e>
 *)
-let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
+let rec typeinfer_expr_expanded (uEnv : unionTy env) (env : scheme env) (e : expr) : ty * subst =
+    let typeinfer_expr = typeinfer_expr_expanded uEnv
     match e with
     | Lit (LBool _) -> (TyBool, [])
     | Lit (LFloat _) -> (TyFloat, [])
@@ -549,6 +550,118 @@ let rec typeinfer_expr (env : scheme env) (e : expr) : ty * subst =
         let su = unify tf te
         let s = compose_subst_list [su; se; sf; s]
         (apply_subst_ty su tf, s)
+
+
+    (* type <name> = c1 | c2 of t1 | ...
+    tn = the type name
+    constrs = list of possible Data Constructors for this type
+    e = the rest of the program
+    *)
+    | Type (tn, constrs, e) ->
+        // all constructor names must be distinct
+        let ids = List.map (fun x -> match x with Constr (s, _) -> s) constrs
+        let distinct = Set.ofList ids
+        if ids.Length <> distinct.Count then
+            type_error "repeated constructor name in type %s" tn
+
+        // types names must be different to builtin types
+        if List.exists (fun x -> x = tn) builtin_types then
+            type_error "type %s can't be defined becuse it is a builtin type" tn
+
+        // types names must be unique
+        // constructors can be shadowed but should not be
+        if List.exists (fun (tname, _) -> tn = tname) uEnv then
+            type_error "redefinition of perviously defined type %s" tn
+        
+        // When I find a constructor with no parameters I put the constructor identifier
+        // in the environ. binding it to the new type.
+        //
+        // When I find a constructor with parameters I put the constructor identifier
+        // in the environ. binding it to a function type. This function has a domain
+        // that is the type specified in the constructor, and a codomain that is the
+        // new type. This function doesn't really exists but we don't care.
+        let cfs = List.map (fun x ->
+            match x with
+            | Constr (cid, t) -> (cid, Forall ([],TyArrow (t, TyName tn)))) constrs
+        let env = cfs @ env
+        let uEnv = (tn, constrs)::uEnv
+        typeinfer_expr_expanded uEnv env e
+
+    (* match e with c1 -> e1 | c2 (x) -> e2 | ...
+    e = the expression to match
+    cases = the match mases
+
+    TODO handle the ignore case _
+    *)
+    | MatchFull (e, cases)->
+        // understand the type that <e> must have looking the constructors
+        // apearing on match cases.
+        let cs = List.map (fun x -> match x with (Deconstr (id, _), _) -> get_constr_by_name uEnv id) cases
+        let ts = List.map (fun (tipe, _) -> tipe) cs
+        if not (list_all_equals ts) then
+            type_error "deconstructors of different types in match cases"
+        let e_type = ts.Head // the type that expression <e> must have
+        
+        // get the list of constructors for that type
+        let (_, t_constrs) = List.find (fun (x, _) -> x = e_type) uEnv
+        if cs.Length <> t_constrs.Length then
+            type_error "missing constructors in match cases"
+
+        let t, s = typeinfer_expr env e
+        let su = unify t (TyName e_type)
+        let t = apply_subst_ty su t
+        let s = compose_subst_list [su; s]
+        let env = apply_subst_env s env
+
+        match t with
+        | TyName (tn) ->
+            try
+                let case_ty = List.map (fun (_, c) -> match c with Constr (_, cty) -> cty) cs
+                let cases = List.zip case_ty cases
+
+                let state = List.fold (fun state case ->
+                    match state with
+                    // env       = the current refined environment
+                    // s         = the current total composed substitution
+                    // commonTy  = the common return type of all the cases
+                    | (env:scheme env, s:subst, commonTy:ty option) ->
+                        match case with
+                        // case_ty = the type of the variable for this case
+                        // id      = the name of the type constructor
+                        // var     = the name of the variable that must be put in the
+                        //           env. before evaluating this case expression.
+                        // e       = the expression of this case
+                        | (case_ty:ty, (Deconstr (id:string, var:string), e:expr)) ->
+                            let env = apply_subst_env s env
+                            let tExp, sExp = typeinfer_expr ((var, Forall ([], case_ty))::env) e
+                            
+                            match commonTy with
+                            // this happens in the first iteration
+                            | None ->
+                                (env, sExp, Some tExp)
+                            | Some tipe ->
+                                // I first apply the substitution I get typing this
+                                // case to the common type of all the previous cases.
+                                let tipe = apply_subst_ty sExp tipe
+                                // Next I unify the type of this case with the common type
+                                let su = unify tipe tExp
+                                let t = apply_subst_ty su tExp // this is equal to: apply_subst_ty su tipe
+
+                                // I compose in proper order all the substitutions I get
+                                // in thi iteration.
+                                let s = compose_subst_list [su; sExp; s]
+                                (env, s, Some t)
+                            ) (env, [], None) cases
+
+                let (_, subRet, tyRetOpt) = state // retrieve the substitution and the commmon type
+                match tyRetOpt with
+                | Some tyRet ->
+                    (tyRet, subRet)
+                | None -> unexpected_error "impossible none type after match fold"
+            with _ ->
+                type_error "invalid deconstructors in match cases"
+            
+        | _ -> type_error "incompatible type in match expression %s" (pretty_ty t)
 
     (* e1 op e2
     

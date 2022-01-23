@@ -30,7 +30,6 @@ type ty =
     | TyVar of tyvar
     | TyTuple of ty list
     | TyList of ty  // a list which contains elements of type <ty>
-    | TyUnion of string
 
 // pseudo data constructors for literal types
 let TyFloat = TyName "float"
@@ -45,6 +44,7 @@ let private (|TyLit|_|) name = function
     | TyName s when s = name -> Some ()
     | _ -> None
 
+let builtin_types = ["float"; "int"; "char"; "string"; "bool"; "unit"]
 let (|TyFloat|_|) = (|TyLit|_|) "float"
 let (|TyInt|_|) = (|TyLit|_|) "int"
 let (|TyChar|_|) = (|TyLit|_|) "char"
@@ -143,7 +143,6 @@ let rec pretty_ty t =
     | TyVar n -> sprintf "'%d" n
     | TyTuple ts -> sprintf "(%s)" (pretty_tupled pretty_ty ts)
     | TyList elemT -> sprintf "%s list" (pretty_ty elemT)
-    | TyUnion s -> s
 
 let pretty_lit lit =
     match lit with
