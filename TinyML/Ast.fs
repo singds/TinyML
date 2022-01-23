@@ -30,12 +30,7 @@ type ty =
     | TyVar of tyvar
     | TyTuple of ty list
     | TyList of ty  // a list which contains elements of type <ty>
-
-    // every new type brings along an id and its internal structure
-    | TyNew of int * constr list
-
-// a data constructor: the name of the constructor + the attached data
-and constr = Constr of string * ty option
+    | TyUnion of string
 
 // pseudo data constructors for literal types
 let TyFloat = TyName "float"
@@ -67,11 +62,12 @@ type lit = LInt of int
          | LBool of bool
          | LUnit 
 
-// a deconstructor: the constructor name plus identifiers for its attached data
-type deconstr = Deconstr of string * string list option
+type constr = Constr of string * ty
+type unionTy = constr list
+// a deconstructor: the constructor name plus an identifier
+type deconstr = Deconstr of string * string
 
 type binding = bool * string * ty option * expr    // (is_recursive, id, optional_type_annotation, expression)
-and aMatch = deconstr * expr           // constructor name + possible ids + the expression of this case
 and expr = 
     | Lit of lit
     | Lambda of string * ty option * expr
@@ -89,10 +85,8 @@ and expr =
     | IsEmpty of expr // to check if the list is empty
     | Match of expr * string * string * expr * expr // list, head, tail, non-empty body, empty body
 
-    // type name + possible constructors + the rest of the program
-    | NewTy of string * constr list * expr
-    // the expression to match plus a list of match cases
-    | MatchFull of expr * aMatch list
+    | Type of string * constr list * expr
+    | MatchFull of expr * (deconstr * expr) list
     | TyInst of string * expr
    
 let fold_params parms e0 = 
@@ -115,7 +109,7 @@ type value =
     | RecClosure of value env * string * string * expr
     | VEmpty // the empty list
     | VList of value * value // the first value is an element, the second value is a list
-    | VNewTy of string * value
+    | VUnion of string * value
 
 type interactive = IExpr of expr | IBinding of binding
 
@@ -162,8 +156,7 @@ let pretty_lit lit =
 
 let pretty_constr constr =
     match constr with
-    | Constr (name, None) -> sprintf "%s" name
-    | Constr (name, Some t) -> sprintf "%s of %s" name (pretty_ty t)
+    | Constr (name, t) -> sprintf "%s of %s" name (pretty_ty t)
 
 let rec pretty_expr e =
     match e with
@@ -217,7 +210,7 @@ let rec pretty_expr e =
     | Match (l, h, t, e_full, e_empty) ->
         sprintf "match %s with %s::%s -> %s | [] -> %s" (pretty_expr l) h t (pretty_expr e_full) (pretty_expr e_empty)
 
-    | NewTy (n, cl, e) -> // name, list of constructors, expr.
+    | Type (n, cl, e) -> // name, list of constructors, expr.
         sprintf "type %s = %s in %s" n (pretty_match pretty_constr cl) (pretty_expr e)
 
     | MatchFull (e, ml) -> // exp., match list
@@ -244,10 +237,8 @@ and pretty_app expr =
 
 and pretty_case case =
     match case with
-    | (Deconstr (n, None), e) ->
-        sprintf "%s -> %s" n (pretty_expr e)
-    | (Deconstr (n, Some idl), e) ->
-        sprintf "%s (%s) -> %s" n (pretty_tupled_string_list idl) (pretty_expr e)
+    | (Deconstr (n, id), e) ->
+        sprintf "%s (%s) -> %s" n id (pretty_expr e)
 
 let rec pretty_value v =
     match v with

@@ -47,8 +47,8 @@ state 0:  items:    _startinteractive ->  . interactive
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -166,8 +166,8 @@ state 1:  items:    _startinteractive -> interactive .
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -789,8 +789,8 @@ state 12:  items:    expr -> 'BRA' . expr_tuple_atom 'COMMA' expr_tuple_atoms 'K
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -850,8 +850,8 @@ state 13:  items:    expr -> 'BRA' expr_tuple_atom 'COMMA' . expr_tuple_atoms 'K
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -1151,8 +1151,8 @@ state 18:  items:    binding -> 'LET' 'ID' 'EQ' . expr
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -1327,8 +1327,8 @@ state 19:  items:    binding -> 'LET' 'ID' 'EQ' expr .
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -1563,8 +1563,8 @@ state 24:  items:    binding -> 'LET' 'ID' 'COLON' ty . 'EQ' expr
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -1799,8 +1799,8 @@ state 28:  items:    binding -> 'LET' 'ID' parms 'COLON' ty . 'EQ' expr
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -2038,8 +2038,8 @@ state 33:  items:    binding -> 'LET' 'REC' 'ID' 'EQ' . expr
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -2214,8 +2214,8 @@ state 34:  items:    binding -> 'LET' 'REC' 'ID' 'EQ' expr .
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -2450,8 +2450,8 @@ state 39:  items:    binding -> 'LET' 'REC' 'ID' parms 'COLON' ty . 'EQ' expr
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -2686,8 +2686,8 @@ state 43:  items:    binding -> 'LET' 'REC' 'ID' 'COLON' ty . 'EQ' expr
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -3615,8 +3615,8 @@ state 52:  items:    parms -> 'ID' parms .
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -3961,8 +3961,8 @@ state 61:  items:    expr_app_atom -> 'BRA' 'KET' .
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -4193,8 +4193,8 @@ state 67:  items:    expr_app_atom -> 'TO_FLOAT' 'BRA' expr . 'KET'
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -6806,8 +6806,8 @@ state 103:  items:    expr_tuple_atom -> expr_tuple_atom expr_app_atom .
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -7213,8 +7213,8 @@ state 111:  items:    expr_tuple_atom -> 'FUN' 'BRA' 'ID' 'COLON' ty . 'KET' 'AR
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -7388,8 +7388,8 @@ state 114:  items:    expr_tuple_atom -> 'FUN' 'BRA' 'ID' 'COLON' ty 'KET' 'ARRO
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -7792,8 +7792,8 @@ state 121:  items:    expr_tuple_atom -> 'LET' 'BRA' 'ID' 'COMMA' tuple_decompos
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -7910,8 +7910,8 @@ state 124:  items:    expr_tuple_atom -> 'LET' 'BRA' 'ID' 'COMMA' tuple_decompos
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8028,8 +8028,8 @@ state 126:  items:    expr_tuple_atom -> 'LET' 'BRA' 'ID' 'COMMA' tuple_decompos
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8088,8 +8088,8 @@ state 128:  items:    expr_tuple_atom -> 'MINUS' . expr_tuple_atom
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8148,8 +8148,8 @@ state 129:  items:    expr_tuple_atom -> 'MINUS_F' . expr_tuple_atom
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8208,8 +8208,8 @@ state 130:  items:    expr_tuple_atom -> expr_tuple_atom 'PLUS' . expr_tuple_ato
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8268,8 +8268,8 @@ state 131:  items:    expr_tuple_atom -> expr_tuple_atom 'PLUS_F' . expr_tuple_a
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8328,8 +8328,8 @@ state 132:  items:    expr_tuple_atom -> expr_tuple_atom 'MINUS' . expr_tuple_at
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8388,8 +8388,8 @@ state 133:  items:    expr_tuple_atom -> expr_tuple_atom 'MINUS_F' . expr_tuple_
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8448,8 +8448,8 @@ state 134:  items:    expr_tuple_atom -> expr_tuple_atom 'STAR' . expr_tuple_ato
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8508,8 +8508,8 @@ state 135:  items:    expr_tuple_atom -> expr_tuple_atom 'STAR_F' . expr_tuple_a
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8568,8 +8568,8 @@ state 136:  items:    expr_tuple_atom -> expr_tuple_atom 'SLASH' . expr_tuple_at
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8628,8 +8628,8 @@ state 137:  items:    expr_tuple_atom -> expr_tuple_atom 'SLASH_F' . expr_tuple_
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8688,8 +8688,8 @@ state 138:  items:    expr_tuple_atom -> expr_tuple_atom 'PERCENT' . expr_tuple_
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8748,8 +8748,8 @@ state 139:  items:    expr_tuple_atom -> expr_tuple_atom 'PERCENT_F' . expr_tupl
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8808,8 +8808,8 @@ state 140:  items:    expr_tuple_atom -> expr_tuple_atom 'EQ' . expr_tuple_atom
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8868,8 +8868,8 @@ state 141:  items:    expr_tuple_atom -> expr_tuple_atom 'NEQ' . expr_tuple_atom
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8928,8 +8928,8 @@ state 142:  items:    expr_tuple_atom -> expr_tuple_atom 'LT' . expr_tuple_atom
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -8988,8 +8988,8 @@ state 143:  items:    expr_tuple_atom -> expr_tuple_atom 'GT' . expr_tuple_atom
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -9048,8 +9048,8 @@ state 144:  items:    expr_tuple_atom -> expr_tuple_atom 'LEQ' . expr_tuple_atom
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -9108,8 +9108,8 @@ state 145:  items:    expr_tuple_atom -> expr_tuple_atom 'GEQ' . expr_tuple_atom
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -9168,8 +9168,8 @@ state 146:  items:    expr_tuple_atom -> expr_tuple_atom 'AND' . expr_tuple_atom
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -9228,8 +9228,8 @@ state 147:  items:    expr_tuple_atom -> expr_tuple_atom 'OR' . expr_tuple_atom
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -9289,8 +9289,8 @@ state 148:  items:    expr_tuple_atom -> 'IF' . expr 'THEN' expr
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -9409,8 +9409,8 @@ state 149:  items:    expr_tuple_atom -> 'IF' expr . 'THEN' expr
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -9528,8 +9528,8 @@ state 151:  items:    expr_tuple_atom -> 'IF' expr 'THEN' expr .
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -9646,8 +9646,8 @@ state 153:  items:    expr_tuple_atom -> 'IF' expr 'THEN' expr 'ELSE' expr .
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -9821,8 +9821,8 @@ state 156:  items:    expr_tuple_atom -> 'ISEMPTY' expr_app_atom .
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -9881,8 +9881,8 @@ state 158:  items:    expr_tuple_atom -> 'MATCH' . expr_tuple_atom 'WITH' 'ID' '
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -10169,8 +10169,8 @@ state 159:  items:    expr_tuple_atom -> 'MATCH' expr_tuple_atom 'WITH' . 'ID' '
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -10458,8 +10458,8 @@ state 164:  items:    expr_tuple_atom -> 'MATCH' expr_tuple_atom 'WITH' 'ID' 'CH
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -10530,237 +10530,7 @@ state 169:  items:    expr_tuple_atom -> 'MATCH' expr_tuple_atom 'WITH' 'ID' 'CH
     action 'error' (explicit right 9990):   reduce expr_tuple_atom --> 'MATCH' expr_tuple_atom 'WITH' 'ID' 'CHAIN' 'ID' 'ARROW' expr 'VSEP' 'BRASQ' 'KETSQ' 'ARROW' expr
     action '#' (explicit right 9990):   reduce expr_tuple_atom --> 'MATCH' expr_tuple_atom 'WITH' 'ID' 'CHAIN' 'ID' 'ARROW' expr 'VSEP' 'BRASQ' 'KETSQ' 'ARROW' expr
     action '$$' (explicit right 9990):   reduce expr_tuple_atom --> 'MATCH' expr_tuple_atom 'WITH' 'ID' 'CHAIN' 'ID' 'ARROW' expr 'VSEP' 'BRASQ' 'KETSQ' 'ARROW' expr
-  immediate action:   reduce expr_tuple_atom --> 'MATCH' expr_tuple_atom 'WITH' 'ID' 'CHAIN' 'ID' 'ARROW' expr 'VSEP' 'BRASQ' 'KETSQ' 'ARROW' expr  gotos:state 170:  items:    expr_tuple_atom -> 'TYPE' . 'ID' 'EQ' constructors 'IN' expr
-  actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   error
-    action 'THEN' (noprec):   error
-    action 'ELSE' (noprec):   error
-    action 'FUN' (noprec):   error
-    action 'ARROW' (noprec):   error
-    action 'LET' (noprec):   error
-    action 'REC' (noprec):   error
-    action 'IN' (noprec):   error
-    action 'TRUE' (noprec):   error
-    action 'FALSE' (noprec):   error
-    action 'BRA' (noprec):   error
-    action 'KET' (noprec):   error
-    action 'PLUS' (noprec):   error
-    action 'MINUS' (noprec):   error
-    action 'STAR' (noprec):   error
-    action 'SLASH' (noprec):   error
-    action 'PERCENT' (noprec):   error
-    action 'LT' (noprec):   error
-    action 'GT' (noprec):   error
-    action 'LEQ' (noprec):   error
-    action 'GEQ' (noprec):   error
-    action 'EQ' (noprec):   error
-    action 'NEQ' (noprec):   error
-    action 'AND' (noprec):   error
-    action 'OR' (noprec):   error
-    action 'NOT' (noprec):   error
-    action 'COLON' (noprec):   error
-    action 'SEMICOLON2' (noprec):   error
-    action 'COMMA' (noprec):   error
-    action 'SEQUENCE' (noprec):   error
-    action 'TO_FLOAT' (noprec):   error
-    action 'TO_INT' (noprec):   error
-    action 'PLUS_F' (noprec):   error
-    action 'MINUS_F' (noprec):   error
-    action 'STAR_F' (noprec):   error
-    action 'SLASH_F' (noprec):   error
-    action 'PERCENT_F' (noprec):   error
-    action 'BRASQ' (noprec):   error
-    action 'KETSQ' (noprec):   error
-    action 'CHAIN' (noprec):   error
-    action 'ISEMPTY' (noprec):   error
-    action 'MATCH' (noprec):   error
-    action 'WITH' (noprec):   error
-    action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   error
-    action 'TYPE' (noprec):   error
-    action 'OF' (noprec):   error
-    action 'STRING' (noprec):   error
-    action 'ID' (noprec):   shift 171
-    action 'CHAR' (noprec):   error
-    action 'FLOAT' (noprec):   error
-    action 'INT' (noprec):   error
-    action 'error' (noprec):   error
-    action '#' (noprec):   error
-    action '$$' (noprec):   error
-  immediate action: <none>  gotos:state 171:  items:    expr_tuple_atom -> 'TYPE' 'ID' . 'EQ' constructors 'IN' expr
-  actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   error
-    action 'THEN' (noprec):   error
-    action 'ELSE' (noprec):   error
-    action 'FUN' (noprec):   error
-    action 'ARROW' (noprec):   error
-    action 'LET' (noprec):   error
-    action 'REC' (noprec):   error
-    action 'IN' (noprec):   error
-    action 'TRUE' (noprec):   error
-    action 'FALSE' (noprec):   error
-    action 'BRA' (noprec):   error
-    action 'KET' (noprec):   error
-    action 'PLUS' (noprec):   error
-    action 'MINUS' (noprec):   error
-    action 'STAR' (noprec):   error
-    action 'SLASH' (noprec):   error
-    action 'PERCENT' (noprec):   error
-    action 'LT' (noprec):   error
-    action 'GT' (noprec):   error
-    action 'LEQ' (noprec):   error
-    action 'GEQ' (noprec):   error
-    action 'EQ' (explicit left 9993):   shift 172
-    action 'NEQ' (noprec):   error
-    action 'AND' (noprec):   error
-    action 'OR' (noprec):   error
-    action 'NOT' (noprec):   error
-    action 'COLON' (noprec):   error
-    action 'SEMICOLON2' (noprec):   error
-    action 'COMMA' (noprec):   error
-    action 'SEQUENCE' (noprec):   error
-    action 'TO_FLOAT' (noprec):   error
-    action 'TO_INT' (noprec):   error
-    action 'PLUS_F' (noprec):   error
-    action 'MINUS_F' (noprec):   error
-    action 'STAR_F' (noprec):   error
-    action 'SLASH_F' (noprec):   error
-    action 'PERCENT_F' (noprec):   error
-    action 'BRASQ' (noprec):   error
-    action 'KETSQ' (noprec):   error
-    action 'CHAIN' (noprec):   error
-    action 'ISEMPTY' (noprec):   error
-    action 'MATCH' (noprec):   error
-    action 'WITH' (noprec):   error
-    action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   error
-    action 'TYPE' (noprec):   error
-    action 'OF' (noprec):   error
-    action 'STRING' (noprec):   error
-    action 'ID' (noprec):   error
-    action 'CHAR' (noprec):   error
-    action 'FLOAT' (noprec):   error
-    action 'INT' (noprec):   error
-    action 'error' (noprec):   error
-    action '#' (noprec):   error
-    action '$$' (noprec):   error
-  immediate action: <none>  gotos:state 172:  items:    expr_tuple_atom -> 'TYPE' 'ID' 'EQ' . constructors 'IN' expr
-  actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   error
-    action 'THEN' (noprec):   error
-    action 'ELSE' (noprec):   error
-    action 'FUN' (noprec):   error
-    action 'ARROW' (noprec):   error
-    action 'LET' (noprec):   error
-    action 'REC' (noprec):   error
-    action 'IN' (noprec):   error
-    action 'TRUE' (noprec):   error
-    action 'FALSE' (noprec):   error
-    action 'BRA' (noprec):   error
-    action 'KET' (noprec):   error
-    action 'PLUS' (noprec):   error
-    action 'MINUS' (noprec):   error
-    action 'STAR' (noprec):   error
-    action 'SLASH' (noprec):   error
-    action 'PERCENT' (noprec):   error
-    action 'LT' (noprec):   error
-    action 'GT' (noprec):   error
-    action 'LEQ' (noprec):   error
-    action 'GEQ' (noprec):   error
-    action 'EQ' (noprec):   error
-    action 'NEQ' (noprec):   error
-    action 'AND' (noprec):   error
-    action 'OR' (noprec):   error
-    action 'NOT' (noprec):   error
-    action 'COLON' (noprec):   error
-    action 'SEMICOLON2' (noprec):   error
-    action 'COMMA' (noprec):   error
-    action 'SEQUENCE' (noprec):   error
-    action 'TO_FLOAT' (noprec):   error
-    action 'TO_INT' (noprec):   error
-    action 'PLUS_F' (noprec):   error
-    action 'MINUS_F' (noprec):   error
-    action 'STAR_F' (noprec):   error
-    action 'SLASH_F' (noprec):   error
-    action 'PERCENT_F' (noprec):   error
-    action 'BRASQ' (noprec):   error
-    action 'KETSQ' (noprec):   error
-    action 'CHAIN' (noprec):   error
-    action 'ISEMPTY' (noprec):   error
-    action 'MATCH' (noprec):   error
-    action 'WITH' (noprec):   error
-    action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   error
-    action 'TYPE' (noprec):   error
-    action 'OF' (noprec):   error
-    action 'STRING' (noprec):   error
-    action 'ID' (noprec):   shift 183
-    action 'CHAR' (noprec):   error
-    action 'FLOAT' (noprec):   error
-    action 'INT' (noprec):   error
-    action 'error' (noprec):   error
-    action '#' (noprec):   error
-    action '$$' (noprec):   error
-  immediate action: <none>  gotos:    goto constructors: 173
-    goto constructor: 180
-state 173:  items:    expr_tuple_atom -> 'TYPE' 'ID' 'EQ' constructors . 'IN' expr
-  actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   error
-    action 'THEN' (noprec):   error
-    action 'ELSE' (noprec):   error
-    action 'FUN' (noprec):   error
-    action 'ARROW' (noprec):   error
-    action 'LET' (noprec):   error
-    action 'REC' (noprec):   error
-    action 'IN' (noprec):   shift 174
-    action 'TRUE' (noprec):   error
-    action 'FALSE' (noprec):   error
-    action 'BRA' (noprec):   error
-    action 'KET' (noprec):   error
-    action 'PLUS' (noprec):   error
-    action 'MINUS' (noprec):   error
-    action 'STAR' (noprec):   error
-    action 'SLASH' (noprec):   error
-    action 'PERCENT' (noprec):   error
-    action 'LT' (noprec):   error
-    action 'GT' (noprec):   error
-    action 'LEQ' (noprec):   error
-    action 'GEQ' (noprec):   error
-    action 'EQ' (noprec):   error
-    action 'NEQ' (noprec):   error
-    action 'AND' (noprec):   error
-    action 'OR' (noprec):   error
-    action 'NOT' (noprec):   error
-    action 'COLON' (noprec):   error
-    action 'SEMICOLON2' (noprec):   error
-    action 'COMMA' (noprec):   error
-    action 'SEQUENCE' (noprec):   error
-    action 'TO_FLOAT' (noprec):   error
-    action 'TO_INT' (noprec):   error
-    action 'PLUS_F' (noprec):   error
-    action 'MINUS_F' (noprec):   error
-    action 'STAR_F' (noprec):   error
-    action 'SLASH_F' (noprec):   error
-    action 'PERCENT_F' (noprec):   error
-    action 'BRASQ' (noprec):   error
-    action 'KETSQ' (noprec):   error
-    action 'CHAIN' (noprec):   error
-    action 'ISEMPTY' (noprec):   error
-    action 'MATCH' (noprec):   error
-    action 'WITH' (noprec):   error
-    action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   error
-    action 'TYPE' (noprec):   error
-    action 'OF' (noprec):   error
-    action 'STRING' (noprec):   error
-    action 'ID' (noprec):   error
-    action 'CHAR' (noprec):   error
-    action 'FLOAT' (noprec):   error
-    action 'INT' (noprec):   error
-    action 'error' (noprec):   error
-    action '#' (noprec):   error
-    action '$$' (noprec):   error
-  immediate action: <none>  gotos:state 174:  items:    expr_tuple_atom -> 'TYPE' 'ID' 'EQ' constructors 'IN' . expr
+  immediate action:   reduce expr_tuple_atom --> 'MATCH' expr_tuple_atom 'WITH' 'ID' 'CHAIN' 'ID' 'ARROW' expr 'VSEP' 'BRASQ' 'KETSQ' 'ARROW' expr  gotos:state 170:  items:    expr_tuple_atom -> 'MATCHFULL' . expr 'WITH' match_case_list
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   shift 148
     action 'THEN' (noprec):   error
@@ -10806,8 +10576,8 @@ state 173:  items:    expr_tuple_atom -> 'TYPE' 'ID' 'EQ' constructors . 'IN' ex
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -10817,129 +10587,11 @@ state 173:  items:    expr_tuple_atom -> 'TYPE' 'ID' 'EQ' constructors . 'IN' ex
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:    goto expr: 175
+  immediate action: <none>  gotos:    goto expr: 171
     goto binding: 115
     goto expr_app_atom: 77
     goto expr_tuple_atom: 11
-state 175:  items:    expr_tuple_atom -> 'TYPE' 'ID' 'EQ' constructors 'IN' expr . 
-  actions:    action 'EOF' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'IF' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'THEN' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'ELSE' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'FUN' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'ARROW' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'LET' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'REC' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'IN' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'TRUE' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'FALSE' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'BRA' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'KET' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'PLUS' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'MINUS' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'STAR' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'SLASH' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'PERCENT' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'LT' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'GT' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'LEQ' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'GEQ' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'EQ' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'NEQ' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'AND' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'OR' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'NOT' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'COLON' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'SEMICOLON2' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'COMMA' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'SEQUENCE' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'TO_FLOAT' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'TO_INT' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'PLUS_F' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'MINUS_F' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'STAR_F' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'SLASH_F' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'PERCENT_F' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'BRASQ' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'KETSQ' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'CHAIN' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'ISEMPTY' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'MATCH' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'WITH' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'VSEP' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'MATCHFULL' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'TYPE' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'OF' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'STRING' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'ID' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'CHAR' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'FLOAT' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'INT' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action 'error' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action '#' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-    action '$$' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
-  immediate action:   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr  gotos:state 176:  items:    expr_tuple_atom -> 'MATCHFULL' . expr 'WITH' match_case_list
-  actions:    action 'EOF' (noprec):   error
-    action 'IF' (noprec):   shift 148
-    action 'THEN' (noprec):   error
-    action 'ELSE' (noprec):   error
-    action 'FUN' (noprec):   shift 104
-    action 'ARROW' (noprec):   error
-    action 'LET' (noprec):   shift 16
-    action 'REC' (noprec):   error
-    action 'IN' (noprec):   error
-    action 'TRUE' (noprec):   shift 58
-    action 'FALSE' (noprec):   shift 59
-    action 'BRA' (noprec):   shift 12
-    action 'KET' (noprec):   error
-    action 'PLUS' (noprec):   error
-    action 'MINUS' (explicit left 9994):   shift 128
-    action 'STAR' (noprec):   error
-    action 'SLASH' (noprec):   error
-    action 'PERCENT' (noprec):   error
-    action 'LT' (noprec):   error
-    action 'GT' (noprec):   error
-    action 'LEQ' (noprec):   error
-    action 'GEQ' (noprec):   error
-    action 'EQ' (noprec):   error
-    action 'NEQ' (noprec):   error
-    action 'AND' (noprec):   error
-    action 'OR' (noprec):   error
-    action 'NOT' (explicit nonassoc 9999):   shift 127
-    action 'COLON' (noprec):   error
-    action 'SEMICOLON2' (noprec):   error
-    action 'COMMA' (noprec):   error
-    action 'SEQUENCE' (noprec):   error
-    action 'TO_FLOAT' (noprec):   shift 65
-    action 'TO_INT' (noprec):   shift 69
-    action 'PLUS_F' (noprec):   error
-    action 'MINUS_F' (explicit left 9998):   shift 129
-    action 'STAR_F' (noprec):   error
-    action 'SLASH_F' (noprec):   error
-    action 'PERCENT_F' (noprec):   error
-    action 'BRASQ' (noprec):   shift 73
-    action 'KETSQ' (noprec):   error
-    action 'CHAIN' (noprec):   error
-    action 'ISEMPTY' (noprec):   shift 155
-    action 'MATCH' (noprec):   shift 158
-    action 'WITH' (noprec):   error
-    action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
-    action 'OF' (noprec):   error
-    action 'STRING' (noprec):   shift 56
-    action 'ID' (noprec):   shift 62
-    action 'CHAR' (noprec):   shift 57
-    action 'FLOAT' (noprec):   shift 55
-    action 'INT' (noprec):   shift 54
-    action 'error' (noprec):   error
-    action '#' (noprec):   error
-    action '$$' (noprec):   error
-  immediate action: <none>  gotos:    goto expr: 177
-    goto binding: 115
-    goto expr_app_atom: 77
-    goto expr_tuple_atom: 11
-state 177:  items:    expr_tuple_atom -> 'MATCHFULL' expr . 'WITH' match_case_list
+state 171:  items:    expr_tuple_atom -> 'MATCHFULL' expr . 'WITH' match_case_list
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   error
     action 'THEN' (noprec):   error
@@ -10983,7 +10635,7 @@ state 177:  items:    expr_tuple_atom -> 'MATCHFULL' expr . 'WITH' match_case_li
     action 'CHAIN' (noprec):   error
     action 'ISEMPTY' (noprec):   error
     action 'MATCH' (noprec):   error
-    action 'WITH' (noprec):   shift 178
+    action 'WITH' (noprec):   shift 172
     action 'VSEP' (noprec):   error
     action 'MATCHFULL' (noprec):   error
     action 'TYPE' (noprec):   error
@@ -10996,7 +10648,7 @@ state 177:  items:    expr_tuple_atom -> 'MATCHFULL' expr . 'WITH' match_case_li
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:state 178:  items:    expr_tuple_atom -> 'MATCHFULL' expr 'WITH' . match_case_list
+  immediate action: <none>  gotos:state 172:  items:    expr_tuple_atom -> 'MATCHFULL' expr 'WITH' . match_case_list
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   error
     action 'THEN' (noprec):   error
@@ -11053,10 +10705,10 @@ state 177:  items:    expr_tuple_atom -> 'MATCHFULL' expr . 'WITH' match_case_li
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:    goto match_case_list: 179
+  immediate action: <none>  gotos:    goto match_case_list: 173
     goto match_case: 186
     goto deconstructor: 189
-state 179:  items:    expr_tuple_atom -> 'MATCHFULL' expr 'WITH' match_case_list . 
+state 173:  items:    expr_tuple_atom -> 'MATCHFULL' expr 'WITH' match_case_list . 
   actions:    action 'EOF' (noprec):   reduce expr_tuple_atom --> 'MATCHFULL' expr 'WITH' match_case_list
     action 'IF' (noprec):   reduce expr_tuple_atom --> 'MATCHFULL' expr 'WITH' match_case_list
     action 'THEN' (noprec):   reduce expr_tuple_atom --> 'MATCHFULL' expr 'WITH' match_case_list
@@ -11113,7 +10765,355 @@ state 179:  items:    expr_tuple_atom -> 'MATCHFULL' expr 'WITH' match_case_list
     action 'error' (noprec):   reduce expr_tuple_atom --> 'MATCHFULL' expr 'WITH' match_case_list
     action '#' (noprec):   reduce expr_tuple_atom --> 'MATCHFULL' expr 'WITH' match_case_list
     action '$$' (noprec):   reduce expr_tuple_atom --> 'MATCHFULL' expr 'WITH' match_case_list
-  immediate action:   reduce expr_tuple_atom --> 'MATCHFULL' expr 'WITH' match_case_list  gotos:state 180:  items:    constructors -> constructor . 
+  immediate action:   reduce expr_tuple_atom --> 'MATCHFULL' expr 'WITH' match_case_list  gotos:state 174:  items:    expr_tuple_atom -> 'TYPE' . 'ID' 'EQ' constructors 'IN' expr
+  actions:    action 'EOF' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'ARROW' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'REC' (noprec):   error
+    action 'IN' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BRA' (noprec):   error
+    action 'KET' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'STAR' (noprec):   error
+    action 'SLASH' (noprec):   error
+    action 'PERCENT' (noprec):   error
+    action 'LT' (noprec):   error
+    action 'GT' (noprec):   error
+    action 'LEQ' (noprec):   error
+    action 'GEQ' (noprec):   error
+    action 'EQ' (noprec):   error
+    action 'NEQ' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'NOT' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'COMMA' (noprec):   error
+    action 'SEQUENCE' (noprec):   error
+    action 'TO_FLOAT' (noprec):   error
+    action 'TO_INT' (noprec):   error
+    action 'PLUS_F' (noprec):   error
+    action 'MINUS_F' (noprec):   error
+    action 'STAR_F' (noprec):   error
+    action 'SLASH_F' (noprec):   error
+    action 'PERCENT_F' (noprec):   error
+    action 'BRASQ' (noprec):   error
+    action 'KETSQ' (noprec):   error
+    action 'CHAIN' (noprec):   error
+    action 'ISEMPTY' (noprec):   error
+    action 'MATCH' (noprec):   error
+    action 'WITH' (noprec):   error
+    action 'VSEP' (noprec):   error
+    action 'MATCHFULL' (noprec):   error
+    action 'TYPE' (noprec):   error
+    action 'OF' (noprec):   error
+    action 'STRING' (noprec):   error
+    action 'ID' (noprec):   shift 175
+    action 'CHAR' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+  immediate action: <none>  gotos:state 175:  items:    expr_tuple_atom -> 'TYPE' 'ID' . 'EQ' constructors 'IN' expr
+  actions:    action 'EOF' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'ARROW' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'REC' (noprec):   error
+    action 'IN' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BRA' (noprec):   error
+    action 'KET' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'STAR' (noprec):   error
+    action 'SLASH' (noprec):   error
+    action 'PERCENT' (noprec):   error
+    action 'LT' (noprec):   error
+    action 'GT' (noprec):   error
+    action 'LEQ' (noprec):   error
+    action 'GEQ' (noprec):   error
+    action 'EQ' (explicit left 9993):   shift 176
+    action 'NEQ' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'NOT' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'COMMA' (noprec):   error
+    action 'SEQUENCE' (noprec):   error
+    action 'TO_FLOAT' (noprec):   error
+    action 'TO_INT' (noprec):   error
+    action 'PLUS_F' (noprec):   error
+    action 'MINUS_F' (noprec):   error
+    action 'STAR_F' (noprec):   error
+    action 'SLASH_F' (noprec):   error
+    action 'PERCENT_F' (noprec):   error
+    action 'BRASQ' (noprec):   error
+    action 'KETSQ' (noprec):   error
+    action 'CHAIN' (noprec):   error
+    action 'ISEMPTY' (noprec):   error
+    action 'MATCH' (noprec):   error
+    action 'WITH' (noprec):   error
+    action 'VSEP' (noprec):   error
+    action 'MATCHFULL' (noprec):   error
+    action 'TYPE' (noprec):   error
+    action 'OF' (noprec):   error
+    action 'STRING' (noprec):   error
+    action 'ID' (noprec):   error
+    action 'CHAR' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+  immediate action: <none>  gotos:state 176:  items:    expr_tuple_atom -> 'TYPE' 'ID' 'EQ' . constructors 'IN' expr
+  actions:    action 'EOF' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'ARROW' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'REC' (noprec):   error
+    action 'IN' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BRA' (noprec):   error
+    action 'KET' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'STAR' (noprec):   error
+    action 'SLASH' (noprec):   error
+    action 'PERCENT' (noprec):   error
+    action 'LT' (noprec):   error
+    action 'GT' (noprec):   error
+    action 'LEQ' (noprec):   error
+    action 'GEQ' (noprec):   error
+    action 'EQ' (noprec):   error
+    action 'NEQ' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'NOT' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'COMMA' (noprec):   error
+    action 'SEQUENCE' (noprec):   error
+    action 'TO_FLOAT' (noprec):   error
+    action 'TO_INT' (noprec):   error
+    action 'PLUS_F' (noprec):   error
+    action 'MINUS_F' (noprec):   error
+    action 'STAR_F' (noprec):   error
+    action 'SLASH_F' (noprec):   error
+    action 'PERCENT_F' (noprec):   error
+    action 'BRASQ' (noprec):   error
+    action 'KETSQ' (noprec):   error
+    action 'CHAIN' (noprec):   error
+    action 'ISEMPTY' (noprec):   error
+    action 'MATCH' (noprec):   error
+    action 'WITH' (noprec):   error
+    action 'VSEP' (noprec):   error
+    action 'MATCHFULL' (noprec):   error
+    action 'TYPE' (noprec):   error
+    action 'OF' (noprec):   error
+    action 'STRING' (noprec):   error
+    action 'ID' (noprec):   shift 183
+    action 'CHAR' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+  immediate action: <none>  gotos:    goto constructors: 177
+    goto constructor: 180
+state 177:  items:    expr_tuple_atom -> 'TYPE' 'ID' 'EQ' constructors . 'IN' expr
+  actions:    action 'EOF' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'ARROW' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'REC' (noprec):   error
+    action 'IN' (noprec):   shift 178
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BRA' (noprec):   error
+    action 'KET' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'STAR' (noprec):   error
+    action 'SLASH' (noprec):   error
+    action 'PERCENT' (noprec):   error
+    action 'LT' (noprec):   error
+    action 'GT' (noprec):   error
+    action 'LEQ' (noprec):   error
+    action 'GEQ' (noprec):   error
+    action 'EQ' (noprec):   error
+    action 'NEQ' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'NOT' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'COMMA' (noprec):   error
+    action 'SEQUENCE' (noprec):   error
+    action 'TO_FLOAT' (noprec):   error
+    action 'TO_INT' (noprec):   error
+    action 'PLUS_F' (noprec):   error
+    action 'MINUS_F' (noprec):   error
+    action 'STAR_F' (noprec):   error
+    action 'SLASH_F' (noprec):   error
+    action 'PERCENT_F' (noprec):   error
+    action 'BRASQ' (noprec):   error
+    action 'KETSQ' (noprec):   error
+    action 'CHAIN' (noprec):   error
+    action 'ISEMPTY' (noprec):   error
+    action 'MATCH' (noprec):   error
+    action 'WITH' (noprec):   error
+    action 'VSEP' (noprec):   error
+    action 'MATCHFULL' (noprec):   error
+    action 'TYPE' (noprec):   error
+    action 'OF' (noprec):   error
+    action 'STRING' (noprec):   error
+    action 'ID' (noprec):   error
+    action 'CHAR' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+  immediate action: <none>  gotos:state 178:  items:    expr_tuple_atom -> 'TYPE' 'ID' 'EQ' constructors 'IN' . expr
+  actions:    action 'EOF' (noprec):   error
+    action 'IF' (noprec):   shift 148
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'FUN' (noprec):   shift 104
+    action 'ARROW' (noprec):   error
+    action 'LET' (noprec):   shift 16
+    action 'REC' (noprec):   error
+    action 'IN' (noprec):   error
+    action 'TRUE' (noprec):   shift 58
+    action 'FALSE' (noprec):   shift 59
+    action 'BRA' (noprec):   shift 12
+    action 'KET' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (explicit left 9994):   shift 128
+    action 'STAR' (noprec):   error
+    action 'SLASH' (noprec):   error
+    action 'PERCENT' (noprec):   error
+    action 'LT' (noprec):   error
+    action 'GT' (noprec):   error
+    action 'LEQ' (noprec):   error
+    action 'GEQ' (noprec):   error
+    action 'EQ' (noprec):   error
+    action 'NEQ' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'NOT' (explicit nonassoc 9999):   shift 127
+    action 'COLON' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'COMMA' (noprec):   error
+    action 'SEQUENCE' (noprec):   error
+    action 'TO_FLOAT' (noprec):   shift 65
+    action 'TO_INT' (noprec):   shift 69
+    action 'PLUS_F' (noprec):   error
+    action 'MINUS_F' (explicit left 9998):   shift 129
+    action 'STAR_F' (noprec):   error
+    action 'SLASH_F' (noprec):   error
+    action 'PERCENT_F' (noprec):   error
+    action 'BRASQ' (noprec):   shift 73
+    action 'KETSQ' (noprec):   error
+    action 'CHAIN' (noprec):   error
+    action 'ISEMPTY' (noprec):   shift 155
+    action 'MATCH' (noprec):   shift 158
+    action 'WITH' (noprec):   error
+    action 'VSEP' (noprec):   error
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
+    action 'OF' (noprec):   error
+    action 'STRING' (noprec):   shift 56
+    action 'ID' (noprec):   shift 62
+    action 'CHAR' (noprec):   shift 57
+    action 'FLOAT' (noprec):   shift 55
+    action 'INT' (noprec):   shift 54
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+  immediate action: <none>  gotos:    goto expr: 179
+    goto binding: 115
+    goto expr_app_atom: 77
+    goto expr_tuple_atom: 11
+state 179:  items:    expr_tuple_atom -> 'TYPE' 'ID' 'EQ' constructors 'IN' expr . 
+  actions:    action 'EOF' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'IF' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'THEN' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'ELSE' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'FUN' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'ARROW' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'LET' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'REC' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'IN' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'TRUE' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'FALSE' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'BRA' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'KET' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'PLUS' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'MINUS' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'STAR' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'SLASH' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'PERCENT' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'LT' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'GT' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'LEQ' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'GEQ' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'EQ' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'NEQ' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'AND' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'OR' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'NOT' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'COLON' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'SEMICOLON2' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'COMMA' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'SEQUENCE' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'TO_FLOAT' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'TO_INT' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'PLUS_F' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'MINUS_F' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'STAR_F' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'SLASH_F' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'PERCENT_F' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'BRASQ' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'KETSQ' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'CHAIN' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'ISEMPTY' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'MATCH' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'WITH' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'VSEP' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'MATCHFULL' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'TYPE' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'OF' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'STRING' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'ID' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'CHAR' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'FLOAT' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'INT' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action 'error' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action '#' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+    action '$$' (noprec):   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr
+  immediate action:   reduce expr_tuple_atom --> 'TYPE' 'ID' 'EQ' constructors 'IN' expr  gotos:state 180:  items:    constructors -> constructor . 
     constructors -> constructor . 'VSEP' constructors
   actions:    action 'EOF' (noprec):   reduce constructors --> constructor
     action 'IF' (noprec):   reduce constructors --> constructor
@@ -11287,64 +11287,63 @@ state 182:  items:    constructors -> constructor 'VSEP' constructors .
     action 'error' (noprec):   reduce constructors --> constructor 'VSEP' constructors
     action '#' (noprec):   reduce constructors --> constructor 'VSEP' constructors
     action '$$' (noprec):   reduce constructors --> constructor 'VSEP' constructors
-  immediate action:   reduce constructors --> constructor 'VSEP' constructors  gotos:state 183:  items:    constructor -> 'ID' . 
-    constructor -> 'ID' . 'OF' ty
-  actions:    action 'EOF' (noprec):   reduce constructor --> 'ID'
-    action 'IF' (noprec):   reduce constructor --> 'ID'
-    action 'THEN' (noprec):   reduce constructor --> 'ID'
-    action 'ELSE' (noprec):   reduce constructor --> 'ID'
-    action 'FUN' (noprec):   reduce constructor --> 'ID'
-    action 'ARROW' (noprec):   reduce constructor --> 'ID'
-    action 'LET' (noprec):   reduce constructor --> 'ID'
-    action 'REC' (noprec):   reduce constructor --> 'ID'
-    action 'IN' (noprec):   reduce constructor --> 'ID'
-    action 'TRUE' (noprec):   reduce constructor --> 'ID'
-    action 'FALSE' (noprec):   reduce constructor --> 'ID'
-    action 'BRA' (noprec):   reduce constructor --> 'ID'
-    action 'KET' (noprec):   reduce constructor --> 'ID'
-    action 'PLUS' (noprec):   reduce constructor --> 'ID'
-    action 'MINUS' (noprec):   reduce constructor --> 'ID'
-    action 'STAR' (noprec):   reduce constructor --> 'ID'
-    action 'SLASH' (noprec):   reduce constructor --> 'ID'
-    action 'PERCENT' (noprec):   reduce constructor --> 'ID'
-    action 'LT' (noprec):   reduce constructor --> 'ID'
-    action 'GT' (noprec):   reduce constructor --> 'ID'
-    action 'LEQ' (noprec):   reduce constructor --> 'ID'
-    action 'GEQ' (noprec):   reduce constructor --> 'ID'
-    action 'EQ' (noprec):   reduce constructor --> 'ID'
-    action 'NEQ' (noprec):   reduce constructor --> 'ID'
-    action 'AND' (noprec):   reduce constructor --> 'ID'
-    action 'OR' (noprec):   reduce constructor --> 'ID'
-    action 'NOT' (noprec):   reduce constructor --> 'ID'
-    action 'COLON' (noprec):   reduce constructor --> 'ID'
-    action 'SEMICOLON2' (noprec):   reduce constructor --> 'ID'
-    action 'COMMA' (noprec):   reduce constructor --> 'ID'
-    action 'SEQUENCE' (noprec):   reduce constructor --> 'ID'
-    action 'TO_FLOAT' (noprec):   reduce constructor --> 'ID'
-    action 'TO_INT' (noprec):   reduce constructor --> 'ID'
-    action 'PLUS_F' (noprec):   reduce constructor --> 'ID'
-    action 'MINUS_F' (noprec):   reduce constructor --> 'ID'
-    action 'STAR_F' (noprec):   reduce constructor --> 'ID'
-    action 'SLASH_F' (noprec):   reduce constructor --> 'ID'
-    action 'PERCENT_F' (noprec):   reduce constructor --> 'ID'
-    action 'BRASQ' (noprec):   reduce constructor --> 'ID'
-    action 'KETSQ' (noprec):   reduce constructor --> 'ID'
-    action 'CHAIN' (noprec):   reduce constructor --> 'ID'
-    action 'ISEMPTY' (noprec):   reduce constructor --> 'ID'
-    action 'MATCH' (noprec):   reduce constructor --> 'ID'
-    action 'WITH' (noprec):   reduce constructor --> 'ID'
-    action 'VSEP' (noprec):   reduce constructor --> 'ID'
-    action 'MATCHFULL' (noprec):   reduce constructor --> 'ID'
-    action 'TYPE' (noprec):   reduce constructor --> 'ID'
+  immediate action:   reduce constructors --> constructor 'VSEP' constructors  gotos:state 183:  items:    constructor -> 'ID' . 'OF' ty
+  actions:    action 'EOF' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'ARROW' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'REC' (noprec):   error
+    action 'IN' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
+    action 'BRA' (noprec):   error
+    action 'KET' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'STAR' (noprec):   error
+    action 'SLASH' (noprec):   error
+    action 'PERCENT' (noprec):   error
+    action 'LT' (noprec):   error
+    action 'GT' (noprec):   error
+    action 'LEQ' (noprec):   error
+    action 'GEQ' (noprec):   error
+    action 'EQ' (noprec):   error
+    action 'NEQ' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'NOT' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'COMMA' (noprec):   error
+    action 'SEQUENCE' (noprec):   error
+    action 'TO_FLOAT' (noprec):   error
+    action 'TO_INT' (noprec):   error
+    action 'PLUS_F' (noprec):   error
+    action 'MINUS_F' (noprec):   error
+    action 'STAR_F' (noprec):   error
+    action 'SLASH_F' (noprec):   error
+    action 'PERCENT_F' (noprec):   error
+    action 'BRASQ' (noprec):   error
+    action 'KETSQ' (noprec):   error
+    action 'CHAIN' (noprec):   error
+    action 'ISEMPTY' (noprec):   error
+    action 'MATCH' (noprec):   error
+    action 'WITH' (noprec):   error
+    action 'VSEP' (noprec):   error
+    action 'MATCHFULL' (noprec):   error
+    action 'TYPE' (noprec):   error
     action 'OF' (noprec):   shift 184
-    action 'STRING' (noprec):   reduce constructor --> 'ID'
-    action 'ID' (noprec):   reduce constructor --> 'ID'
-    action 'CHAR' (noprec):   reduce constructor --> 'ID'
-    action 'FLOAT' (noprec):   reduce constructor --> 'ID'
-    action 'INT' (noprec):   reduce constructor --> 'ID'
-    action 'error' (noprec):   reduce constructor --> 'ID'
-    action '#' (noprec):   reduce constructor --> 'ID'
-    action '$$' (noprec):   reduce constructor --> 'ID'
+    action 'STRING' (noprec):   error
+    action 'ID' (noprec):   error
+    action 'CHAR' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
   immediate action: <none>  gotos:state 184:  items:    constructor -> 'ID' 'OF' . ty
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   error
@@ -11741,8 +11740,8 @@ state 188:  items:    match_case_list -> match_case 'VSEP' match_case_list .
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62
@@ -11813,65 +11812,64 @@ state 191:  items:    match_case -> deconstructor 'ARROW' expr .
     action 'error' (explicit right 9990):   reduce match_case --> deconstructor 'ARROW' expr
     action '#' (explicit right 9990):   reduce match_case --> deconstructor 'ARROW' expr
     action '$$' (explicit right 9990):   reduce match_case --> deconstructor 'ARROW' expr
-  immediate action:   reduce match_case --> deconstructor 'ARROW' expr  gotos:state 192:  items:    deconstructor -> 'ID' . 
-    deconstructor -> 'ID' . 'BRA' tuple_decompose_ids 'KET'
-  actions:    action 'EOF' (noprec):   reduce deconstructor --> 'ID'
-    action 'IF' (noprec):   reduce deconstructor --> 'ID'
-    action 'THEN' (noprec):   reduce deconstructor --> 'ID'
-    action 'ELSE' (noprec):   reduce deconstructor --> 'ID'
-    action 'FUN' (noprec):   reduce deconstructor --> 'ID'
-    action 'ARROW' (noprec):   reduce deconstructor --> 'ID'
-    action 'LET' (noprec):   reduce deconstructor --> 'ID'
-    action 'REC' (noprec):   reduce deconstructor --> 'ID'
-    action 'IN' (noprec):   reduce deconstructor --> 'ID'
-    action 'TRUE' (noprec):   reduce deconstructor --> 'ID'
-    action 'FALSE' (noprec):   reduce deconstructor --> 'ID'
+  immediate action:   reduce match_case --> deconstructor 'ARROW' expr  gotos:state 192:  items:    deconstructor -> 'ID' . 'BRA' 'ID' 'KET'
+  actions:    action 'EOF' (noprec):   error
+    action 'IF' (noprec):   error
+    action 'THEN' (noprec):   error
+    action 'ELSE' (noprec):   error
+    action 'FUN' (noprec):   error
+    action 'ARROW' (noprec):   error
+    action 'LET' (noprec):   error
+    action 'REC' (noprec):   error
+    action 'IN' (noprec):   error
+    action 'TRUE' (noprec):   error
+    action 'FALSE' (noprec):   error
     action 'BRA' (noprec):   shift 193
-    action 'KET' (noprec):   reduce deconstructor --> 'ID'
-    action 'PLUS' (noprec):   reduce deconstructor --> 'ID'
-    action 'MINUS' (noprec):   reduce deconstructor --> 'ID'
-    action 'STAR' (noprec):   reduce deconstructor --> 'ID'
-    action 'SLASH' (noprec):   reduce deconstructor --> 'ID'
-    action 'PERCENT' (noprec):   reduce deconstructor --> 'ID'
-    action 'LT' (noprec):   reduce deconstructor --> 'ID'
-    action 'GT' (noprec):   reduce deconstructor --> 'ID'
-    action 'LEQ' (noprec):   reduce deconstructor --> 'ID'
-    action 'GEQ' (noprec):   reduce deconstructor --> 'ID'
-    action 'EQ' (noprec):   reduce deconstructor --> 'ID'
-    action 'NEQ' (noprec):   reduce deconstructor --> 'ID'
-    action 'AND' (noprec):   reduce deconstructor --> 'ID'
-    action 'OR' (noprec):   reduce deconstructor --> 'ID'
-    action 'NOT' (noprec):   reduce deconstructor --> 'ID'
-    action 'COLON' (noprec):   reduce deconstructor --> 'ID'
-    action 'SEMICOLON2' (noprec):   reduce deconstructor --> 'ID'
-    action 'COMMA' (noprec):   reduce deconstructor --> 'ID'
-    action 'SEQUENCE' (noprec):   reduce deconstructor --> 'ID'
-    action 'TO_FLOAT' (noprec):   reduce deconstructor --> 'ID'
-    action 'TO_INT' (noprec):   reduce deconstructor --> 'ID'
-    action 'PLUS_F' (noprec):   reduce deconstructor --> 'ID'
-    action 'MINUS_F' (noprec):   reduce deconstructor --> 'ID'
-    action 'STAR_F' (noprec):   reduce deconstructor --> 'ID'
-    action 'SLASH_F' (noprec):   reduce deconstructor --> 'ID'
-    action 'PERCENT_F' (noprec):   reduce deconstructor --> 'ID'
-    action 'BRASQ' (noprec):   reduce deconstructor --> 'ID'
-    action 'KETSQ' (noprec):   reduce deconstructor --> 'ID'
-    action 'CHAIN' (noprec):   reduce deconstructor --> 'ID'
-    action 'ISEMPTY' (noprec):   reduce deconstructor --> 'ID'
-    action 'MATCH' (noprec):   reduce deconstructor --> 'ID'
-    action 'WITH' (noprec):   reduce deconstructor --> 'ID'
-    action 'VSEP' (noprec):   reduce deconstructor --> 'ID'
-    action 'MATCHFULL' (noprec):   reduce deconstructor --> 'ID'
-    action 'TYPE' (noprec):   reduce deconstructor --> 'ID'
-    action 'OF' (noprec):   reduce deconstructor --> 'ID'
-    action 'STRING' (noprec):   reduce deconstructor --> 'ID'
-    action 'ID' (noprec):   reduce deconstructor --> 'ID'
-    action 'CHAR' (noprec):   reduce deconstructor --> 'ID'
-    action 'FLOAT' (noprec):   reduce deconstructor --> 'ID'
-    action 'INT' (noprec):   reduce deconstructor --> 'ID'
-    action 'error' (noprec):   reduce deconstructor --> 'ID'
-    action '#' (noprec):   reduce deconstructor --> 'ID'
-    action '$$' (noprec):   reduce deconstructor --> 'ID'
-  immediate action: <none>  gotos:state 193:  items:    deconstructor -> 'ID' 'BRA' . tuple_decompose_ids 'KET'
+    action 'KET' (noprec):   error
+    action 'PLUS' (noprec):   error
+    action 'MINUS' (noprec):   error
+    action 'STAR' (noprec):   error
+    action 'SLASH' (noprec):   error
+    action 'PERCENT' (noprec):   error
+    action 'LT' (noprec):   error
+    action 'GT' (noprec):   error
+    action 'LEQ' (noprec):   error
+    action 'GEQ' (noprec):   error
+    action 'EQ' (noprec):   error
+    action 'NEQ' (noprec):   error
+    action 'AND' (noprec):   error
+    action 'OR' (noprec):   error
+    action 'NOT' (noprec):   error
+    action 'COLON' (noprec):   error
+    action 'SEMICOLON2' (noprec):   error
+    action 'COMMA' (noprec):   error
+    action 'SEQUENCE' (noprec):   error
+    action 'TO_FLOAT' (noprec):   error
+    action 'TO_INT' (noprec):   error
+    action 'PLUS_F' (noprec):   error
+    action 'MINUS_F' (noprec):   error
+    action 'STAR_F' (noprec):   error
+    action 'SLASH_F' (noprec):   error
+    action 'PERCENT_F' (noprec):   error
+    action 'BRASQ' (noprec):   error
+    action 'KETSQ' (noprec):   error
+    action 'CHAIN' (noprec):   error
+    action 'ISEMPTY' (noprec):   error
+    action 'MATCH' (noprec):   error
+    action 'WITH' (noprec):   error
+    action 'VSEP' (noprec):   error
+    action 'MATCHFULL' (noprec):   error
+    action 'TYPE' (noprec):   error
+    action 'OF' (noprec):   error
+    action 'STRING' (noprec):   error
+    action 'ID' (noprec):   error
+    action 'CHAR' (noprec):   error
+    action 'FLOAT' (noprec):   error
+    action 'INT' (noprec):   error
+    action 'error' (noprec):   error
+    action '#' (noprec):   error
+    action '$$' (noprec):   error
+  immediate action: <none>  gotos:state 193:  items:    deconstructor -> 'ID' 'BRA' . 'ID' 'KET'
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   error
     action 'THEN' (noprec):   error
@@ -11921,15 +11919,14 @@ state 191:  items:    match_case -> deconstructor 'ARROW' expr .
     action 'TYPE' (noprec):   error
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   error
-    action 'ID' (noprec):   shift 212
+    action 'ID' (noprec):   shift 194
     action 'CHAR' (noprec):   error
     action 'FLOAT' (noprec):   error
     action 'INT' (noprec):   error
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:    goto tuple_decompose_ids: 194
-state 194:  items:    deconstructor -> 'ID' 'BRA' tuple_decompose_ids . 'KET'
+  immediate action: <none>  gotos:state 194:  items:    deconstructor -> 'ID' 'BRA' 'ID' . 'KET'
   actions:    action 'EOF' (noprec):   error
     action 'IF' (noprec):   error
     action 'THEN' (noprec):   error
@@ -11986,64 +11983,64 @@ state 194:  items:    deconstructor -> 'ID' 'BRA' tuple_decompose_ids . 'KET'
     action 'error' (noprec):   error
     action '#' (noprec):   error
     action '$$' (noprec):   error
-  immediate action: <none>  gotos:state 195:  items:    deconstructor -> 'ID' 'BRA' tuple_decompose_ids 'KET' . 
-  actions:    action 'EOF' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'IF' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'THEN' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'ELSE' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'FUN' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'ARROW' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'LET' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'REC' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'IN' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'TRUE' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'FALSE' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'BRA' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'KET' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'PLUS' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'MINUS' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'STAR' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'SLASH' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'PERCENT' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'LT' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'GT' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'LEQ' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'GEQ' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'EQ' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'NEQ' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'AND' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'OR' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'NOT' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'COLON' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'SEMICOLON2' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'COMMA' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'SEQUENCE' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'TO_FLOAT' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'TO_INT' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'PLUS_F' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'MINUS_F' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'STAR_F' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'SLASH_F' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'PERCENT_F' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'BRASQ' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'KETSQ' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'CHAIN' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'ISEMPTY' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'MATCH' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'WITH' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'VSEP' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'MATCHFULL' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'TYPE' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'OF' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'STRING' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'ID' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'CHAR' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'FLOAT' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'INT' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action 'error' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action '#' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-    action '$$' (noprec):   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'
-  immediate action:   reduce deconstructor --> 'ID' 'BRA' tuple_decompose_ids 'KET'  gotos:state 196:  items:    ty -> ty_basic . 
+  immediate action: <none>  gotos:state 195:  items:    deconstructor -> 'ID' 'BRA' 'ID' 'KET' . 
+  actions:    action 'EOF' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'IF' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'THEN' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'ELSE' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'FUN' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'ARROW' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'LET' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'REC' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'IN' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'TRUE' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'FALSE' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'BRA' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'KET' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'PLUS' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'MINUS' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'STAR' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'SLASH' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'PERCENT' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'LT' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'GT' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'LEQ' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'GEQ' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'EQ' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'NEQ' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'AND' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'OR' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'NOT' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'COLON' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'SEMICOLON2' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'COMMA' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'SEQUENCE' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'TO_FLOAT' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'TO_INT' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'PLUS_F' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'MINUS_F' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'STAR_F' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'SLASH_F' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'PERCENT_F' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'BRASQ' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'KETSQ' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'CHAIN' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'ISEMPTY' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'MATCH' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'WITH' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'VSEP' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'MATCHFULL' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'TYPE' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'OF' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'STRING' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'ID' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'CHAR' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'FLOAT' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'INT' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action 'error' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action '#' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+    action '$$' (noprec):   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'
+  immediate action:   reduce deconstructor --> 'ID' 'BRA' 'ID' 'KET'  gotos:state 196:  items:    ty -> ty_basic . 
     ty_tuple -> ty_basic . 'STAR' ty_basic_list
   actions:    action 'EOF' (noprec):   reduce ty --> ty_basic
     action 'IF' (noprec):   reduce ty --> ty_basic
@@ -12909,8 +12906,8 @@ state 208:  items:    ty_tuple -> ty_basic 'STAR' ty_basic_list .
     action 'MATCH' (noprec):   shift 158
     action 'WITH' (noprec):   error
     action 'VSEP' (noprec):   error
-    action 'MATCHFULL' (noprec):   shift 176
-    action 'TYPE' (noprec):   shift 170
+    action 'MATCHFULL' (noprec):   shift 170
+    action 'TYPE' (noprec):   shift 174
     action 'OF' (noprec):   error
     action 'STRING' (noprec):   shift 56
     action 'ID' (noprec):   shift 62

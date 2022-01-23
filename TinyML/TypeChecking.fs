@@ -13,12 +13,28 @@ let get_new_fresh_ty_id () : tyvar =
     new_ty_id <- new_ty_id + 1
     new_ty_id
 
+let get_const_list (uEnv: unionTy env) =
+    List.fold (fun s (tyname, c_list) ->
+        let cl = List.map (fun c_single -> (tyname, c_single)) c_list
+        s @ cl
+    ) [] uEnv
+
+// uEnv = union type environment
+// cn = constructor name
+let get_constr_by_name (uEnv: unionTy env) (cn: string) =
+    let allconstr = get_const_list uEnv
+    let c = List.find   (fun x ->
+        match x with (tn, Constr (id, _)) -> id = cn
+                        ) allconstr
+    c
+
 (* type checker
 env = the type environment
 e   = the expression of which you want to check the type
 returns the type of <e>
 *)
-let rec typecheck_expr (env : ty env) (e : expr) : ty =
+let rec typecheck_expr_expanded (uEnv : unionTy env) (env : ty env) (e : expr) : ty =
+    let typecheck_expr = typecheck_expr_expanded uEnv
     match e with
     | Lit (LInt _) -> TyInt
     | Lit (LFloat _) -> TyFloat
@@ -147,13 +163,17 @@ let rec typecheck_expr (env : ty env) (e : expr) : ty =
         | _ -> type_error "match expected a list type but got %s" (pretty_ty t_list)
 
     (* type <name> = c1 | c2 of t1 | ...
-    name = the type name
+    tn = the type name
     constrs = list of possible Data Constructors for this type
     e = the rest of the program
     *)
-    | NewTy (name, constrs, e) ->
-        // TODO take care of repeated names
-        let newTy = TyNew (get_new_fresh_ty_id (), constrs)
+    | Type (tn, constrs, e) ->
+        // all constructor names must be distinct
+        let ids = List.map (fun x -> match x with Constr (s, _) -> s) constrs
+        let distinct = Set.ofList ids
+        if ids.Length <> distinct.Count then
+            type_error "repeated constructor name in type %s" tn
+        
         // When I find a constructor with no parameters I put the constructor identifier
         // in the environ. binding it to the new type.
         //
@@ -163,10 +183,10 @@ let rec typecheck_expr (env : ty env) (e : expr) : ty =
         // new type. This function doesn't really exists but we don't care.
         let cfs = List.map (fun x ->
             match x with
-            | Constr (cid, None) -> (cid, newTy)
-            | Constr (cid, Some t) -> (cid, TyArrow (t, newTy))) constrs
+            | Constr (cid, t) -> (cid, TyArrow (t, TyUnion tn))) constrs
         let env = cfs @ env
-        typecheck_expr env e
+        let uEnv = (tn, constrs)::uEnv
+        typecheck_expr_expanded uEnv env e
 
     (* match e with c1 -> e1 | c2 (x) -> e2 | ...
     e = the expression to match
@@ -176,46 +196,38 @@ let rec typecheck_expr (env : ty env) (e : expr) : ty =
     TODO handle unordered match
     *)
     | MatchFull (e, cases)->
+
+        //// none of the case deconstructor identifiers can be in the environment
+        //let ids = List.map (fun (Deconstr (id, _), _) -> id) cases
+        //let defined = List.map (fun id -> List.exists (fun (x, _) -> x = id) env) ids
+        //let allUndef = List.fold (fun s x -> s && x) true defined
+        //if allUndef <> true
+        //    type_error "error"
+
         let t = typecheck_expr env e
-        // TODO check the type corrispondence ????
         match t with
-        | TyNew (_, constrs) ->
-            if cases.Length > constrs.Length then
-                type_error "too many cases in match for type %s" (pretty_ty t)
-            if cases.Length < constrs.Length then
-                type_error "incomplete match for type %s" (pretty_ty t)
-            let cases = List.zip cases constrs
-            let tipes = List.map    (fun case ->
-                match case with
-                | ((Deconstr (n1, d1), e), Constr (n2, d2)) ->
-                    if n1 <> n2 then
-                        type_error "deconstructor %s does not match the constructor %s" n1 n2
-                    match d1,d2 with
-                    // match a constructor with no parameters
-                    | None, None ->
-                        typecheck_expr env e
-                    // match a constructor with parameters
-                    | Some idl, Some t ->
-                        match t with
-                        // constructor with multiple parameters
-                        | TyTuple tl ->
-                            if idl.Length <> tl.Length then
-                                type_error "in %s deconstructor: ids does not match constructor parameters" n1
-                            let env = (List.zip idl tl) @ env
-                            typecheck_expr env e
-                        // constructor with single parameter
-                        | _ ->
-                            if idl.Length <> 1 then
-                                type_error "in %s deconstructor: ids qunatity does not match constructor parameters quantity" n1
-                            let env = (idl.Head, t) :: env
-                            typecheck_expr env e
-                    | _, _ ->
-                        type_error "deconstructor mismatch"
-                                    ) cases
-            let commonTy = tipes.Head
-            let tyOk = List.fold (fun state x -> state && (x = commonTy)) true tipes
-            if tyOk <> true then type_error "incompatible return types in match construct (%s)" (pretty_tupled pretty_ty tipes)
-            commonTy
+        | TyUnion (tn) ->
+            try
+                let cs = List.map (fun x -> match x with (Deconstr (id, _), _) -> get_constr_by_name uEnv id) cases
+                let ts = List.map (fun (tipe, _) -> tipe) cs
+                if not (list_all_equals ts) then
+                    type_error "deconstructors of different types in match cases"
+                
+                let (_, ut_cs) = List.find (fun (x, _) -> x = ts.Head) uEnv
+                if cs.Length <> ut_cs.Length then
+                    type_error "missing constructors in match cases"
+
+                let case_ty = List.map (fun (_, c) -> match c with Constr (_, cty) -> cty) cs
+                let cases = List.zip case_ty cases
+                let case_tipes = List.map   (fun (cty, (deconstr, e)) ->
+                    match deconstr with
+                    | Deconstr (_, tyid) -> typecheck_expr ((tyid, cty)::env) e
+                                            ) cases
+                if not (list_all_equals case_tipes) then
+                    type_error "incompatible return types in match cases"
+                case_tipes.Head
+            with _ ->
+                type_error "invalid deconstructors in match cases"
             
         | _ -> type_error "the expression %s has type %s that can't be matched" (pretty_expr e) (pretty_ty t)
 

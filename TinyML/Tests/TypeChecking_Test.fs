@@ -9,7 +9,7 @@ open Utility
 let typecheck_expr_from_string (program:string) =
     new_ty_id <- 1
     let exp = Parsing.parse_from_string SyntaxError program "example" (1, 1) Parser.program Lexer.tokenize Parser.tokenTagToTokenId
-    typecheck_expr [] exp
+    typecheck_expr_expanded [] [] exp
 
 let test_typecheck_expr (program:string) (expected:ty) =
     let t = typecheck_expr_from_string program
@@ -71,30 +71,27 @@ type Test_typechecking_expr () =
 type Test_typechecking_expr_type () =
     [<Fact>]
     let ``type: check constructor binded with simple type`` () =
-        test_typecheck_expr "type color = Yellow in Yellow"
-            (TyNew (2, [Constr ("Yellow", None)]))
+        test_typecheck_expr "type color = Yellow of unit in Yellow ()"
+            (TyUnion ("color"))
 
     [<Fact>]
     let ``type: check constructor binded with arrow type`` () =
         test_typecheck_expr "type color = Rgb of int in Rgb"
-            (TyArrow (TyInt, (TyNew (2, [Constr ("Rgb", Some TyInt)]))))
+            (TyArrow (TyInt, (TyUnion "color")))
 
     [<Fact>]
     let ``type: check constructor binded with arrow type, two parameters`` () =
         test_typecheck_expr "type color = Rgb of int * int in Rgb"
-            (TyArrow (TyTuple [TyInt; TyInt],
-                (TyNew (2, [Constr ("Rgb", Some (TyTuple [TyInt; TyInt]))]))
-                )
-            )
+            (TyArrow (TyTuple [TyInt; TyInt], TyUnion "color"))
 
     [<Fact>]
     let ``type: check constructor call with parameters`` () =
         test_typecheck_expr "type color = Rgb of int * int in Rgb ((1,2))"
-            (TyNew (2, [Constr ("Rgb", Some (TyTuple [TyInt; TyInt]))]))
+            (TyUnion ("color"))
 
     [<Fact>]
     let ``type match with one simple constructor`` () =
-        test_typecheck_expr "type color = Rgb in matchf Rgb with Rgb -> 1"
+        test_typecheck_expr "type color = Rgb of unit in matchf Rgb () with Rgb (x) -> 1"
             TyInt
 
     [<Fact>]
@@ -104,26 +101,31 @@ type Test_typechecking_expr_type () =
 
     [<Fact>]
     let ``type match with one constructor, two parameter`` () =
-        test_typecheck_expr "type color = Rgb of int * float in matchf Rgb ((1, 2.2)) with Rgb (x, y) -> (x, y)"
+        test_typecheck_expr "type color = Rgb of int * float in matchf Rgb ((1, 2.2)) with Rgb (x) -> x"
             (TyTuple [TyInt; TyFloat])
 
     [<Fact>]
-    let ``type match with two constructors`` () =
-        test_typecheck_expr "type color = A | B in matchf A with A -> 1 | B -> 2"
+    let ``type match with two constructors in order`` () =
+        test_typecheck_expr "type color = A of unit | B of unit in matchf A() with A (x) -> 1 | B (x) -> 2"
+            TyInt
+
+    [<Fact>]
+    let ``type match with two constructors not in order`` () =
+        test_typecheck_expr "type color = A of unit | B of unit in matchf A() with B (x) -> 2 | A (x) -> 1"
             TyInt
 
     [<Fact>]
     let ``(error) type match with two constructors incomplete match`` () =
-        test_typecheck_expr_error "type color = A | B in matchf A with A -> 1"
+        test_typecheck_expr_error "type color = A of unit | B of unit in matchf A () with A (x) -> 1"
 
     [<Fact>]
     let ``(error) type match with two constructors incompatible returns`` () =
-        test_typecheck_expr_error "type color = A | B in matchf A with A -> 1 | B -> 2.2"
+        test_typecheck_expr_error "type color = A of unit | B of unit in matchf A () with A (x) -> 1 | B (x) -> 2.2"
 
     [<Fact>]
     let ``type constructor invocation with single parameter`` () =
         test_typecheck_expr "type color = A of int in A 1"
-            (TyNew (2, [Constr ("A", Some (TyInt))]))
+            (TyUnion "color")
 
     [<Fact>]
     let ``(error) type constructor invocation with single parameter of wring type`` () =

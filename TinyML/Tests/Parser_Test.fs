@@ -103,51 +103,37 @@ type Test_parser_list () =
 type Test_parser_type () =
     [<Fact>]
     let ``type with one simple constructor`` () =
-        test_ast "type color = Yellow in x"
-            (NewTy ("color", [Constr ("Yellow", None)], Var "x"))
+        test_ast "type color = Yellow of unit in x"
+            (Type ("color", [Constr ("Yellow", TyUnit)], Var "x"))
 
     let ``type with two simple constructors`` () =
-        test_ast "type color = Yellow | Red in x"
-            (NewTy ("color", [Constr ("Yellow", None); Constr ("Red", None)], Var "x"))
+        test_ast "type color = Yellow of unit | Red of unit in x"
+            (Type ("color", [Constr ("Yellow", TyUnit); Constr ("Red", TyUnit)], Var "x"))
 
     [<Fact>]
     let ``type with one constructor with attached data`` () =
         test_ast "type color = Rgb of int in x"
-            (NewTy ("color", [Constr ("Rgb", Some (TyInt))], Var "x"))
+            (Type ("color", [Constr ("Rgb", TyInt)], Var "x"))
 
     [<Fact>]
     let ``type with one constructor with attached tuple`` () =
         test_ast "type color = Rgb of int * bool * string in x"
-            (NewTy ("color", [Constr ("Rgb", Some (TyTuple [TyInt; TyBool; TyString]))], Var "x"))
+            (Type ("color", [Constr ("Rgb", TyTuple [TyInt; TyBool; TyString])], Var "x"))
 
     [<Fact>]
     let ``type with one constructor recursive`` () =
         test_ast "type color = Rgb of color in x"
-            (NewTy ("color", [Constr ("Rgb", Some (TyName "color"))], Var "x"))
+            (Type ("color", [Constr ("Rgb", TyName "color")], Var "x"))
 
     [<Fact>]
     let ``match with one simple case`` () =
-        test_ast "matchf () with White -> 1"
-            (MatchFull (Lit LUnit, [(Deconstr ("White", None), Lit (LInt 1))]))
+        test_ast "matchf () with White (x) -> 1"
+            (MatchFull (Lit LUnit, [(Deconstr ("White", "x"), Lit (LInt 1))]))
 
     [<Fact>]
     let ``match with two cases`` () =
-        test_ast "matchf () with White -> 1 | Green -> 2"
+        test_ast "matchf () with White (x) -> 1 | Green (x) -> 2"
             (MatchFull (Lit LUnit, [
-                (Deconstr ("White", None), Lit (LInt 1));
-                (Deconstr ("Green", None), Lit (LInt 2))]))
+                (Deconstr ("White", "x"), Lit (LInt 1));
+                (Deconstr ("Green", "x"), Lit (LInt 2))]))
 
-    [<Fact>]
-    let ``match with one case and attached ids`` () =
-        test_ast "matchf () with Rgb (r,g,b) -> 1"
-            (MatchFull (Lit LUnit, [(Deconstr ("Rgb", Some ["r"; "g"; "b"]), Lit (LInt 1))]))
-
-    [<Fact>]
-    let ``match with two cases and attached ids`` () =
-        test_ast "matchf () with
-                    Rgb (r,g,b) -> 1
-                  | Gray (l) -> l"
-            (MatchFull (Lit LUnit, [
-                (Deconstr ("Rgb", Some ["r"; "g"; "b"]), Lit (LInt 1))
-                (Deconstr ("Gray", Some ["l"]), Var "l")
-            ]))

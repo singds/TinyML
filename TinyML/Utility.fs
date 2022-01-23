@@ -20,3 +20,7 @@ let rec prepend_if_not_ignore l env =
     | (id, e)::tail ->
         let env1 = prepend_if_not_ignore tail env
         if id <> "_" then (id, e)::env1 else env1
+
+let list_all_equals l =
+    let same = Set.ofList l
+    if same.Count <> 1 then false else true

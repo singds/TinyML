@@ -150,16 +150,18 @@ expr_tuple_atom:
    
   | MATCH expr_tuple_atom WITH ID CHAIN ID ARROW expr VSEP BRASQ KETSQ ARROW expr       { Match ($2, $4, $6, $8, $13) }
 
-  | TYPE ID EQ constructors IN expr                     { NewTy ($2, $4, $6) }
   | MATCHFULL expr WITH match_case_list                 { MatchFull ($2, $4) }
+  // TODO type directives should be all at the top of the program
+  | TYPE ID EQ constructors IN expr                     { Type ($2, $4, $6) }
 
 constructors:
     constructor                               { [$1] }
   | constructor VSEP constructors             { $1 :: $3 }
 
 constructor:
-    ID                                        { Constr ($1, None) } 
-  | ID OF ty                                  { Constr ($1, Some ($3)) }
+  //  ID                                        { Constr ($1, None) } 
+  //| ID OF ty                                  { Constr ($1, Some ($3)) }
+  | ID OF ty                                  { Constr ($1, $3) }
 
 match_case_list:
     match_case                                { [$1] }
@@ -169,8 +171,9 @@ match_case:
   | deconstructor ARROW expr                  { ($1, $3) }
 
 deconstructor:
-  | ID                                        { Deconstr ($1, None)}
-  | ID BRA tuple_decompose_ids KET            { Deconstr ($1, Some ($3)) }
+  //| ID                                        { Deconstr ($1, None)}
+  //| ID BRA ID KET                             { Deconstr ($1, Some ($3)) }
+  | ID BRA ID KET                             { Deconstr ($1, $3) }
 
 
 ty:
