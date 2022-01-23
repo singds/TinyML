@@ -685,4 +685,14 @@ type Test_typechecking_expr_type () =
             "
             (TyArrow (TyInt, TyArrow (TyInt, TyInt)))
 
+    [<Fact>]
+    let ``type: unification in constructor invocation`` () =
+        test_typeinfer_expr "
+            type ty = A of int in
+            fun x ->
+            matchf A (x) with
+              A (y) -> ()
+            "
+            (TyArrow (TyInt, TyUnit))
+
 
