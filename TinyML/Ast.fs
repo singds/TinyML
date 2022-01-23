@@ -87,7 +87,7 @@ and expr =
 
     | Type of string * constr list * expr
     | MatchFull of expr * (deconstr * expr) list
-    | TyInst of string * expr
+    | Inst of string * expr
    
 let fold_params parms e0 = 
     List.foldBack (fun (id, tyo) e -> Lambda (id, tyo, e)) parms e0

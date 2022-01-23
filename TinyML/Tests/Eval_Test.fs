@@ -220,3 +220,56 @@ type Test_eval_expr_list () =
             in fold (fun z -> fun x -> z + x) 0 (1::2::3::[])
             "
             (VLit (LInt 6))
+
+// TYPES
+type Test_eval_expr_type () =
+    [<Fact>]
+    let ``type: check constructor binded with simple type`` () =
+        test_eval_expr "type color = Yellow of unit in Yellow ()"
+            (VUnion ("Yellow", VLit LUnit))
+
+    [<Fact>]
+    let ``type: check constructor binded with arrow type`` () =
+        test_eval_expr "type color = Rgb of int in Rgb"
+            (Closure ([], "x", Inst ("Rgb", Var "x")))
+
+    [<Fact>]
+    let ``type: check constructor binded with arrow type, two parameters`` () =
+        test_eval_expr "type color = Rgb of int * int in Rgb"
+            (Closure ([], "x", Inst ("Rgb", Var "x")))
+
+    [<Fact>]
+    let ``type: check constructor call with parameters`` () =
+        test_eval_expr "type color = Rgb of int * int in Rgb ((1,2))"
+            (VUnion ("Rgb", VTuple [VLit (LInt 1); VLit (LInt 2)]))
+
+    [<Fact>]
+    let ``type match with one simple constructor`` () =
+        test_eval_expr "type color = Rgb of unit in matchf Rgb () with Rgb (x) -> 1"
+            (VLit (LInt 1))
+
+    [<Fact>]
+    let ``type match with one constructor, one parameter`` () =
+        test_eval_expr "type color = Rgb of float in matchf (Rgb (1.1)) with Rgb (x) -> x"
+            (VLit (LFloat 1.1))
+
+    [<Fact>]
+    let ``type match with one constructor, two parameter`` () =
+        test_eval_expr "type color = Rgb of int * float in matchf Rgb ((1, 2.2)) with Rgb (k) -> k"
+            (VTuple [VLit (LInt 1); VLit (LFloat 2.2)])
+
+    [<Fact>]
+    let ``type match with two constructors in order`` () =
+        test_eval_expr "type color = A of unit | B of unit in matchf A() with A (x) -> 1 | B (x) -> 2"
+            (VLit (LInt 1))
+
+    [<Fact>]
+    let ``type match with two constructors not in order`` () =
+        test_eval_expr "type color = A of unit | B of unit in matchf A() with B (x) -> 2 | A (x) -> 1"
+            (VLit (LInt 1))
+
+    [<Fact>]
+    let ``type constructor invocation with single parameter`` () =
+        test_eval_expr "type color = A of int in A 1"
+            (VUnion ("A", VLit (LInt 1)))
+    

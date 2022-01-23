@@ -197,7 +197,7 @@ let rec typecheck_expr_expanded (uEnv : unionTy env) (env : ty env) (e : expr) :
     *)
     | MatchFull (e, cases)->
 
-        //// none of the case deconstructor identifiers can be in the environment
+        /// none of the case deconstructor identifiers can be in the environment
         //let ids = List.map (fun (Deconstr (id, _), _) -> id) cases
         //let defined = List.map (fun id -> List.exists (fun (x, _) -> x = id) env) ids
         //let allUndef = List.fold (fun s x -> s && x) true defined
