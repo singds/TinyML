@@ -465,8 +465,8 @@ type Test_typeinfer_expr () =
                 fun f1 -> fun f2 -> fun f3 ->
                     (f1 y, f2 y, f3 y, (((if true then f1 else f2) x) + ((if true then f1 else f3) x)), y + 1)"
             (TyArrow (TyInt, TyArrow (TyInt,
-                 TyArrow (TyArrow(TyInt, TyInt), TyArrow (TyArrow(TyInt, TyInt), TyArrow (TyArrow(TyInt, TyInt),
-                    TyTuple [TyInt; TyInt; TyInt; TyInt; TyInt]))))))
+                        TyArrow (TyArrow(TyInt, TyInt), TyArrow (TyArrow(TyInt, TyInt), TyArrow (TyArrow(TyInt, TyInt),
+                                                                    TyTuple [TyInt; TyInt; TyInt; TyInt; TyInt]))))))
 
     [<Fact>]
     let ``sequence operator single pair`` () = 

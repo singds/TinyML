@@ -143,6 +143,7 @@ let rec pretty_ty t =
     | TyVar n -> sprintf "'%d" n
     | TyTuple ts -> sprintf "(%s)" (pretty_tupled pretty_ty ts)
     | TyList elemT -> sprintf "%s list" (pretty_ty elemT)
+    | TyUnion s -> s
 
 let pretty_lit lit =
     match lit with
@@ -251,6 +252,8 @@ let rec pretty_value v =
     | RecClosure (env, f, x, e) -> sprintf "<|%s;%s;%s;%s|>" (pretty_env pretty_value env) f x (pretty_expr e)
 
     | VEmpty -> "[]"
+
+    | VUnion (c_name, v) -> sprintf "<%s: %s>" c_name (pretty_value v)
 
     // TODO pretty print a value that is a list
     | VList (head, tail) -> ""
