@@ -238,7 +238,7 @@ returns:
 - the principal type of <e> in <env>
 - the substitution produced inferring the type of <e>
 *)
-let rec typeinfer_expr_expanded (uEnv : unionTy env) (env : scheme env) (e : expr) : ty * subst =
+let rec typeinfer_expr_expanded (uEnv : tyDef env) (env : scheme env) (e : expr) : ty * subst =
     let typeinfer_expr = typeinfer_expr_expanded uEnv
     match e with
     | Lit (LBool _) -> (TyBool, [])

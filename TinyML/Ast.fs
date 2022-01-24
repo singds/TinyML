@@ -63,7 +63,7 @@ type lit = LInt of int
          | LUnit 
 
 type constr = Constr of string * ty
-type unionTy = constr list
+type tyDef = constr list
 // a deconstructor: the constructor name plus an identifier
 type deconstr = Deconstr of string * string
 
