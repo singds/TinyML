@@ -18,6 +18,30 @@ let throw_formatted exnf fmt = ksprintf (fun s -> raise (exnf s)) fmt
 
 let unexpected_error fmt = throw_formatted UnexpectedError fmt
 
+// OBSERVATIONS ABOUT TYPES AND CONSTRUCTORS IN F#
+(*
+type mytype = Prova1 | Prova2
+type mytype2 = Prova1 | Prova2
+let mytype = 1
+let constr1 = Prova1
+//let x = match constr1 with constr1 -> 1 | Prova2 -> 2
+//let differentTypes = (fun (x:mytype) -> x) Prova1
+let Prova2 = 2
+let x = match Prova1 with Prova1 -> 1 | Prova2 -> 2
+// type mytype = Prova11 | Prova22
+let x = fun x -> type someTy = SomeTy1 | SomeTy2 in SomeTy1
+*)
+(*
+From the previous example the following things can be understood.
+- Two types with the same constructors are treated as different types.
+- Types identifiers are not shadowed by variable names.
+- Data constructors can be passed around as functions.
+- Data constructors are not shadowed by variable names.
+  You can define a variable with the same name of a data constructor and
+  next you can use the same data constructor in a match.
+- Data constructors can be shadowed by other data constructors.
+- Two types with the same name can not be defined.
+*)
 
 // AST type definitions
 //
@@ -62,10 +86,14 @@ type lit = LInt of int
          | LBool of bool
          | LUnit 
 
+// A constructor is a pair: the name of the constructor and the type of
+// data it brings along.
 type constr = Constr of string * ty
-type tyDef = constr list
-// a deconstructor: the constructor name plus an identifier
+// A deconstructor: the constructor name plus an identifier to which the data
+// bringed along is bound inside the expression of the case
 type deconstr = Deconstr of string * string
+
+type tyDef = constr list
 
 type binding = bool * string * ty option * expr    // (is_recursive, id, optional_type_annotation, expression)
 and expr = 
@@ -107,7 +135,7 @@ type value =
     | VTuple of value list
     | Closure of value env * string * expr
     | RecClosure of value env * string * string * expr
-    | VEmpty // the empty list
+    | VEmpty // a value representing an empty list
     | VList of value * value // the first value is an element, the second value is a list
     | VUnion of string * value
 
@@ -255,7 +283,13 @@ let rec pretty_value v =
     | VUnion (c_name, v) -> sprintf "<%s: %s>" c_name (pretty_value v)
 
     // TODO pretty print a value that is a list
-    | VList (head, tail) -> ""
+    | VList (head, tail) -> sprintf "[%s%s]" (pretty_value head) (pretty_list tail)
+
+and pretty_list listVal =
+    match listVal with
+    | VEmpty -> ""
+    | VList (v, l) -> sprintf "; %s%s" (pretty_value v) (pretty_list l)
+    | _ -> unexpected_error "tail part of a list is not a list value but %s" (pretty_value listVal)
 
 let pretty_subs (subList:subst) =
     let print_one_sub (tvar, t) = sprintf "'%d\%s" tvar (pretty_ty t)
