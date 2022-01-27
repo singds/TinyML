@@ -580,8 +580,10 @@ let rec typeinfer_expr_expanded (tydefEnv : tyDef env) (env : scheme env) (e : e
         //
         // A data constructor behaves almost like a function.
         let constrFuncs = List.map (function
-            | Constr (id, tipe) ->
-                (id, Forall ([],TyArrow (tipe, TyName tname)))) constructors
+            | Constr (id, Some tipe) ->
+                (id, Forall ([], TyArrow (tipe, TyName tname)))
+            | Constr (id, None) ->
+                (id, Forall ([], TyName tname))) constructors
         let env = constrFuncs @ env
         let tydefEnv = (tname, constructors)::tydefEnv
         typeinfer_expr_expanded tydefEnv env expr

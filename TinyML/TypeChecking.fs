@@ -245,9 +245,11 @@ let rec typecheck_expr_expanded (tydefEnv : tyDef env) (env : ty env) (e : expr)
         //
         // A data constructor behaves almost like a function.
         let constrFuncs = List.map (function
-            | Constr (id, tipe) ->
+            | Constr (id, Some tipe) ->
                 // <constructor> : <tipe> -> <this new type>
-                (id, TyArrow (tipe, TyName tname))) constructors
+                (id, TyArrow (tipe, TyName tname))
+            | Constr (id, None) ->
+                (id, TyName tname)) constructors
         let env = constrFuncs @ env
         let tydefEnv = (tname, constructors)::tydefEnv
         typecheck_expr_expanded tydefEnv env expr
@@ -288,10 +290,16 @@ let rec typecheck_expr_expanded (tydefEnv : tyDef env) (env : ty env) (e : expr)
                 // compute the type of the expressions for all the cases
                 let expTypes =
                     List.map (
-                        fun (pTy, (deconstr, caseExpr)) ->
-                            match deconstr with
-                            | Deconstr (_, var) ->
+                        fun (pTyOpt, (deconstr, caseExpr)) ->
+                            match pTyOpt, deconstr with
+                            | Some pTy, Deconstr (_, Some var) ->
                                 typecheck_expr ((var, pTy)::env) caseExpr
+                            | None, Deconstr (_, None) ->
+                                typecheck_expr env caseExpr
+                            | Some _, Deconstr (id, _) ->
+                                type_error "constructor <%s> with missing parameter name" id
+                            | None, Deconstr (id, _) ->
+                                type_error "constructor <%s> has no parameter" id
                     ) cases
                 
                 if not (list_all_equals expTypes) then

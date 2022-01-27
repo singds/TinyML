@@ -88,10 +88,10 @@ type lit = LInt of int
 
 // A constructor is a pair: the name of the constructor and the type of
 // data it brings along.
-type constr = Constr of string * ty
+type constr = Constr of string * ty option
 // A deconstructor: the constructor name plus an identifier to which the data
 // bringed along is bound inside the expression of the case
-type deconstr = Deconstr of string * string
+type deconstr = Deconstr of string * string option
 
 type tyDef = constr list
 
