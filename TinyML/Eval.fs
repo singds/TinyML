@@ -180,7 +180,6 @@ let rec eval_expr (env : value env) (e : expr) : value =
     cases = the match mases
 
     TODO handle the ignore case _
-    TODO handle unordered match
     *)
     | MatchFull (e1, cases)->
         let v1 = eval_expr env e1

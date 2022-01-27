@@ -214,9 +214,9 @@ let rec typecheck_expr_expanded (tydefEnv : tyDef env) (env : ty env) (e : expr)
 
     (* type <name> = ci of Ti | ...
     
-    tn      = the type name
-    constrs = list of possible Data Constructors for this type
-    e       = the rest of the program
+    tname        = the type name
+    constructors = list of possible Data Constructors for this type
+    expr         = the rest of the program
 
     There are some limitation in this type implementation.
     All Type expressions must appear at the beginning of the source file.
@@ -226,8 +226,7 @@ let rec typecheck_expr_expanded (tydefEnv : tyDef env) (env : ty env) (e : expr)
     | Type (tname, constructors, expr) ->
         // All data constructor names of a given type must be distinct
         let constrNames = List.map (function Constr (s, _) -> s) constructors
-        let distinct = Set.ofList constrNames
-        if constrNames.Length <> distinct.Count then
+        if not (list_all_distinct constrNames) then
             type_error "repeated data constructor name in type %s" tname
 
         // Check that the type name is different from builtin type names.
@@ -254,28 +253,35 @@ let rec typecheck_expr_expanded (tydefEnv : tyDef env) (env : ty env) (e : expr)
         typecheck_expr_expanded tydefEnv env expr
 
     (* match e with ci (xi) -> ei | ...
-    e     = the expression to match
+    expr  = the expression to match
     cases = the match cases
 
     TODO handle the ignore case _
     *)
     | MatchFull (expr, cases)->
+                                    // fun x -> match x with (Deconstr (id, _), _)
+        let caseConstrs = List.map (function (Deconstr (id, _), _) -> get_constr_by_name tydefEnv id) cases
+        let tyNames = List.map (fun (tipe, _) -> tipe) caseConstrs
+        if not (list_all_equals tyNames) then
+            type_error "deconstructors of different types in match cases"
+        let eTyName = tyNames.Head
+        let eTy = TyName eTyName // the type that expression to be matched must have
+        
+        // caseConstrs  = the constructors that appear on the match cases
+        // tyConstrs    = all the constructors of the type
+        
+        // get the list of constructors for that type
+        let (_, tyConstrs) = List.find (fun (name, _) -> name = eTyName) tydefEnv
+        if caseConstrs.Length <> tyConstrs.Length then
+            type_error "missing constructor/s in match cases"
+
         let t = typecheck_expr env expr
+        if t <> eTy then
+            type_error "expected type %s in match but got type %s" (pretty_ty eTy) (pretty_ty t)
         match t with
-        | TyName (tn) ->
-            try                 // fun x -> match x with (Deconstr (id, _), _)
-                let caseConstrs = List.map (function (Deconstr (id, _), _) -> get_constr_by_name tydefEnv id) cases
-                let tyNames = List.map (fun (tipe, _) -> tipe) caseConstrs
-                if not (list_all_equals tyNames) then
-                    type_error "deconstructors of different types in match cases"
-                
-                // caseConstrs  = the constructors that appear on the match cases
-                // tyConstrs    = all the constructors of the type
-                // pTipes       = the type of the parameter for all the constructors
-                let (_, tyConstrs) = List.find (fun (name, _) -> name = tyNames.Head) tydefEnv
-                if caseConstrs.Length <> tyConstrs.Length then
-                    type_error "missing constructors in match cases"
-                                     // fun (_, x) -> match x with
+        | TyName (_) ->
+            try
+                // pTipes = the type of the parameter for all the constructors
                 let pTipes = List.map (fun (_, c) -> match c with Constr (_, pTy) -> pTy) caseConstrs
                 let cases = List.zip pTipes cases // attach to each case the type of its parameter
                 

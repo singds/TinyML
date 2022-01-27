@@ -238,8 +238,8 @@ returns:
 - the principal type of <e> in <env>
 - the substitution produced inferring the type of <e>
 *)
-let rec typeinfer_expr_expanded (uEnv : tyDef env) (env : scheme env) (e : expr) : ty * subst =
-    let typeinfer_expr = typeinfer_expr_expanded uEnv
+let rec typeinfer_expr_expanded (tydefEnv : tyDef env) (env : scheme env) (e : expr) : ty * subst =
+    let typeinfer_expr = typeinfer_expr_expanded tydefEnv
     match e with
     | Lit (LBool _) -> (TyBool, [])
     | Lit (LFloat _) -> (TyFloat, [])
@@ -412,6 +412,7 @@ let rec typeinfer_expr_expanded (uEnv : tyDef env) (env : scheme env) (e : expr)
             // s   = the current total composed substitution
             // ts  = the list of inferred types
             | (env:scheme env, s:subst, ts:ty list) ->
+                // TODO the same substitution is applied to <env> multiple (this can be optimized)
                 let env = apply_subst_env s env
                 let tExp, sExp = typeinfer_expr env exp
                 // I apply what I have learned from this step, to all the types previously found.
@@ -463,8 +464,7 @@ let rec typeinfer_expr_expanded (uEnv : tyDef env) (env : scheme env) (e : expr)
         | TyTuple(ts) ->
             let validNames = List.filter (fun x -> x <> "_") ns
             // check that there are no duplicate names in the tuple decomposition
-            let distinct = List.distinct validNames
-            if distinct.Length < validNames.Length then
+            if not (list_all_distinct validNames) then
                 type_error "repeated identifier in tuple decomposition (%s)" (pretty_tupled_string_list ns)
             
             let env = apply_subst_env s env                             // refine the environment applying what i have learned untill now
@@ -553,78 +553,85 @@ let rec typeinfer_expr_expanded (uEnv : tyDef env) (env : scheme env) (e : expr)
 
 
     (* type <name> = c1 | c2 of t1 | ...
-    tn = the type name
-    constrs = list of possible Data Constructors for this type
-    e = the rest of the program
+    tname        = the type name
+    constructors = list of possible Data Constructors for this type
+    expr         = the rest of the program
     *)
-    | Type (tn, constrs, e) ->
-        // all constructor names must be distinct
-        let ids = List.map (fun x -> match x with Constr (s, _) -> s) constrs
-        let distinct = Set.ofList ids
-        if ids.Length <> distinct.Count then
-            type_error "repeated constructor name in type %s" tn
+    | Type (tname, constructors, expr) ->
+        // All data constructors identifiers must be distinct
+        let constrNames = List.map (fun x -> match x with Constr (s, _) -> s) constructors
+        if not (list_all_distinct constrNames) then
+            type_error "repeated constructor name in type %s" tname
 
-        // types names must be different to builtin types
-        if List.exists (fun x -> x = tn) builtin_types then
-            type_error "type %s can't be defined becuse it is a builtin type" tn
+        // Check that the type name is different from builtin type names.
+        if List.exists (fun x -> x = tname) builtin_types then
+            type_error "type %s can't be defined becuse it is a builtin type" tname
 
-        // types names must be unique
-        // constructors can be shadowed but should not be
-        if List.exists (fun (tname, _) -> tn = tname) uEnv then
-            type_error "redefinition of perviously defined type %s" tn
+        // Type names must be unique.
+        // Check if this type name already exists on the envir. for type definitions.
+        if List.exists (fun (tname, _) -> tname = tname) tydefEnv then
+            type_error "redefinition of perviously defined type %s" tname
         
-        // When I find a constructor with no parameters I put the constructor identifier
-        // in the environ. binding it to the new type.
+        // Every constructor has an associated parameter.
+        // I put each constructor identifier in the environ. binding it to an arrow type.
+        // This function has a domain that is the type specified in the constructor,
+        // and a codomain that is the new type (the type i'm defining).
+        // This function doesn't really exists but we don't care.
         //
-        // When I find a constructor with parameters I put the constructor identifier
-        // in the environ. binding it to a function type. This function has a domain
-        // that is the type specified in the constructor, and a codomain that is the
-        // new type. This function doesn't really exists but we don't care.
-        let cfs = List.map (fun x ->
-            match x with
-            | Constr (cid, t) -> (cid, Forall ([],TyArrow (t, TyName tn)))) constrs
-        let env = cfs @ env
-        let uEnv = (tn, constrs)::uEnv
-        typeinfer_expr_expanded uEnv env e
+        // A data constructor behaves almost like a function.
+        let constrFuncs = List.map (function
+            | Constr (id, tipe) ->
+                (id, Forall ([],TyArrow (tipe, TyName tname)))) constructors
+        let env = constrFuncs @ env
+        let tydefEnv = (tname, constructors)::tydefEnv
+        typeinfer_expr_expanded tydefEnv env expr
 
     (* match e with c1 -> e1 | c2 (x) -> e2 | ...
-    e = the expression to match
-    cases = the match mases
+    expr   = the expression to match
+    cases  = the match cases
 
     TODO handle the ignore case _
     *)
-    | MatchFull (e, cases)->
-        // understand the type that <e> must have looking the constructors
-        // apearing on match cases.
-        let cs = List.map (fun x -> match x with (Deconstr (id, _), _) -> get_constr_by_name uEnv id) cases
-        let ts = List.map (fun (tipe, _) -> tipe) cs
-        if not (list_all_equals ts) then
+    | MatchFull (expr, cases)->
+        // Understand the type that <expr> must have looking the constructors apearing 
+        // on match cases.
+        // Lookup for the constructors in the type-def-env.
+        // caseConstrs is a list. Each element is a tuple. The second fild is a
+        // constructor while the first is the type to which this constructor belongs.
+        // 
+        let caseConstrs = List.map (function (Deconstr (id, _), _) -> get_constr_by_name tydefEnv id) cases
+        let tyNames = List.map (fun (tipe, _) -> tipe) caseConstrs
+        if not (list_all_equals tyNames) then
             type_error "deconstructors of different types in match cases"
-        let e_type = ts.Head // the type that expression <e> must have
+        let eTyName = tyNames.Head
+        let eTy = TyName eTyName // the type that expression to be matched must have
         
         // get the list of constructors for that type
-        let (_, t_constrs) = List.find (fun (x, _) -> x = e_type) uEnv
-        if cs.Length <> t_constrs.Length then
-            type_error "missing constructors in match cases"
+        let (_, tyConstrs) = List.find (fun (tname, _) -> tname = eTyName) tydefEnv
+        if caseConstrs.Length <> tyConstrs.Length then
+            type_error "missing constructor/s in match cases"
 
-        let t, s = typeinfer_expr env e
-        let su = unify t (TyName e_type)
-        let t = apply_subst_ty su t
+        let t, s = typeinfer_expr env expr
+        // Unify the type of the match expr. with the type deduced by constructors.
+        let su = unify t eTy
+        let t = apply_subst_ty su t // refine the type t with what learned from unification
         let s = compose_subst_list [su; s]
         let env = apply_subst_env s env
 
+        // <t> must be for sure equal to (TyName exprTy) because of the unification
         match t with
-        | TyName (tn) ->
+        | TyName (_) ->
             try
-                let case_ty = List.map (fun (_, c) -> match c with Constr (_, cty) -> cty) cs
-                let cases = List.zip case_ty cases
+                // pTipes = the type of the parameter for all the constructors
+                let pTypes = List.map (fun (_, c) -> match c with Constr (_, pTy) -> pTy) caseConstrs
+                let cases = List.zip pTypes cases
 
                 let state = List.fold (fun state case ->
                     match state with
-                    // env       = the current refined environment
-                    // s         = the current total composed substitution
+                    // env1      = the current refined environment
+                    // s1        = the current total composed substitution
                     // commonTy  = the common return type of all the cases
-                    | (env:scheme env, s1:subst, commonTy:ty option) ->
+                    | (env1:scheme env, s1:subst, commTyOpt:ty option) ->
                         match case with
                         // case_ty = the type of the variable for this case
                         // id      = the name of the type constructor
@@ -632,31 +639,33 @@ let rec typeinfer_expr_expanded (uEnv : tyDef env) (env : scheme env) (e : expr)
                         //           env. before evaluating this case expression.
                         // e       = the expression of this case
                         | (case_ty:ty, (Deconstr (id:string, var:string), e:expr)) ->
-                            let env = apply_subst_env s1 env
-                            let tExp, sExp = typeinfer_expr ((var, Forall ([], case_ty))::env) e
+                            // TODO the same substitution is applied to <env1> multiple (this can be optimized)
+                            let env1 = apply_subst_env s1 env1
+                            let tExp, sExp = typeinfer_expr ((var, Forall ([], case_ty))::env1) e
 
-                            match commonTy with
+                            match commTyOpt with
                             // this happens in the first iteration
                             | None ->
-                                (env, sExp, Some tExp)
-                            | Some tipe ->
+                                (env1, sExp, Some tExp)
+                            // this happens in all iterations but the first
+                            | Some commTy ->
                                 // I first apply the substitution I get typing this
                                 // case to the common type of all the previous cases.
-                                let tipe = apply_subst_ty sExp tipe
+                                let commTy = apply_subst_ty sExp commTy
                                 // Next I unify the type of this case with the common type
-                                let su = unify tipe tExp
-                                let t = apply_subst_ty su tExp // this is equal to: apply_subst_ty su tipe
+                                let su = unify commTy tExp
+                                let commTy = apply_subst_ty su commTy
 
-                                // I compose in proper order all the substitutions I get
-                                // in thi iteration.
+                                // I compose in proper order all the substitutions I got
+                                // in this iteration.
                                 let s1 = compose_subst_list [su; sExp; s1]
-                                (env, s1, Some t)
+                                (env1, s1, Some commTy)
                             ) (env, [], None) cases
 
-                let (_, subRet, tyRetOpt) = state // retrieve the substitution and the commmon type
+                let (_, subCases, tyRetOpt) = state // retrieve the substitution and the commmon type
                 match tyRetOpt with
                 | Some tyRet ->
-                    (tyRet, compose_subst_list [subRet; s])
+                    (tyRet, compose_subst_list [subCases; s])
                 | None -> unexpected_error "impossible none type after match fold"
             with _ ->
                 type_error "invalid deconstructors in match cases"
@@ -675,51 +684,51 @@ let rec typeinfer_expr_expanded (uEnv : tyDef env) (env : scheme env) (e : expr)
            int * int * int * int
     *)
     | BinOp (e1, ("+" | "-" | "/" | "%" | "*" as op), e2) ->
-        typeinfer_binop TyInt TyInt uEnv env e1 e2
+        typeinfer_binop TyInt TyInt tydefEnv env e1 e2
 
     | BinOp (e1, ("+." | "-." | "/." | "%." | "*." as op), e2) ->
-        typeinfer_binop TyFloat TyFloat uEnv env e1 e2
+        typeinfer_binop TyFloat TyFloat tydefEnv env e1 e2
 
     | BinOp (e1, ("<" | "<=" | ">" | ">=" | "=" | "<>" as op), e2) ->
-        typeinfer_binop TyInt TyBool uEnv env e1 e2
+        typeinfer_binop TyInt TyBool tydefEnv env e1 e2
 
     | BinOp (e1, ("and" | "or" as op), e2) ->
-        typeinfer_binop TyBool TyBool uEnv env e1 e2
+        typeinfer_binop TyBool TyBool tydefEnv env e1 e2
 
     | BinOp (_, op, _) -> unexpected_error "typeinfer_expr: unsupported binary operator (%s)" op
     
     (* op exp
     *)
     | UnOp ("not", e) ->
-        typeinfer_unop TyBool TyBool uEnv env e
+        typeinfer_unop TyBool TyBool tydefEnv env e
     | UnOp ("-", e) ->
-        typeinfer_unop TyInt TyInt uEnv env e
+        typeinfer_unop TyInt TyInt tydefEnv env e
     | UnOp ("-.", e) ->
-        typeinfer_unop TyFloat TyFloat uEnv env e
+        typeinfer_unop TyFloat TyFloat tydefEnv env e
 
     (* Int(e1) | Float(e1)
     *)
     | UnOp ("to_int", e) ->
-        typeinfer_unop TyFloat TyInt uEnv env e
+        typeinfer_unop TyFloat TyInt tydefEnv env e
     | UnOp ("to_float", e) ->
-        typeinfer_unop TyInt TyFloat uEnv env e
+        typeinfer_unop TyInt TyFloat tydefEnv env e
 
     | UnOp (op, _) -> unexpected_error "typeinfer_expr: unsupported unary operator (%s)" op
 
     | _ -> unexpected_error "typeinfer_expr: unsupported expression: %s [AST: %A]" (pretty_expr e) e
 
-and typeinfer_binop e1E2Type resType uEnv env e1 e2 =
-    let t1, s1 = typeinfer_expr_expanded uEnv env e1
+and typeinfer_binop e1E2Type resType tydefEnv env e1 e2 =
+    let t1, s1 = typeinfer_expr_expanded tydefEnv env e1
     let su = unify t1 e1E2Type
     let s = compose_subst_list [su; s1]
     let env = apply_subst_env s env
-    let t2, s2 = typeinfer_expr_expanded uEnv env e2
+    let t2, s2 = typeinfer_expr_expanded tydefEnv env e2
     let su = unify t2 e1E2Type
     let s = compose_subst_list [su; s2; s]
     (resType, s)
 
-and typeinfer_unop eType resType uEnv env exp =
-    let t, s = typeinfer_expr_expanded uEnv env exp
+and typeinfer_unop eType resType tydefEnv env exp =
+    let t, s = typeinfer_expr_expanded tydefEnv env exp
     let su = unify t eType
     let s = compose_subst_list [su; s]
     (resType, s)

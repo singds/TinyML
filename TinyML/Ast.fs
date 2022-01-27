@@ -282,7 +282,6 @@ let rec pretty_value v =
 
     | VUnion (c_name, v) -> sprintf "<%s: %s>" c_name (pretty_value v)
 
-    // TODO pretty print a value that is a list
     | VList (head, tail) -> sprintf "[%s%s]" (pretty_value head) (pretty_list tail)
 
 and pretty_list listVal =

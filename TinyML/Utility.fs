@@ -21,11 +21,17 @@ let rec prepend_if_not_ignore l env =
         let env1 = prepend_if_not_ignore tail env
         if id <> "_" then (id, e)::env1 else env1
 
-(* Check if the elements of the list are all equals.
+(* Returns true if all the elements of the list are the same.
 *)
 let list_all_equals l =
-    let same = Set.ofList l
-    if same.Count <> 1 then false else true
+    let distinct = Set.ofList l
+    if distinct.Count <> 1 then false else true
+
+(* Returns true if all the elements of the list are distinct.
+*)
+let list_all_distinct l =
+    let distinct = Set.ofList l
+    if distinct.Count = l.Length then true else false
 
 (* Get all the constructors in the environment as a plain list.
 Each constructor is prepended with the name of the type it belongs to.
