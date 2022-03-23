@@ -529,7 +529,7 @@ type Test_typeinfer_expr_list () =
     [<Fact>]
     let ``empty list with no type`` () =
         // empty lists must be annotated for the typechecker
-        test_typeinfer_expr "[]" (TyVar 2)
+        test_typeinfer_expr "[]" (TyList (TyVar 2))
 
     [<Fact>]
     let ``empty list with type`` () =

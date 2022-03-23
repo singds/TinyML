@@ -492,7 +492,7 @@ let rec typeinfer_expr_expanded (tydefEnv : tyDef env) (env : scheme env) (e : e
 
     (* []
     *)
-    | Empty (None) -> (TyVar (get_new_fresh_tyvar ()), [])
+    | Empty (None) -> (TyList (TyVar (get_new_fresh_tyvar ())), [])
 
     (* [<ty>]
     *)
